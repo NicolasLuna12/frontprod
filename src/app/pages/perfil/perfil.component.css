@@ -1,0 +1,39 @@
+.card {
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2) !important;
+}
+
+.card-header {
+  background: linear-gradient(135deg, #343a40 0%, #212529 100%);
+}
+
+.form-control:focus {
+  border-color: #5a6268;
+  box-shadow: 0 0 0 0.25rem rgba(90, 98, 104, 0.25);
+}
+
+.btn-primary {
+  background-color: #343a40;
+  border-color: #343a40;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  background-color: #212529;
+  border-color: #212529;
+}
+
+.btn-outline-danger {
+  color: #f8f9fa;
+  border-color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: #fff;
+}

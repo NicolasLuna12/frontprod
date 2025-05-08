@@ -13,6 +13,7 @@ import { authGuard } from './services/guards/auth.guard';
 import { Pagina404Component } from './pages/pagina404/pagina404.component';
 import { ExitoNuevoUsuarioComponent } from './pages/auth/exito-nuevo-usuario/exito-nuevo-usuario.component';
 import { ServerErrorComponent } from './pages/server-error/server-error.component';
+import { PerfilComponent } from './pages/perfil/perfil.component';
 
 
 export const routes: Routes = [
@@ -22,6 +23,7 @@ export const routes: Routes = [
     {path:"carrito", component:CarritoComponent},
     {path:"pagar", component:CheckoutComponent},
     {path:"dashboard", component:DashboardComponent, canActivate:[authGuard]},
+    {path:"perfil", component:PerfilComponent, canActivate:[authGuard]},
     {path:"registro", component:RegistroComponent},
     {path:"exito", component:ExitoComponent},
     {path:"login", component:InicioSesionComponent},

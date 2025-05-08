@@ -50,6 +50,18 @@
                   Dashboard
                 </a>
               </li>
+              <!-- Nuevo elemento para Mi Perfil -->
+              <li *ngIf="estaAutenticado" class="nav-item text-center dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="bi bi-person-circle me-1"></i>{{ nombreUsuario }}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                  <li><a class="dropdown-item" routerLink="/perfil">Mi Perfil</a></li>
+                  <li><a class="dropdown-item" routerLink="/mis-pedidos">Mis Pedidos</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" (click)="logout()">Cerrar Sesión</a></li>
+                </ul>
+              </li>
               <li *ngIf="!estaAutenticado" class="nav-item text-center">
                 <a
                   class="btn btn-outline-light m-1 "
