@@ -40,7 +40,6 @@ export class DashboardService {
   constructor(private http: HttpClient) { }
 
   obtenerPedidos(): Observable<IPedidosData> {
-    
     return this.http.get<IPedidosData>(this.apiUrl);
   }
 

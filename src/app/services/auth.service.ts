@@ -49,5 +49,32 @@ export class AuthService {
     return this.authStatus$;
   }
 
- 
+  register(userData: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}register/`, userData).pipe(
+      map(response => {
+        this.toastr.success('Registro exitoso!');
+        return response;
+      })
+    );
+  }
+
+  updateUser(userId: string, userData: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}update/`, userData).pipe(
+      map(response => {
+        this.toastr.success('Usuario actualizado con éxito!');
+        return response;
+      })
+    );
+  }
+
+  deleteUser(userId: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}delete/`).pipe(
+      map(response => {
+        this.toastr.success('Usuario eliminado con éxito!');
+        // Al eliminar el usuario, también cerramos su sesión
+        this.logout();
+        return response;
+      })
+    );
+  }
 }

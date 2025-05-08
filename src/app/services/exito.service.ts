@@ -5,18 +5,29 @@ import { Usuario } from '../model/usuario.model';
 import { Pedido } from '../model/pedido.model';
 import { Carrito } from '../model/Carrito.model';
 import { DetallePedido } from '../model/detallePedido.model';
-
-//no hace falta el servicio
+import { ToastrService } from 'ngx-toastr';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExitosService {
-  url:string="api/producto/";; // NO FUNCIONA
+  private apiUrlConfirmar = 'appCART/confirmar/';
+  
+  constructor(private http: HttpClient, private toastr: ToastrService) { }
 
-  constructor(private http: HttpClient) { }
+  // Método para confirmar el pedido
+  confirmarPedido(datosPedido: any): Observable<any> {
+    return this.http.post<any>(this.apiUrlConfirmar, datosPedido).pipe(
+      map(response => {
+        this.toastr.success('Pedido confirmado con éxito');
+        return response;
+      })
+    );
+  }
 
-  getFactura (): Observable <{usuario:Usuario, pedidos: Pedido[], carrito:Carrito, detallePedido: DetallePedido[]}> {
-    return this.http.get <{usuario:Usuario, pedidos: Pedido[], carrito:Carrito, detallePedido: DetallePedido[]}>(`${this.url}`);
+  getFactura(): Observable<{usuario:Usuario, pedidos: Pedido[], carrito:Carrito, detallePedido: DetallePedido[]}> {
+    // Este método se puede actualizar si es necesario para obtener la factura del nuevo backend
+    return this.http.get<{usuario:Usuario, pedidos: Pedido[], carrito:Carrito, detallePedido: DetallePedido[]}>(this.apiUrlConfirmar);
   }
 }
