@@ -37,3 +37,36 @@
   background-color: #dc3545;
   color: #fff;
 }
+
+/* Estilos para la imagen de perfil */
+.profile-image-container {
+  position: relative;
+  padding: 10px;
+}
+
+.profile-image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 5px solid #343a40;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.profile-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.image-upload {
+  margin-top: 10px;
+}
+
+.image-upload label {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.image-upload label:hover {
+  background-color: #495057;
+}

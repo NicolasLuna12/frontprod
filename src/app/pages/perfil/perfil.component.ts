@@ -17,6 +17,11 @@ export class PerfilComponent implements OnInit {
   usuario: any = {};
   cargando = false;
   
+  // Variables para la imagen de perfil
+  imagenPerfil: string | null = null;
+  imagenError: string | null = null;
+  imagenArchivo: File | null = null;
+  
   constructor(
     private fb: FormBuilder,
     public authService: AuthService,
@@ -33,6 +38,47 @@ export class PerfilComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarDatosUsuario();
+    this.cargarImagenPerfil();
+  }
+
+  // Método para cargar la imagen de perfil guardada
+  cargarImagenPerfil(): void {
+    const imagenGuardada = localStorage.getItem('profileImage');
+    if (imagenGuardada) {
+      this.imagenPerfil = imagenGuardada;
+    }
+  }
+
+  // Método para manejar la selección de una nueva imagen
+  onImagenSeleccionada(event: any): void {
+    this.imagenError = null;
+    const file = event.target.files[0];
+    
+    if (file) {
+      // Validar tamaño (máximo 2MB)
+      if (file.size > 2 * 1024 * 1024) {
+        this.imagenError = 'La imagen no debe superar los 2MB';
+        return;
+      }
+      
+      // Validar tipo de archivo
+      if (!file.type.match(/image\/(jpeg|jpg|png|gif|webp)/)) {
+        this.imagenError = 'Formato de imagen no válido. Use JPG, PNG, GIF o WEBP.';
+        return;
+      }
+      
+      // Guardar archivo para enviarlo al servidor más tarde
+      this.imagenArchivo = file;
+      
+      // Mostrar vista previa
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagenPerfil = e.target.result;
+        // Guardar imagen en localStorage (en una aplicación real se enviaría al servidor)
+        localStorage.setItem('profileImage', e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   cargarDatosUsuario(): void {
@@ -71,7 +117,9 @@ export class PerfilComponent implements OnInit {
     this.cargando = true;
     const datosUsuario = {
       ...this.perfilForm.value,
-      id_usuario: userId
+      id_usuario: userId,
+      // En una aplicación real, aquí se enviaría también la imagen al servidor
+      imagen_perfil: this.imagenPerfil
     };
 
     this.authService.updateUser(userId, datosUsuario).subscribe({

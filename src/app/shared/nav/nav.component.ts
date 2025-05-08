@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -14,8 +14,13 @@ import { ToastrService } from 'ngx-toastr';
 export class NavComponent implements OnInit {
   estaAutenticado = false;
   nombreUsuario = '';
+  imagenPerfil: string | null = null;
 
-  constructor(private authservice: AuthService, private toastr: ToastrService) {
+  constructor(
+    private authservice: AuthService, 
+    private toastr: ToastrService,
+    private router: Router
+  ) {
 
   }
   ngOnInit(): void {
@@ -24,6 +29,7 @@ export class NavComponent implements OnInit {
         this.estaAutenticado = respuesta;
         if (respuesta) {
           this.obtenerNombreUsuario();
+          this.obtenerImagenPerfil();
         }
       }
     });
@@ -35,9 +41,17 @@ export class NavComponent implements OnInit {
     this.nombreUsuario = nombre || 'Usuario';
   }
 
+  obtenerImagenPerfil() {
+    // Obtener la imagen de perfil del localStorage
+    const imagen = localStorage.getItem('profileImage');
+    this.imagenPerfil = imagen;
+  }
+
   logout() {
     this.authservice.logout();
     this.toastr.info("Se cerró la sesión correctamente");
+    // Redirigir al home después de logout
+    this.router.navigate(['/home']);
   }
 
 }
