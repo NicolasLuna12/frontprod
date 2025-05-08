@@ -19,7 +19,7 @@ export class PerfilComponent implements OnInit {
   
   constructor(
     private fb: FormBuilder,
-    public authService: AuthService, // Cambiado de private a public
+    public authService: AuthService,
     private toastr: ToastrService
   ) {
     this.perfilForm = this.fb.group({
