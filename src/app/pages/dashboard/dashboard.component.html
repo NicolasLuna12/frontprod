@@ -31,26 +31,30 @@
     <table class="table table-bordered table-hover">
       <thead class="table-dark">
         <tr>
-          <th scope="col"><i class="bi bi-calendar3 me-2"></i>Fecha</th>
-          <th scope="col"><i class="bi bi-geo-alt me-2"></i>Dirección de Entrega</th>
-          <th scope="col"><i class="bi bi-info-circle me-2"></i>Estado</th>
-          <th scope="col"><i class="bi bi-cart3 me-2"></i>Producto</th>
-          <th scope="col"><i class="bi bi-tag me-2"></i>Precio Unitario</th>
-          <th scope="col"><i class="bi bi-cash-coin me-2"></i>Subtotal</th>
+          <th scope="col">Fecha</th>
+          <th scope="col">Dirección de Entrega</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">Precio Unitario</th>
+          <th scope="col">Subtotal</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let pedido of pedidosFiltrados">
-          <td>{{ pedido.fecha_pedido | date:'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ pedido.fecha_pedido }}</td>
           <td>{{ pedido.direccion_entrega }}</td>
-          <td><span class="badge" [ngClass]="{
-            'bg-warning': pedido.estado === 'Pendiente',
-            'bg-success': pedido.estado === 'Aprobado',
-            'bg-info': pedido.estado === 'Entregado'
-          }">{{ pedido.estado }}</span></td>          <td>
+          <td>
+            <span *ngIf="pedido.estado === 'Aprobado por Chayanne'">
+              {{ pedido.estado }} <i class="bi bi-check-circle-fill text-success"></i>
+            </span>
+            <span *ngIf="pedido.estado !== 'Aprobado por Chayanne'">
+              {{ pedido.estado }}
+            </span>
+          </td>
+          <td>
             <ul class="list-unstyled mb-0">
               <li *ngFor="let detalle of pedido.detalles" class="mb-1">
-                <strong>{{ detalle.cantidad_productos || 0 }}</strong> × {{ detalle.producto && detalle.producto.nombre_producto ? detalle.producto.nombre_producto : 'Producto no disponible' }}
+                {{ detalle.cantidad_productos }}
               </li>
             </ul>
           </td>
@@ -59,7 +63,8 @@
               <li *ngFor="let detalle of pedido.detalles" class="mb-1">
                 {{ detalle.precio_producto ? (detalle.precio_producto | currency:'ARS':'symbol':'1.0-0') : 'N/A' }}
               </li>
-            </ul>          </td>
+            </ul>
+          </td>
           <td>
             <ul class="list-unstyled mb-0">
               <li *ngFor="let detalle of pedido.detalles" class="mb-1">
