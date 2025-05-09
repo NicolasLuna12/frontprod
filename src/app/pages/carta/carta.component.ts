@@ -34,6 +34,8 @@ export class CartaComponent implements OnInit {
   subtotal: number = 0;
   p: number = 1;
   idUser: number = 0;
+  filtroCategoria: string = 'todas';
+
   constructor(
     private productService: ProductsService,
     private pedidoService: PedidosService,
@@ -131,5 +133,13 @@ export class CartaComponent implements OnInit {
         new bootstrap.Modal(modalElement);
       modalInstance.show();
     }
+  }
+
+  get productosFiltrados(): Producto[] {
+    if (this.filtroCategoria === 'todas') return this.productos;
+    if (this.filtroCategoria === 'empanadas') return this.productos.filter(p => p.id_categoria === 1);
+    if (this.filtroCategoria === 'lomos') return this.productos.filter(p => p.id_categoria === 2);
+    if (this.filtroCategoria === 'hamburguesas') return this.productos.filter(p => p.id_categoria === 3);
+    return this.productos;
   }
 }

@@ -10,7 +10,7 @@ const fetchComentarios = async () => {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, NgFor, CarritoComponent],
+  imports: [CommonModule, NgFor],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })

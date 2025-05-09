@@ -18,26 +18,37 @@ export class DashboardComponent implements OnInit{
   pedidosData: IPedidosData = { pendientes: [], aprobados: [], entregados: [] };
   pedidosFiltrados: IPedido[] = [];
   activeTab: string = 'Pendientes';
-  nombre:string = '';
+  nombre: string = '';
+  isLoading: boolean = true; // Añadir indicador de carga
   
   constructor(private dashboardService: DashboardService, private authService: AuthService, private toastr: ToastrService) {}
 
-
   ngOnInit(): void {
-    this.nombre = localStorage.getItem('nameUser')!;
+    this.nombre = localStorage.getItem('nameUser') || '';
+    this.obtenerPedidos();
+  }
+  obtenerPedidos(): void {
+    this.isLoading = true;
     this.dashboardService.obtenerPedidos().subscribe({
-      next:(data: IPedidosData) => {
-        console.log(data)
-        this.pedidosData = data;
+      next: (data: any) => {
+        // Adaptar los datos recibidos para que todo lo que venga en results vaya a entregados
+        this.pedidosData = {
+          pendientes: [],
+          aprobados: [],
+          entregados: data.results || []
+        };
         this.setActiveTab(this.activeTab);
-      }, 
+        this.isLoading = false;
+      },
       error: (error) => {
-        if (error.error.detail == 'Given token not valid for any token type') {
-          this.toastr.info(
-            'Su sesión a expirado. Debe iniciar sesión nuevamente'
-          );
+        console.error('Error al obtener pedidos:', error);
+        if (error.error && error.error.detail === 'Given token not valid for any token type') {
+          this.toastr.info('Su sesión ha expirado. Debe iniciar sesión nuevamente');
           this.authService.logout();
+        } else {
+          this.toastr.error('No se pudieron cargar los pedidos. Intente nuevamente más tarde.');
         }
+        this.isLoading = false;
       },
     });
   }
@@ -48,13 +59,13 @@ export class DashboardComponent implements OnInit{
     this.activeTab = tab;
     switch (tab) {
       case 'Pendientes':
-        this.pedidosFiltrados = this.pedidosData["pendientes"];
+        this.pedidosFiltrados = this.pedidosData.pendientes || [];
         break;
       case 'Aprobados':
-        this.pedidosFiltrados = this.pedidosData.aprobados;
+        this.pedidosFiltrados = this.pedidosData.aprobados || [];
         break;
       case 'Entregados':
-        this.pedidosFiltrados = this.pedidosData.entregados;
+        this.pedidosFiltrados = this.pedidosData.entregados || [];
         break;
       default:
         this.pedidosFiltrados = [];
