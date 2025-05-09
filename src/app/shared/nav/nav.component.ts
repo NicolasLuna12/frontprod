@@ -34,11 +34,17 @@ export class NavComponent implements OnInit {
       }
     });
   }
-
   obtenerNombreUsuario() {
     // Obtener el nombre del usuario del localStorage
-    const nombre = localStorage.getItem('nameUser');
-    this.nombreUsuario = nombre || 'Usuario';
+    const nombreCompleto = localStorage.getItem('nameUser');
+    if (nombreCompleto) {
+      // Extraer solo el primer nombre
+      const primerNombre = nombreCompleto.split(' ')[0];
+      // Asegurar que la primera letra sea mayúscula
+      this.nombreUsuario = primerNombre.charAt(0).toUpperCase() + primerNombre.slice(1).toLowerCase();
+    } else {
+      this.nombreUsuario = 'Usuario';
+    }
   }
 
   obtenerImagenPerfil() {
