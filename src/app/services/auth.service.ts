@@ -20,11 +20,11 @@ export class AuthService {
 
   login(email: string, password: string): Observable<any> {
     // Simula una llamada HTTP POST a tu API de autenticación
-    return this.http.post<{ access: string, user_id: string, nombre:string, apellido:string }>(`${this.apiUrl}login/`, { email, password }).pipe(
+    return this.http.post<{ access: string, user_id: string, nombre:string, apellido:string, email:string }>(`${this.apiUrl}login/`, { email, password }).pipe(
       map(response => {
         
         localStorage.setItem('nameUser', response.nombre+' '+response.apellido);
-        
+        localStorage.setItem('emailUser', response.email);
         localStorage.setItem('authToken', response.access);
         localStorage.setItem('idUser', response.user_id);
        
@@ -39,6 +39,7 @@ export class AuthService {
   logout() {
   
     localStorage.removeItem('nameUser');
+    localStorage.removeItem('emailUser');  // Eliminamos también el email al cerrar sesión
     localStorage.removeItem('authToken');
     localStorage.removeItem('idUser');
     

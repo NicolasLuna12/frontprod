@@ -89,11 +89,12 @@ export class PerfilComponent implements OnInit {
       // por ahora simularemos con datos del localStorage
       const nombre = localStorage.getItem('nameUser') || '';
       const [nombreUsuario, apellidoUsuario] = nombre.split(' ');
+      const email = localStorage.getItem('emailUser') || 'usuario@ejemplo.com';
       
       this.perfilForm.patchValue({
         nombre: nombreUsuario,
         apellido: apellidoUsuario || '',
-        email: 'usuario@ejemplo.com', // Esto debería venir del backend
+        email: email, // Ahora usamos el email del localStorage
         telefono: '123456789', // Esto debería venir del backend
         direccion: 'Dirección de ejemplo' // Esto debería venir del backend
       });
