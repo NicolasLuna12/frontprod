@@ -35,7 +35,8 @@ export interface IPedidosData {
   providedIn: 'root'
 })
 export class DashboardService {
-  private apiUrl = 'appCART/ver_dashboard/'; // URL de Django
+  // Eliminar la baseUrl y usar una ruta relativa que el interceptor completará
+  private apiUrl = 'appCART/ver_dashboard/'; // URL relativa que el interceptor completará
 
   constructor(private http: HttpClient) { }
 

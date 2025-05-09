@@ -18,26 +18,41 @@ export class DashboardComponent implements OnInit{
   pedidosData: IPedidosData = { pendientes: [], aprobados: [], entregados: [] };
   pedidosFiltrados: IPedido[] = [];
   activeTab: string = 'Pendientes';
-  nombre:string = '';
+  nombre: string = '';
+  isLoading: boolean = true; // Añadir indicador de carga
   
   constructor(private dashboardService: DashboardService, private authService: AuthService, private toastr: ToastrService) {}
 
-
   ngOnInit(): void {
-    this.nombre = localStorage.getItem('nameUser')!;
+    this.nombre = localStorage.getItem('nameUser') || '';
+    this.obtenerPedidos();
+  }
+  obtenerPedidos(): void {
+    this.isLoading = true; // Comenzar la carga
     this.dashboardService.obtenerPedidos().subscribe({
       next:(data: IPedidosData) => {
-        console.log(data)
-        this.pedidosData = data;
+        console.log('Datos recibidos del dashboard:', data);
+        // Asegurarse de que todos los arrays existan incluso si la API no los devuelve
+        this.pedidosData = {
+          pendientes: data.pendientes || [],
+          aprobados: data.aprobados || [],
+          entregados: data.entregados || []
+        };
         this.setActiveTab(this.activeTab);
+        this.isLoading = false; // Finalizar la carga
       }, 
       error: (error) => {
-        if (error.error.detail == 'Given token not valid for any token type') {
+        console.error('Error al obtener pedidos:', error);
+        
+        if (error.error && error.error.detail === 'Given token not valid for any token type') {
           this.toastr.info(
-            'Su sesión a expirado. Debe iniciar sesión nuevamente'
+            'Su sesión ha expirado. Debe iniciar sesión nuevamente'
           );
-          this.authService.logout();
+          this.authService.logout();        } else {
+          // Mostrar un mensaje de error más genérico para otros errores
+          this.toastr.error('No se pudieron cargar los pedidos. Intente nuevamente más tarde.');
         }
+        this.isLoading = false; // Finalizar la carga incluso si hay error
       },
     });
   }
@@ -48,13 +63,13 @@ export class DashboardComponent implements OnInit{
     this.activeTab = tab;
     switch (tab) {
       case 'Pendientes':
-        this.pedidosFiltrados = this.pedidosData["pendientes"];
+        this.pedidosFiltrados = this.pedidosData.pendientes || [];
         break;
       case 'Aprobados':
-        this.pedidosFiltrados = this.pedidosData.aprobados;
+        this.pedidosFiltrados = this.pedidosData.aprobados || [];
         break;
       case 'Entregados':
-        this.pedidosFiltrados = this.pedidosData.entregados;
+        this.pedidosFiltrados = this.pedidosData.entregados || [];
         break;
       default:
         this.pedidosFiltrados = [];
