@@ -10,15 +10,18 @@
   <i class="fa fa-shopping-cart" aria-hidden="true"></i>
 </button>
 }
+<div class="mb-4 text-center">
+  <button class="btn btn-outline-primary mx-1" [class.active]="filtroCategoria==='todas'" (click)="filtroCategoria='todas'">Todas</button>
+  <button class="btn btn-outline-primary mx-1" [class.active]="filtroCategoria==='hamburguesas'" (click)="filtroCategoria='hamburguesas'">Hamburguesas</button>
+  <button class="btn btn-outline-primary mx-1" [class.active]="filtroCategoria==='lomos'" (click)="filtroCategoria='lomos'">Lomos</button>
+  <button class="btn btn-outline-primary mx-1" [class.active]="filtroCategoria==='empanadas'" (click)="filtroCategoria='empanadas'">Empanadas</button>
+</div>
 <section>
   <div class="container py-5">
     <div
       class="row justify-content-center mb-3"
       id="wrapper_box"
-      *ngFor="
-        let product of productos
-          | paginate : { itemsPerPage: 4, currentPage: p }
-      "
+      *ngFor="let product of productosFiltrados | paginate : { itemsPerPage: 4, currentPage: p }"
     >
       <div class="col-md-12 col-xl-10">
         <div class="card shadow-0 border rounded-3">
