@@ -1,55 +1,63 @@
 <div class="dash">
-  <h1>Hola {{nombre}}, Bienvenido a tu Panel de control</h1>
+  <h1>¡Hola {{nombre}}! Bienvenido a tu Panel de Control</h1>
+  
   <ul class="nav nav-tabs">
     <li class="nav-item">
-      <button class="nav-link" [class.active]="activeTab === 'Pendientes'" (click)="setActiveTab('Pendientes')">Pendientes</button>
+      <button class="nav-link" [class.active]="activeTab === 'Pendientes'" (click)="setActiveTab('Pendientes')">
+        <i class="bi bi-hourglass me-2"></i>Pendientes
+      </button>
     </li>
     <li class="nav-item">
-      <button class="nav-link" [class.active]="activeTab === 'Aprobados'" (click)="setActiveTab('Aprobados')">Aprobados</button>
+      <button class="nav-link" [class.active]="activeTab === 'Aprobados'" (click)="setActiveTab('Aprobados')">
+        <i class="bi bi-check-circle me-2"></i>Aprobados
+      </button>
     </li>
     <li class="nav-item">
-      <button class="nav-link" [class.active]="activeTab === 'Entregados'" (click)="setActiveTab('Entregados')">Entregados</button>
+      <button class="nav-link" [class.active]="activeTab === 'Entregados'" (click)="setActiveTab('Entregados')">
+        <i class="bi bi-truck me-2"></i>Entregados
+      </button>
     </li>
   </ul>
 
   <div *ngIf="pedidosFiltrados.length > 0" class="table-responsive mt-3">
-    <table class="table table-dark table-striped">
-      <thead>
+    <table class="table table-bordered table-hover">
+      <thead class="table-dark">
         <tr>
-          <th>Fecha</th>
-          <th>Dirección de Entrega</th>
-          <th>Estado</th>
-          <th>Producto</th>
-          <th>Precio Unitario</th>
-          <th>Subtotal</th>
+          <th scope="col"><i class="bi bi-calendar3 me-2"></i>Fecha</th>
+          <th scope="col"><i class="bi bi-geo-alt me-2"></i>Dirección de Entrega</th>
+          <th scope="col"><i class="bi bi-info-circle me-2"></i>Estado</th>
+          <th scope="col"><i class="bi bi-cart3 me-2"></i>Producto</th>
+          <th scope="col"><i class="bi bi-tag me-2"></i>Precio Unitario</th>
+          <th scope="col"><i class="bi bi-cash-coin me-2"></i>Subtotal</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let pedido of pedidosFiltrados">
-          <td>{{ pedido.fecha_pedido | date }}</td>
+          <td>{{ pedido.fecha_pedido | date:'dd/MM/yyyy HH:mm' }}</td>
           <td>{{ pedido.direccion_entrega }}</td>
-          <td>{{ pedido.estado }}</td>
+          <td><span class="badge" [ngClass]="{
+            'bg-warning': pedido.estado === 'Pendiente',
+            'bg-success': pedido.estado === 'Aprobado',
+            'bg-info': pedido.estado === 'Entregado'
+          }">{{ pedido.estado }}</span></td>
           <td>
-            <ul>
-              <li *ngFor="let detalle of pedido.detalles">
-                {{ detalle.cantidad_productos }} - {{detalle.producto["nombre_producto"]}}
+            <ul class="list-unstyled mb-0">
+              <li *ngFor="let detalle of pedido.detalles" class="mb-1">
+                <strong>{{ detalle.cantidad_productos }}</strong> × {{detalle.producto["nombre_producto"]}}
               </li>
             </ul>
           </td>
           <td>
-            <ul>
-
-              <li *ngFor="let detalle of pedido.detalles">
-
-
-                {{ detalle.precio_producto | currency:'ARS' }}
+            <ul class="list-unstyled mb-0">
+              <li *ngFor="let detalle of pedido.detalles" class="mb-1">
+                {{ detalle.precio_producto | currency:'ARS':'symbol':'1.0-0' }}
               </li>
             </ul>
           </td>
           <td>
-            <ul>
-              <li *ngFor="let detalle of pedido.detalles">
-                {{ detalle.subtotal | currency:'ARS' }}
+            <ul class="list-unstyled mb-0">
+              <li *ngFor="let detalle of pedido.detalles" class="mb-1">
+                <strong>{{ detalle.subtotal | currency:'ARS':'symbol':'1.0-0' }}</strong>
               </li>
             </ul>
           </td>
@@ -57,7 +65,9 @@
       </tbody>
     </table>
   </div>
-  <div *ngIf="pedidosFiltrados.length === 0">
-    <p>No hay pedidos con el estado seleccionado.</p>
+  
+  <div *ngIf="pedidosFiltrados.length === 0" class="alert alert-info text-center mt-4">
+    <i class="bi bi-info-circle-fill me-2"></i>
+    No hay pedidos con el estado seleccionado.
   </div>
 </div>
