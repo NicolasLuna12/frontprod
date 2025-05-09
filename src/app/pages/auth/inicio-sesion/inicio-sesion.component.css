@@ -5,60 +5,30 @@
   max-width: 520px;
   padding: 60px;
   margin: auto;
-  background-color: var(--color-terciario);
-  border-radius: 12px;
-  box-shadow: var(--sombra-fuerte);
-  border: 1px solid rgba(0, 173, 181, 0.2);
-  transition: var(--transicion-normal);
+  background-color: #e6ebedef;
+  border-radius: 3%;
 }
-
-.form-signin:hover {
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
-  transform: translateY(-5px);
-}
-
 .form-floating{
   margin: 20px;
+
 }
 
 .form-floating label{
-  color: var(--color-primario);
+  color: var(--color-secundario);
 }
 
-.form-control {
-  background-color: rgba(255, 255, 255, 0.9);
-  border: 1px solid var(--color-terciario);
-  transition: var(--transicion-rapida);
-}
 
 .form-signin .form-floating:focus-within {
   z-index: 2;
 }
 
-.form-control:focus {
-  border-color: var(--color-secundario);
-  box-shadow: 0 0 0 0.25rem rgba(0, 173, 181, 0.25);
-  background-color: white;
-}
 
 .ng-valid:not(form).ng-touched {
-  border-left: 5px solid var(--color-exito); /* green */
-}
-.ng-invalid:not(form).ng-touched {
-  border-left: 5px solid var(--color-peligro); /* red */
-}
-
-button {
-  background: var(--gradiente-primario);
-  border-color: var(--color-secundario);
-  color: var(--color-primario);
-  font-weight: 500;
-  box-shadow: var(--sombra-suave);
-  transition: var(--transicion-normal);
-}
-
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--sombra-media);
-  filter: brightness(1.1);
+  border-left: 5px solid #42A948; /* green */
+  }
+  .ng-invalid:not(form).ng-touched {
+    border-left: 5px solid #a94442; /* red */
+    }
+button{
+  background-color: var(--color-secundario);
 }

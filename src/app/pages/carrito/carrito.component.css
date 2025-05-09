@@ -3,43 +3,30 @@
     right: 15px;
     font-size: 40px;
     cursor: pointer;
-    color: var(--color-primario);
-    transition: var(--transicion-rapida);
-}
-
-.close:hover {
-    color: var(--color-peligro);
-    transform: scale(1.1);
 }
 
 .sidebar{
     height: 100vh;
     width: 400px;
-    background: var(--gradiente-oscuro);
+    background-color: var(--color-secundario);
     z-index: 2;
-    transition: var(--transicion-normal);
-    box-shadow: var(--sombra-fuerte);
-    border-left: 1px solid var(--color-secundario);
+    transition: 1s;
+    box-shadow: 0 0 10px 5px rgba(10, 10, 10, 0.5);
 }
 
 .product-card{
-    box-shadow: var(--sombra-media);
-    border-radius: 10px;
+    box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
+    border-radius: 0.5rem;
     box-sizing: border-box;
     width: 100%;
     height: 180px;
     overflow: hidden;
-    border: 1px solid rgba(0, 173, 181, 0.2);
-    background-color: var(--color-terciario);
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    
     display: flex;
     align-items: center;
     margin-left: -15px;
-    transition: var(--transicion-rapida);
-}
-
-.product-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--sombra-fuerte);
 }
 
 .card-content {
@@ -47,30 +34,19 @@
 }
 
 .img-container {
+    
     padding: 20px;
-}
+  }
 
 .product-info {
+ 
     margin-top: 20px;
-    color: var(--color-primario);
 }
 
 .btn-pay {
-    background: var(--gradiente-primario);
+    background-color: var(--color-terciario);
     color: var(--color-primario);
-    border: none;
-    font-weight: 500;
-    box-shadow: var(--sombra-suave);
-    transition: var(--transicion-normal);
-    border-radius: 8px;
-    padding: 10px 20px;
-}
-
-.btn-pay:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--sombra-media);
-    filter: brightness(1.1);
-}
+  }
 
 .cart-aside {
     transition: transform 0.3s ease-in-out;
@@ -81,11 +57,8 @@
 }
 
 h3 {
-    color: var(--color-primario);
+    color: black;
     font-size: x-large;
-    border-bottom: 2px solid var(--color-secundario);
-    padding-bottom: 10px;
-    display: inline-block;
 }
 
 .delete-icon {
@@ -93,65 +66,37 @@ h3 {
     bottom: 10px;
     right: 10px;
     cursor: pointer;
-    color: var(--color-primario);
-    transition: var(--transicion-rapida);
+    color: black; 
 }
-
-.delete-icon:hover {
-    color: var(--color-peligro);
-    transform: scale(1.2);
-}
-
 #imageProducto{
+  
     height: 160px;
     width: 120px;
-    border-radius: 8px;
-    box-shadow: var(--sombra-suave);
-    transition: var(--transicion-rapida);
-}
-
-#imageProducto:hover {
-    transform: scale(1.05);
 }
 
 .title{
-    color: var(--color-primario);
-    font-weight: 600;
-    margin-bottom: 10px;
+    color: white;
 }
-
 .total{
-    color: var(--color-primario);
-    font-weight: 700;
-    font-size: 1.2rem;
-    padding: 5px 10px;
-    border-radius: 5px;
-    background-color: rgba(0, 173, 181, 0.2);
-    display: inline-block;
+    color: white;
+  
 }
-
 .titleDireccion{
-    color: var(--color-secundario);
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 5px;
-}
+    color:white;
+    font-size:18px;
 
+}
 .textDireccion{
-    color: var(--color-primario);
-    font-size: 15px;
+    color:white;
+    font-size:15px;
 }
-
 .textInfo{
-    color: var(--color-primario);
-    font-size: 12px;
-    opacity: 0.8;
+    color:white;
+    font-size:10px;
 }
-
 .ng-valid:not(form).ng-touched {
-    border-left: 5px solid var(--color-exito);
-}
-
-.ng-invalid:not(form).ng-touched {
-    border-left: 5px solid var(--color-peligro);
-}
+    border-left: 5px solid #42A948; /* green */
+    }
+    .ng-invalid:not(form).ng-touched {
+      border-left: 5px solid #a94442; /* red */
+      }

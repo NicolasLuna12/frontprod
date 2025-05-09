@@ -8,32 +8,28 @@
 
 .dash {
     background-color: var(--color-terciario);
-    box-shadow: var(--sombra-fuerte);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     padding: 25px;
-    margin: 25px auto;
+    margin: 20px auto;
     max-width: 95%;
     animation: fadeIn 0.5s;
     color: var(--color-primario);
     font-family: 'Ubuntu Sans', sans-serif;
-    border: 1px solid rgba(0, 173, 181, 0.2);
 }
 
 .dash h1 {
     color: var(--color-secundario);
     font-family: 'Raleway', sans-serif;
     font-size: 2.2rem;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     font-weight: 600;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
-    border-bottom: 2px solid var(--color-secundario);
-    padding-bottom: 10px;
-    display: inline-block;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .nav-tabs {
     border-bottom: 1px solid var(--color-secundario);
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .nav-link {
@@ -41,21 +37,17 @@
     font-weight: 500;
     border: none;
     padding: 10px 20px;
-    transition: var(--transicion-normal);
-    border-radius: 5px 5px 0 0;
-    margin-right: 5px;
+    transition: all 0.3s ease;
 }
 
 .nav-link:hover {
-    color: var(--color-acento);
+    color: var(--color-secundario);
     background-color: rgba(0, 173, 181, 0.1);
-    transform: translateY(-2px);
 }
 
 .nav-link.active {
     color: var(--color-terciario) !important;
-    background: var(--gradiente-primario) !important;
+    background-color: var(--color-secundario) !important;
     border-color: var(--color-secundario) !important;
-    box-shadow: var(--sombra-suave);
     border-radius: 5px 5px 0 0;
 }

@@ -1,105 +1,32 @@
 
-a {
+a{
   text-decoration: none;
-  color: var(--color-secundario);
-  transition: var(--transicion-rapida);
 }
 
-a:hover {
-  color: var(--color-acento);
-  text-decoration: underline;
+.input-style{
+  background-color: rgba(0,0,0,0);
+  border-color: var(--color-secundario);
+
 }
 
-.input-style {
-  background-color: rgba(255, 255, 255, 0.9);
-  border: 1px solid var(--color-secundario);
-  border-radius: 8px;
-  transition: var(--transicion-rapida);
-  padding: 10px 15px;
-}
-
-.input-style:focus {
-  border-color: var(--color-acento);
-  box-shadow: 0 0 0 0.25rem rgba(0, 173, 181, 0.25);
-  background-color: white;
-}
-
-.modal-cerveux {
+.modal-cerveux{
   position: fixed;
   left: 0;
   top: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, .5);
   display: none;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-  backdrop-filter: blur(5px);
+
 }
 
-.modal-cerveux.is-open {
+.modal-cerveux.is-open{
   display: grid;
 }
 
-.success-message {
-  width: 22rem;
-  background: var(--gradiente-primario);
-  border-radius: 15px;
-  padding: 25px;
-  color: var(--color-primario);
-  box-shadow: var(--sombra-fuerte);
-  text-align: center;
-  animation: fadeInUp 0.5s ease-out;
-}
+.success-message{
+  width: 18rem;
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.contact-form {
-  background-color: var(--color-terciario);
-  border-radius: 15px;
-  padding: 30px;
-  box-shadow: var(--sombra-media);
-  transition: var(--transicion-normal);
-  border: 1px solid rgba(0, 173, 181, 0.2);
-}
-
-.contact-form:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--sombra-fuerte);
-}
-
-.form-title {
-  color: var(--color-secundario);
-  font-weight: 700;
-  border-bottom: 2px solid var(--color-secundario);
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-  display: inline-block;
-}
-
-button {
-  background: var(--gradiente-primario);
-  color: var(--color-primario);
-  border: none;
-  font-weight: 500;
-  box-shadow: var(--sombra-suave);
-  transition: var(--transicion-normal);
-  border-radius: 8px;
-  padding: 10px 20px;
-}
-
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--sombra-media);
-  filter: brightness(1.1);
 }
