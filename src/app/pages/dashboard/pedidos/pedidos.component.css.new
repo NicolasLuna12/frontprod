@@ -162,6 +162,15 @@
     align-items: center;
 }
 
+.item-quantity {
+    background: rgba(0, 173, 181, 0.1);
+    color: var(--color-secundario);
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 10px;
+    font-weight: 500;
+}
+
 .order-footer {
     display: flex;
     justify-content: space-between;

@@ -1,0 +1,245 @@
+/* Estilos responsivos */
+
+/* Dispositivos extra grandes (pantallas grandes, 1200px y superior) */
+@media (min-width: 1200px) {
+    .container {
+        max-width: var(--container-xl);
+    }
+}
+
+/* Dispositivos grandes (pantallas de escritorio, 992px y superior) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .container {
+        max-width: var(--container-lg);
+    }
+    
+    .product-card {
+        height: 160px;
+    }
+    
+    .sidebar {
+        width: 350px;
+    }
+}
+
+/* Dispositivos medianos (tablets, 768px y superior) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .container {
+        max-width: var(--container-md);
+    }
+    
+    .user-button {
+        width: 90px;
+        font-size: 14px;
+    }
+    
+    .logo-img {
+        width: 90px;
+    }
+    
+    .caja__principal-registro {
+        margin-top: 80px;
+        padding: 20px;
+    }
+    
+    .product-card {
+        height: 140px;
+        margin-left: -10px;
+    }
+    
+    .sidebar {
+        width: 300px;
+    }
+    
+    .chart-wrap {
+        --chart-width: 360px;
+        margin-left: 150px;
+    }
+    
+    .cards-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .card {
+        flex: 0 0 calc(50% - 10px);
+        min-width: auto;
+    }
+}
+
+/* Dispositivos pequeños (celulares en modo horizontal, 576px y superior) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .container {
+        max-width: var(--container-sm);
+    }
+    
+    .header_basic {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .user-button {
+        width: 80px;
+        font-size: 12px;
+    }
+    
+    .logo-img {
+        width: 80px;
+    }
+    
+    .caja__principal-registro {
+        margin-top: 60px;
+        padding: 15px;
+    }
+    
+    .product-card {
+        height: auto;
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+        margin-left: 0;
+    }
+    
+    #imageProducto {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        top: auto;
+        z-index: 1000;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+    
+    .chart-wrap {
+        --chart-width: 300px;
+        margin-left: 100px;
+        --bar-thickness: 30px;
+    }
+    
+    .cards-container {
+        flex-direction: column;
+    }
+    
+    .card {
+        width: 100%;
+    }
+    
+    section {
+        margin-left: -50px;
+    }
+    
+    .tabs {
+        flex-wrap: wrap;
+    }
+    
+    .modal-cerveux .success-message {
+        width: 18rem;
+    }
+}
+
+/* Dispositivos extra pequeños (celulares en modo vertical, menos de 576px) */
+@media (max-width: 575.98px) {
+    .container {
+        width: 100%;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .header_basic {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .user-button {
+        width: 80px;
+        font-size: 12px;
+    }
+    
+    .logo-img {
+        width: 70px;
+    }
+    
+    .caja__principal-registro {
+        margin-top: 40px;
+        padding: 10px;
+    }
+    
+    .product-card {
+        height: auto;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+        margin-left: 0;
+    }
+    
+    #imageProducto {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        top: auto;
+        z-index: 1000;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+    
+    .chart-wrap {
+        --chart-width: 250px;
+        margin-left: 50px;
+        --bar-thickness: 25px;
+        --bar-spacing: 8px;
+    }
+    
+    .cards-container {
+        flex-direction: column;
+    }
+    
+    .card {
+        width: 100%;
+    }
+    
+    section {
+        margin-left: 0;
+    }
+    
+    .tabs {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+    
+    .tab {
+        padding: 8px 10px;
+        font-size: 14px;
+    }
+    
+    .order-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .modal-cerveux .success-message {
+        width: 16rem;
+    }
+    
+    #imagen404 {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .dashboard-title {
+        font-size: 20px;
+    }
+}

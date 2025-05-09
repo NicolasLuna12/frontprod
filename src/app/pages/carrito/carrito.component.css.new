@@ -102,7 +102,7 @@ h3 {
     transform: scale(1.2);
 }
 
-#imageProducto{
+#imageProducto {
     height: 160px;
     width: 120px;
     border-radius: 8px;
@@ -114,13 +114,13 @@ h3 {
     transform: scale(1.05);
 }
 
-.title{
+.title {
     color: var(--color-primario);
     font-weight: 600;
     margin-bottom: 10px;
 }
 
-.total{
+.total {
     color: var(--color-primario);
     font-weight: 700;
     font-size: 1.2rem;
@@ -130,19 +130,19 @@ h3 {
     display: inline-block;
 }
 
-.titleDireccion{
+.titleDireccion {
     color: var(--color-secundario);
     font-size: 18px;
     font-weight: 600;
     margin-bottom: 5px;
 }
 
-.textDireccion{
+.textDireccion {
     color: var(--color-primario);
     font-size: 15px;
 }
 
-.textInfo{
+.textInfo {
     color: var(--color-primario);
     font-size: 12px;
     opacity: 0.8;

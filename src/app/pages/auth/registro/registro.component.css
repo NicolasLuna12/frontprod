@@ -1,21 +1,43 @@
 
 .caja__principal-registro{
-    margin-top: 150px;
+    margin-top: 100px;
     border-radius: 15px;
-    color: white;
+    color: var(--color-primario);
+    background-color: var(--color-terciario);
+    box-shadow: var(--sombra-fuerte);
+    border: 1px solid rgba(0, 173, 181, 0.2);
+    transition: var(--transicion-normal);
+    padding: 30px;
+}
+
+.caja__principal-registro:hover {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+    transform: translateY(-5px);
 }
 
 main{
     min-height: calc(100vh - 430px);
+}
 
+.form-control {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--color-terciario);
+    transition: var(--transicion-rapida);
+}
+
+.form-control:focus {
+    border-color: var(--color-secundario);
+    box-shadow: 0 0 0 0.25rem rgba(0, 173, 181, 0.25);
+    background-color: white;
 }
 
 footer{
-    padding-top: 20px;
-    margin-top: 20px;
+    padding-top: 25px;
+    margin-top: 30px;
     text-align: center;
     font-family: 'Roboto', sans-serif;
-    background-color:#00acb561; 
+    background: rgba(0, 173, 181, 0.3);
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
 } 
 
 #lista {
@@ -23,16 +45,37 @@ footer{
 }
 
 #conocenoslink{
-    color: #00ADB5;
+    color: var(--color-secundario);
     font-size: 1rem;
+    transition: var(--transicion-rapida);
+}
+
+#conocenoslink:hover {
+    color: var(--color-acento);
+    text-decoration: underline;
 }
 
 .ng-valid:not(form).ng-touched {
-    border-left: 5px solid #42A948; /* green */
-    }
-    .ng-invalid:not(form).ng-touched {
-      border-left: 5px solid #a94442; /* red */
-      }
+    border-left: 5px solid var(--color-exito); /* green */
+}
+.ng-invalid:not(form).ng-touched {
+    border-left: 5px solid var(--color-peligro); /* red */
+}
+
+button {
+    background: var(--gradiente-primario);
+    border-color: var(--color-secundario);
+    color: var(--color-primario);
+    font-weight: 500;
+    box-shadow: var(--sombra-suave);
+    transition: var(--transicion-normal);
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--sombra-media);
+    filter: brightness(1.1);
+}
 
 @media only screen and (min-width: 768px) {
     .caja__principal-registro{

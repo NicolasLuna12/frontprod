@@ -10,6 +10,11 @@
 .dashboard-title {
     margin: 0;
     font-size: 24px;
+    color: var(--color-secundario);
+    font-weight: 600;
+    border-bottom: 2px solid var(--color-secundario);
+    padding-bottom: 8px;
+    display: inline-block;
 }
 
 .button-group button {
@@ -18,104 +23,217 @@
     border-radius: 12px;
     background: transparent;
     cursor: pointer;
+    border: 1px solid var(--color-secundario);
+    color: var(--color-secundario);
+    transition: var(--transicion-rapida);
+}
+
+.button-group button:hover {
+    background: rgba(0, 173, 181, 0.1);
+    transform: translateY(-2px);
 }
 
 .button-group button:nth-child(2) {
-    background: rgb(31, 31, 87);
-    color: white;
+    background: var(--gradiente-primario);
+    color: var(--color-primario);
+    border: none;
+    box-shadow: var(--sombra-suave);
+}
+
+.button-group button:nth-child(2):hover {
+    box-shadow: var(--sombra-media);
+    filter: brightness(1.1);
 }
 
 .tabs {
     display: flex;
     gap: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(0, 173, 181, 0.2);
+    padding-bottom: 2px;
 }
 
 .tab {
     cursor: pointer;
     padding: 10px 15px;
     border-bottom: 2px solid transparent;
-    font-weight: bold;
-    color: #333;
+    font-weight: 600;
+    color: var(--color-primario);
+    transition: var(--transicion-rapida);
+    position: relative;
 }
 
-.tab:hover {
-    border-color: rgb(31, 31, 87);
+.tab::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gradiente-primario);
+    transition: var(--transicion-normal);
+}
+
+.tab:hover::after {
+    width: 100%;
 }
 
 .tab.active {
-    border-color: rgb(31, 31, 87);
-    color: rgb(31, 31, 87);
+    color: var(--color-secundario);
+}
+
+.tab.active::after {
+    width: 100%;
 }
 
 .cards-container {
     display: flex;
     align-items: center;
     gap: 20px;
-    padding: 20px;
+    flex-wrap: wrap;
 }
 
-.applications-section {
-    background: white;
-    box-shadow: 0px 5px 5px -5px rgba(0, 0, 0, 0.5);
-    margin-top: 20px;
+.card {
+    flex: 1;
+    min-width: 200px;
     padding: 20px;
+    border-radius: 12px;
+    background-color: var(--color-terciario);
+    color: var(--color-primario);
+    box-shadow: var(--sombra-media);
+    transition: var(--transicion-normal);
+    border: 1px solid rgba(0, 173, 181, 0.2);
 }
 
-.applications-section h1 {
-    font-family: 'Ubuntu Sans';
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--sombra-fuerte);
+}
+
+.card h3 {
+    margin-top: 0;
+    font-size: 18px;
+    color: var(--color-secundario);
+}
+
+.card p {
     font-size: 24px;
-    margin: 0;
+    font-weight: bold;
+    margin: 10px 0 0;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin: 20px auto;
-    background-color: #f5f5f5;
-    font-family: 'Ubuntu Sans';
+    margin-top: 20px;
+    background-color: var(--color-terciario);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--sombra-media);
 }
 
-th,
-td {
-    padding: 12px;
+table th, table td {
+    padding: 15px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid rgba(0, 173, 181, 0.1);
 }
 
-th {
-    background-color: rgb(31, 31, 87);
-    color: white;
+table th {
+    background-color: rgba(0, 173, 181, 0.2);
+    color: var(--color-secundario);
+    font-weight: 600;
 }
 
-tr:hover {
-    background-color: #f2f2f2;
+table tbody tr {
+    transition: var(--transicion-rapida);
 }
 
-tr:nth-child(even) {
-    background-color: #f2f2f2;
+table tbody tr:hover {
+    background-color: rgba(0, 173, 181, 0.1);
 }
 
-.action-cell {
-    display: flex;
-    align-items: center;
+table tbody tr:last-child td {
+    border-bottom: none;
 }
 
-.action-cell button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
+.status {
     padding: 5px 10px;
-    cursor: pointer;
-    margin-right: 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-block;
 }
 
-.action-cell button:hover {
-    background-color: #45a049;
+.status-pending {
+    background-color: rgba(255, 193, 7, 0.2);
+    color: var(--color-advertencia);
+}
+
+.status-completed {
+    background-color: rgba(76, 175, 80, 0.2);
+    color: var(--color-exito);
+}
+
+.status-canceled {
+    background-color: rgba(255, 82, 82, 0.2);
+    color: var(--color-peligro);
+}
+
+.actions button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    margin-right: 5px;
+    border-radius: 5px;
+    transition: var(--transicion-rapida);
+}
+
+.actions button:hover {
+    background-color: rgba(0, 173, 181, 0.1);
+    transform: translateY(-2px);
+}
+
+.icon {
+    font-size: 18px;
+}
+
+.view-icon {
+    color: var(--color-secundario);
+}
+
+.edit-icon {
+    color: var(--color-advertencia);
 }
 
 .delete-icon {
-    color: #f44336;
-    font-size: 20px;
+    color: var(--color-peligro);
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    margin: 0 5px;
+    padding: 8px 15px;
+    border-radius: 5px;
+    background: var(--color-terciario);
+    border: 1px solid rgba(0, 173, 181, 0.2);
+    color: var(--color-primario);
     cursor: pointer;
+    transition: var(--transicion-rapida);
+}
+
+.pagination button:hover {
+    background-color: rgba(0, 173, 181, 0.1);
+    transform: translateY(-2px);
+}
+
+.pagination button.active {
+    background: var(--gradiente-primario);
+    color: var(--color-primario);
+    border: none;
 }

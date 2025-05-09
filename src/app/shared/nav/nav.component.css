@@ -7,8 +7,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #343a40;
-  border: 2px solid #495057;
+  background-color: var(--color-terciario);
+  border: 2px solid var(--color-secundario);
+  box-shadow: var(--sombra-suave);
+  transition: var(--transicion-rapida);
 }
 
 .nav-profile-img {
@@ -20,20 +22,31 @@
 /* Estilo para el icono por defecto */
 .nav-profile-img-container i {
   font-size: 1.2rem;
-  color: #fff;
+  color: var(--color-primario);
 }
 
 /* Efecto hover para el menú desplegable */
 .dropdown-toggle {
-  transition: all 0.3s ease;
+  transition: var(--transicion-normal);
 }
 
 .dropdown-toggle:hover .nav-profile-img-container {
-  border-color: #ffffff;
+  border-color: var(--color-acento);
   transform: scale(1.05);
+  box-shadow: var(--sombra-media);
 }
 
 /* Alineación vertical para el contenido del dropdown */
 .dropdown-toggle.d-flex {
   gap: 8px;
+}
+
+/* Ajuste para el botón de hamburguesa */
+.navbar-toggler {
+  margin-right: 15px; /* Ajusta este valor según necesites más o menos espacio */
+  transition: var(--transicion-rapida);
+}
+
+.navbar-toggler:hover {
+  transform: scale(1.05);
 }

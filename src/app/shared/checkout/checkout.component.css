@@ -1,32 +1,96 @@
 .card-container {
   max-width: 600px;
   margin: auto;
+  background-color: var(--color-terciario);
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: var(--sombra-media);
+  border: 1px solid rgba(0, 173, 181, 0.2);
+  transition: var(--transicion-normal);
 }
+
+.card-container:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--sombra-fuerte);
+}
+
 .card img {
   width: 50px;
   height: auto;
+  border-radius: 8px;
+  box-shadow: var(--sombra-suave);
 }
 
-
-
-
-
-
-
-/* @import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:400,200,300,500,600,700,900');
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap');
-
-.container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  flex-direction: column;
-  font-family: 'Ubuntu Sans';
+.section-title {
+  color: var(--color-secundario);
+  font-weight: 700;
+  border-bottom: 2px solid var(--color-secundario);
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  display: inline-block;
 }
 
-* {
-  box-sizing: border-box;
+.form-control {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--color-terciario);
+  border-radius: 8px;
+  transition: var(--transicion-rapida);
+  padding: 10px 15px;
+}
+
+.form-control:focus {
+  border-color: var(--color-secundario);
+  box-shadow: 0 0 0 0.25rem rgba(0, 173, 181, 0.25);
+  background-color: white;
+}
+
+.checkout-button {
+  background: var(--gradiente-primario);
+  color: var(--color-primario);
+  border: none;
+  font-weight: 500;
+  box-shadow: var(--sombra-suave);
+  transition: var(--transicion-normal);
+  border-radius: 8px;
+  padding: 12px 25px;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.checkout-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-media);
+  filter: brightness(1.1);
+}
+
+.checkout-button:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.card-info {
+  padding: 15px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.15);
+  margin-bottom: 20px;
+}
+
+.card-number-field {
+  font-family: 'Source Code Pro', monospace;
+  letter-spacing: 3px;
+}
+
+.card-icon {
+  font-size: 1.5rem;
+  margin-right: 5px;
+  color: var(--color-secundario);
+}
+
+.form-label {
+  color: var(--color-primario);
+  font-weight: 500;
+  margin-bottom: 8px;
 }
 
 .price h1 {
@@ -290,4 +354,4 @@ input[type=radio]:checked ~ .radio::before {
 .button button i {
   font-size: 1.2rem;
   margin-right: 5px;
-} */
+}

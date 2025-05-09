@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-nosotros-devs',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [CommonModule],
   templateUrl: './nosotros-devs.component.html',
-  styleUrl: './nosotros-devs.component.css'
+  styleUrls: ['./nosotros-devs.component.css']
 })
 export class NosotrosDevsComponent {
 

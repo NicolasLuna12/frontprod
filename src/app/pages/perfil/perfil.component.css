@@ -1,41 +1,61 @@
 .card {
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: var(--transicion-normal);
+  background-color: var(--color-terciario);
+  border: 1px solid rgba(0, 173, 181, 0.2);
+  box-shadow: var(--sombra-media);
 }
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: var(--sombra-fuerte) !important;
 }
 
 .card-header {
-  background: linear-gradient(135deg, #343a40 0%, #212529 100%);
+  background: var(--gradiente-oscuro);
+  border-bottom: 2px solid var(--color-secundario);
+  padding: 1.2rem 1.5rem;
+}
+
+.form-control {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--color-terciario);
+  border-radius: 8px;
+  transition: var(--transicion-rapida);
 }
 
 .form-control:focus {
-  border-color: #5a6268;
-  box-shadow: 0 0 0 0.25rem rgba(90, 98, 104, 0.25);
+  border-color: var(--color-secundario);
+  box-shadow: 0 0 0 0.25rem rgba(0, 173, 181, 0.25);
+  background-color: white;
 }
 
 .btn-primary {
-  background-color: #343a40;
-  border-color: #343a40;
+  background: var(--gradiente-primario);
+  border-color: var(--color-secundario);
+  box-shadow: var(--sombra-suave);
+  transition: var(--transicion-normal);
 }
 
 .btn-primary:hover, .btn-primary:focus {
-  background-color: #212529;
-  border-color: #212529;
+  background-color: var(--color-acento);
+  border-color: var(--color-acento);
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-media);
 }
 
 .btn-outline-danger {
-  color: #f8f9fa;
-  border-color: #dc3545;
+  color: var(--color-primario);
+  border-color: var(--color-peligro);
+  transition: var(--transicion-normal);
 }
 
 .btn-outline-danger:hover {
-  background-color: #dc3545;
-  color: #fff;
+  background-color: var(--color-peligro);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-suave);
 }
 
 /* Estilos para la imagen de perfil */

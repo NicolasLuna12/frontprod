@@ -1,61 +1,157 @@
-/* estilo global para los colores de la página
-hay 4 colores para mantener el estilo global de la página. El modo de usarlos es:
-var(--color-primario)
-var(--color-secundario)
-var(--color-terciario)
-var(--color-cuaternario)
-
-ejemplo:     <color: var(--color-primario);>
-*/
+/* estilo global para los colores de la página usando las variables CSS definidas en styles.css */
 @media (max-width: 767.98px) {
   .border-sm-start-none {
     border-left: none !important;
   }
 }
+
 body {
-  background-color: rgb(90, 90, 90);
+  background-color: var(--color-cuaternario);
+}
+
+section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.container {
+  max-width: 1200px;
+  padding: 0 15px;
 }
 
 .title {
   text-align: center;
   color: var(--color-secundario);
+  font-weight: 600;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: var(--gradiente-primario);
+  border-radius: 2px;
 }
 
 .card-button {
   width: 70%;
-  height: 35px;
-  background-color: rgb(30, 103, 229);
-  color: white;
+  height: 38px;
+  background: var(--gradiente-primario);
+  color: var(--color-primario);
   border-radius: 10px;
   border: none;
   cursor: pointer;
   font-size: 18px;
+  font-weight: 500;
+  transition: var(--transicion-normal);
+  box-shadow: var(--sombra-suave);
+}
+
+.card-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-media);
+  filter: brightness(1.1);
+}
+
+.card-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Estilo para ajustar la columna de precio y botones */
+.col-md-6.col-lg-3.col-xl-3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btn-outline-primary {
+  color: var(--color-secundario);
+  border-color: var(--color-secundario);
+  background-color: transparent;
+  transition: var(--transicion-rapida);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.btn-outline-primary:hover:not([disabled]) {
+  background: var(--gradiente-primario);
+  color: white;
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-suave);
+}
+
+/* Estilo para las estrellas */
+.fa-star {
+  color: var(--color-advertencia); /* Amarillo para las estrellas */
+}
+
+/* Estilos para el texto de disponibilidad */
+.text-success {
+  color: #4CAF50 !important; /* Verde más oscuro para mejor contraste */
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.text-danger {
+  color: #FF5252 !important; /* Rojo más visible */
+  font-weight: 600;
+  margin-bottom: 10px;
 }
 
 #wrapper_box img {
   cursor: pointer;
-
-  transition: all 1.1s;
+  transition: all 0.4s ease;
   width: 100%;
-  height: 100%;
+  height: 240px; /* Altura reducida */
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: var(--sombra-suave);
 }
 
 #wrapper_box img:hover {
   transform: scale(1.05);
-
   opacity: 50%;
 }
 
 .image-container {
   position: relative;
+  height: 240px; /* Altura reducida */
+  overflow: hidden;
 }
 
 #precioNuevo{
-  font-size: 27px;
+  font-size: 24px; /* Tamaño reducido */
+  color: var(--color-terciario); /* Color oscuro para mejor contraste con fondo blanco */
 }
 
 #nombreProducto {
-  font-size: 32px;
+  font-size: 26px; /* Tamaño reducido */
+  text-align: center;
+  margin-bottom: 10px;
+  color: var(--color-secundario); /* Color destacado para el nombre */
+  font-weight: 600;
 }
 
 #imagenModalCompra {
@@ -65,28 +161,132 @@ body {
   width: 600px;
 }
 
-.paginationControls{
-  color:white;
+.paginationControls {
+  color: var(--color-primario);
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
 
+.paginationControls ::ng-deep .ngx-pagination {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.paginationControls ::ng-deep .ngx-pagination li {
+  margin: 0 3px;
+}
+
+.paginationControls ::ng-deep .ngx-pagination a,
+.paginationControls ::ng-deep .ngx-pagination button {
+  color: var(--color-primario);
+  background-color: var(--color-terciario);
+  border-radius: 5px;
+  padding: 8px 15px;
+  transition: var(--transicion-rapida);
+}
+
+.paginationControls ::ng-deep .ngx-pagination a:hover,
+.paginationControls ::ng-deep .ngx-pagination button:hover {
+  background-color: var(--color-secundario);
+  color: var(--color-primario);
+}
+
+.paginationControls ::ng-deep .ngx-pagination .current {
+  background: var(--gradiente-primario);
+  border-radius: 5px;
+  padding: 8px 15px;
 }
 
 @media (min-width: 769px) {
   .card-t {
     margin: auto;
-    width: 80%;
+    width: 90%;
+    max-width: 900px; /* Limitar el ancho máximo */
     display: flex;
     margin-bottom: 20px;
   }
 
+  .card {
+    max-width: 900px;
+    margin: 0 auto 20px;
+  }
+
   .card-img-t {
-    height: 250px;
+    height: 220px; /* Altura reducida */
     width: 60%;
+    object-fit: cover;
   }
 
   .card-info-description {
     width: 90%;
-    margin: 20px auto;
+    margin: 15px auto;
+    text-align: center;
   }
+  
+  .col-md-6.col-lg-6.col-xl-6 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .d-flex.flex-row.align-items-center.mb-1 {
+    justify-content: center;
+  }
+}
+
+/* Estilos para el modal */
+.card.shadow-0.border.rounded-3 {
+  max-width: 900px;
+  margin: 0 auto 25px;
+  background-color: #ffffff; /* Cambio a fondo blanco */
+  border: 1px solid rgba(0, 173, 181, 0.2) !important;
+  box-shadow: var(--sombra-media) !important;
+  transition: var(--transicion-normal);
+  min-height: 220px; /* Asegurar que sean más estiradas */
+}
+
+.card.shadow-0.border.rounded-3:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--sombra-fuerte) !important;
+}
+
+.text-truncate.mb-4.mb-md-0 {
+  text-align: center;
+  max-width: 90%;
+  margin: 0 auto;
+  color: var(--color-terciario); /* Ajustar color del texto para contraste */
+  font-size: 14px;
+  line-height: 1.5;
+  max-height: 4.5em; /* 3 líneas */
+  overflow: hidden;
+}
+
+.d-flex.flex-column.mt-4 {
+  display: flex;
+  align-items: center;
+  margin-top: 15px !important;
+}
+
+.btn.btn-outline-primary.btn-sm.mt-2 {
+  width: 160px;
+  background: var(--gradiente-primario);
+  color: var(--color-primario);
+  border: none;
+  font-weight: 500;
+  box-shadow: var(--sombra-suave);
+  transition: var(--transicion-normal);
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.btn.btn-outline-primary.btn-sm.mt-2:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-media);
+  filter: brightness(1.1);
 }
 
 /* Estilos para el modal */
@@ -101,29 +301,30 @@ body {
 }
 
 .modal-content {
-  background-color: white;
+  background-color: var(--color-terciario);
   margin: 20px auto;
   padding: 20px;
   width: 70%;
   border-radius: 10px;
   text-align: center;
+  color: var(--color-primario);
 }
 
 .confirm-button {
-  background-color: rgb(30, 103, 229);
-  color: white;
+  background: var(--gradiente-primario);
+  color: var(--color-primario);
   border: none;
-  border-radius: 10px;
+  border-radius: 8px;
   padding: 10px 20px;
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
+  transition: var(--transicion-normal);
 }
 
-.close {
-  top: 10px;
-  right: 15px;
-  font-size: 40px;
-  cursor: pointer;
+.confirm-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-media);
+  filter: brightness(1.1);
 }
 
 .modal-img {
