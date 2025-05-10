@@ -18,9 +18,10 @@
       </div>
       <div class="col-md-2">
         <select class="form-select" formControlName="id_categoria">
-          <option [value]="1">Empanadas</option>
-          <option [value]="2">Lomos</option>
-          <option [value]="3">Hamburguesas</option>
+          <option value="" disabled selected hidden>Productos</option>
+          <option value="1">Empanadas</option>
+          <option value="2">Lomos</option>
+          <option value="3">Hamburguesas</option>
         </select>
       </div>
       <div class="col-md-2">
@@ -57,7 +58,7 @@
         <th>ID</th>
         <th>Nombre</th>
         <th>Precio</th>
-        <th>Stock</th>
+        <th>Stock (unidades)</th>
         <th>Categoría</th>
         <th>Imagen</th>
         <th class="text-center">Acciones</th>
@@ -68,7 +69,7 @@
         <td>{{p.id_producto}}</td>
         <td>{{p.nombre_producto}}</td>
         <td>{{p.precio | currency:'ARS':'symbol':'1.0-0'}}</td>
-        <td>{{p.stock}}</td>
+        <td>{{p.stock}} <span *ngIf="p.stock !== undefined">unidades</span></td>
         <td>{{p.id_categoria}}</td>
         <td><img [src]="p.imageURL" alt="img" width="50"></td>
         <td class="text-center align-middle">
@@ -141,6 +142,7 @@
             <div class="mb-2">
               <label class="form-label">Categoría</label>
               <select class="form-select" formControlName="id_categoria">
+                <option value="" disabled selected hidden>Selecciona categoría</option>
                 <option [value]="1">Empanadas</option>
                 <option [value]="2">Lomos</option>
                 <option [value]="3">Hamburguesas</option>
@@ -161,3 +163,13 @@
   </div>
   <!-- Fin modal edición -->
 </div>
+
+<style>
+select.form-select {
+  cursor: pointer;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1.2em;
+}
+</style>

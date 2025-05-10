@@ -33,9 +33,60 @@
 }
 @media (max-width: 600px) {
   .btn-switch-vista {
-    top: 70px;
-    right: 10px;
+    top: 10px;
+    right: 5px;
+    font-size: 0.92rem;
+    padding: 0.3rem 0.7rem 0.3rem 0.6rem;
+  }
+  .container {
+    padding: 1rem 0.2rem 1.5rem 0.2rem;
+    max-width: 100vw;
+    border-radius: 0;
+    margin-top: 1.2rem;
+  }
+  h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+  .navbar-brand img {
+    max-width: 80px !important;
+  }
+  .navbar-nav .nav-item {
     font-size: 0.98rem;
-    padding: 0.4rem 1rem 0.4rem 0.8rem;
+    margin-bottom: 0.2rem;
+  }
+  .table {
+    font-size: 0.92rem;
+    border-radius: 0;
+  }
+  .table th, .table td {
+    padding: 0.3rem 0.2rem;
+  }
+  .nav-profile-img-container {
+    width: 24px;
+    height: 24px;
+  }
+  .nav-profile-img {
+    width: 100%;
+    height: 100%;
+  }
+  .btn-icon {
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.1rem;
+  }
+  .modal-content {
+    padding: 0.5rem;
+  }
+  .modal-dialog {
+    margin: 0.5rem;
+  }
+  .form-control, .form-select, textarea.form-control {
+    font-size: 0.98rem;
+    padding: 0.4rem 0.7rem;
+  }
+  .btn-success, .btn-outline-primary, .btn-outline-secondary, .btn-danger, .btn-primary {
+    font-size: 0.98rem;
+    padding: 0.5rem 1.1rem;
   }
 }
