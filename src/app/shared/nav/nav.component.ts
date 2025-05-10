@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './nav.component.css'
 })
 export class NavComponent implements OnInit {
+  @Input() vistaUsuario = false;
   estaAutenticado = false;
   nombreUsuario = '';
   imagenPerfil: string | null = null;

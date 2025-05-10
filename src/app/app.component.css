@@ -1,0 +1,41 @@
+.btn-switch-vista {
+  position: fixed;
+  top: 40px;
+  right: 32px;
+  z-index: 1050;
+  background: linear-gradient(90deg, #1976d2 60%, #00bfae 100%);
+  color: #fff;
+  border: none;
+  border-radius: 2rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+  padding: 0.5rem 1.4rem 0.5rem 1.1rem;
+  font-size: 1.08rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  transition: background 0.2s, box-shadow 0.2s, color 0.2s;
+  cursor: pointer;
+}
+.btn-switch-vista .icono {
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+}
+.btn-switch-vista.vista-usuario {
+  background: linear-gradient(90deg, #00bfae 60%, #1976d2 100%);
+  color: #fff;
+}
+.btn-switch-vista:hover {
+  background: #125ea2;
+  color: #fff;
+  box-shadow: 0 6px 24px rgba(25,118,210,0.18);
+}
+@media (max-width: 600px) {
+  .btn-switch-vista {
+    top: 70px;
+    right: 10px;
+    font-size: 0.98rem;
+    padding: 0.4rem 1rem 0.4rem 0.8rem;
+  }
+}

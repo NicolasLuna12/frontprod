@@ -38,20 +38,20 @@
                   Inicio
                 </a>
               </li>
-              <li *ngIf="!isAdmin()" class="nav-item text-center ">
+              <li *ngIf="(!isAdmin() || vistaUsuario)" class="nav-item text-center ">
                 <a class="nav-link" routerLink="/quienes-somos">
                   ¿Quienes somos?
                 </a>
               </li>
-              <li *ngIf="!isAdmin()" class="nav-item text-center ">
+              <li *ngIf="(!isAdmin() || vistaUsuario)" class="nav-item text-center ">
                 <a class="nav-link" routerLink="/contacto">
                   Contacto
                 </a>
               </li>
-              <li class="nav-item text-center ">
+              <li *ngIf="(!isAdmin() || vistaUsuario)" class="nav-item text-center ">
                 <a class="nav-link" routerLink="/carta"> Carta </a>
               </li>
-              <li *ngIf="estaAutenticado && !isAdmin()" class="nav-item text-center ">
+              <li *ngIf="estaAutenticado && (!isAdmin() || vistaUsuario)" class="nav-item text-center ">
                 <a class="nav-link" routerLink="/dashboard">
                   Dashboard
                 </a>
