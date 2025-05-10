@@ -20,20 +20,23 @@ export class NavComponent implements OnInit {
     private authservice: AuthService, 
     private toastr: ToastrService,
     private router: Router
-  ) {
+  ) {}
 
-  }
   ngOnInit(): void {
     this.authservice.isAuthenticated().subscribe({
-      next:(respuesta) => {
+      next: (respuesta) => {
         this.estaAutenticado = respuesta;
         if (respuesta) {
           this.obtenerNombreUsuario();
-          this.obtenerImagenPerfil();
         }
       }
     });
+    // Suscribirse a los cambios de la URL de la imagen de perfil
+    this.authservice.imagenPerfil$.subscribe((url) => {
+      this.imagenPerfil = url;
+    });
   }
+
   obtenerNombreUsuario() {
     // Obtener el nombre del usuario del localStorage
     const nombreCompleto = localStorage.getItem('nameUser');
@@ -45,12 +48,6 @@ export class NavComponent implements OnInit {
     } else {
       this.nombreUsuario = 'Usuario';
     }
-  }
-
-  obtenerImagenPerfil() {
-    // Obtener la imagen de perfil del localStorage
-    const imagen = localStorage.getItem('profileImage');
-    this.imagenPerfil = imagen;
   }
 
   logout() {

@@ -11,6 +11,8 @@ export class AuthService {
   private apiUrl = 'appUSERS/';
   private authStatusSubject = new BehaviorSubject<boolean>(this.hasToken());
   authStatus$ = this.authStatusSubject.asObservable();
+  private imagenPerfilSubject = new BehaviorSubject<string | null>(localStorage.getItem('imagenPerfil'));
+  imagenPerfil$ = this.imagenPerfilSubject.asObservable();
 
   constructor(private http: HttpClient, private toastr:ToastrService) { }
 
@@ -20,13 +22,21 @@ export class AuthService {
 
   login(email: string, password: string): Observable<any> {
     // Simula una llamada HTTP POST a tu API de autenticación
-    return this.http.post<{ access: string, user_id: string, nombre:string, apellido:string, email:string }>(`${this.apiUrl}login/`, { email, password }).pipe(
+    return this.http.post<{ access: string, user_id: string, nombre:string, apellido:string, email:string, imagen_perfil_url?:string }>(`${this.apiUrl}login/`, { email, password }).pipe(
       map(response => {
         
         localStorage.setItem('nameUser', response.nombre+' '+response.apellido);
         localStorage.setItem('emailUser', response.email);
         localStorage.setItem('authToken', response.access);
         localStorage.setItem('idUser', response.user_id);
+        // Guardar la URL de la imagen de perfil SIEMPRE que venga del backend
+        if (response.imagen_perfil_url) {
+          localStorage.setItem('imagenPerfil', response.imagen_perfil_url);
+          this.imagenPerfilSubject.next(response.imagen_perfil_url); // Notificar cambio
+        } else {
+          localStorage.removeItem('imagenPerfil');
+          this.imagenPerfilSubject.next(null);
+        }
        
         this.authStatusSubject.next(true); // Notifica el cambio de estado de autenticación
         this.toastr.success("Bienvenida/o "+response.nombre+' '+response.apellido+'!');
@@ -50,6 +60,18 @@ export class AuthService {
     return this.authStatus$;
   }
 
+  // Nuevo método para obtener el perfil del usuario (incluyendo la URL de la imagen)
+  getUserProfile(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}profile/`);
+  }
+
+  // Nuevo método para actualizar la URL de la imagen de perfil en el backend usando el endpoint de update
+  updateUserProfileImage(imageUrl: string): Observable<any> {
+    const userId = localStorage.getItem('idUser');
+    // Puedes agregar más campos si tu backend los requiere
+    return this.http.put<any>(`${this.apiUrl}update/`, { id_usuario: userId, imagen_perfil_url: imageUrl });
+  }
+
   register(userData: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}register/`, userData).pipe(
       map(response => {
@@ -62,7 +84,11 @@ export class AuthService {
   updateUser(userId: string, userData: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}update/`, userData).pipe(
       map(response => {
-        // Eliminado el mensaje de éxito aquí para evitar duplicados
+        // Si se actualizó la imagen de perfil, actualizar el observable
+        if (userData.imagen_perfil_url) {
+          localStorage.setItem('imagenPerfil', userData.imagen_perfil_url);
+          this.imagenPerfilSubject.next(userData.imagen_perfil_url);
+        }
         return response;
       })
     );
@@ -77,5 +103,15 @@ export class AuthService {
         return response;
       })
     );
+  }
+
+  // Método para actualizar la URL de la imagen de perfil manualmente (opcional)
+  setImagenPerfilUrl(url: string | null) {
+    if (url) {
+      localStorage.setItem('imagenPerfil', url);
+    } else {
+      localStorage.removeItem('imagenPerfil');
+    }
+    this.imagenPerfilSubject.next(url);
   }
 }
