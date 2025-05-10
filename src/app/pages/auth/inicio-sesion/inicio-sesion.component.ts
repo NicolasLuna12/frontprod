@@ -43,7 +43,10 @@ export class InicioSesionComponent {
       // Llamar al servicio de autenticación
       this.authService.login(this.Email?.value, this.Password?.value).subscribe({
         next:(success)=> {
-          
+          // Guardar la URL de la imagen de perfil si viene en la respuesta (campo correcto)
+          if (success.imagen_perfil_url) {
+            localStorage.setItem('imagenPerfil', success.imagen_perfil_url);
+          }
           // Redirigir al dashboard después de una autenticación exitosa
           this.router.navigate(['/home']);
         },
