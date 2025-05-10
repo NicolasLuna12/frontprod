@@ -39,20 +39,22 @@ export class PerfilComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cargarDatosUsuario();
-    this.cargarImagenPerfil();
-    // Cargar fecha de última actualización si existe
+    // Obtener la URL de la imagen de perfil desde localStorage (que fue guardada tras login)
+    this.imagenPerfil = localStorage.getItem('imagenPerfil') || null;
+    // Cargar el resto de los datos del usuario como antes
+    const nombre = localStorage.getItem('nameUser') || '';
+    const [nombreUsuario, apellidoUsuario] = nombre.split(' ');
+    const email = localStorage.getItem('emailUser') || 'usuario@ejemplo.com';
+    this.perfilForm.patchValue({
+      nombre: nombreUsuario,
+      apellido: apellidoUsuario || '',
+      email: email,
+      telefono: '123456789',
+      direccion: 'Dirección de ejemplo'
+    });
     const fecha = localStorage.getItem('fechaActualizacion');
     if (fecha) {
       this.usuario.fechaActualizacion = fecha;
-    }
-  }
-
-  // Método para cargar la imagen de perfil guardada
-  cargarImagenPerfil(): void {
-    const imagenGuardada = localStorage.getItem('profileImage');
-    if (imagenGuardada) {
-      this.imagenPerfil = imagenGuardada;
     }
   }
 
@@ -73,13 +75,24 @@ export class PerfilComponent implements OnInit {
       }
       this.imagenArchivo = file;
       this.cargando = true;
-      // Subir a Cloudinary automáticamente
+      // Subir a Cloudinary
       this.imageUploadService.uploadImage(file).subscribe({
         next: (res) => {
-          this.imagenPerfil = res.secure_url;
-          localStorage.setItem('profileImage', res.secure_url);
-          this.toastr.success('Imagen subida correctamente');
-          this.cargando = false;
+          const nuevaUrl = res.secure_url;
+          // Guardar la URL en la base de datos
+          const userId = localStorage.getItem('idUser');
+          this.authService.updateUser(userId!, { id_usuario: userId, imagen_perfil_url: nuevaUrl }).subscribe({
+            next: () => {
+              this.imagenPerfil = nuevaUrl;
+              localStorage.setItem('imagenPerfil', nuevaUrl);
+              this.toastr.success('Imagen subida y guardada correctamente');
+              this.cargando = false;
+            },
+            error: () => {
+              this.imagenError = 'Error al guardar la imagen en el perfil';
+              this.cargando = false;
+            }
+          });
         },
         error: (err) => {
           this.imagenError = 'Error al subir la imagen';
@@ -129,16 +142,17 @@ export class PerfilComponent implements OnInit {
       day: '2-digit', month: '2-digit', year: 'numeric',
       hour: '2-digit', minute: '2-digit'
     });
+    // Obtener la URL de la imagen de perfil más reciente
+    const imagenPerfilUrl = this.imagenPerfil || localStorage.getItem('imagenPerfil') || null;
     const datosUsuario = {
       ...this.perfilForm.value,
       id_usuario: userId,
-      imagen_perfil: this.imagenPerfil,
+      imagen_perfil_url: imagenPerfilUrl, // Siempre enviar la URL actual
       fechaActualizacion: fechaActualizacionStr
     };
 
     this.authService.updateUser(userId, datosUsuario).subscribe({
       next: (response) => {
-        // Solo un mensaje de éxito
         this.toastr.success('Perfil actualizado con éxito');
         localStorage.setItem('nameUser', `${datosUsuario.nombre} ${datosUsuario.apellido}`);
         localStorage.setItem('fechaActualizacion', fechaActualizacionStr);
