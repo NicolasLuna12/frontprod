@@ -35,6 +35,7 @@ export class CartaComponent implements OnInit {
   p: number = 1;
   idUser: number = 0;
   filtroCategoria: string = 'todas';
+  mostrarCarrito: boolean = true;
 
   constructor(
     private productService: ProductsService,
@@ -53,6 +54,11 @@ export class CartaComponent implements OnInit {
       stock: 0,
       id_categoria: 0,
     };
+    // Si es admin, ocultar el carrito
+    const email = localStorage.getItem('emailUser');
+    if (email === 'admin@admin.com') {
+      this.mostrarCarrito = false;
+    }
   }
   ngOnInit(): void {
     this.productService.getProducts().subscribe({

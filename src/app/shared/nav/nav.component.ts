@@ -40,14 +40,24 @@ export class NavComponent implements OnInit {
   obtenerNombreUsuario() {
     // Obtener el nombre del usuario del localStorage
     const nombreCompleto = localStorage.getItem('nameUser');
+    const email = localStorage.getItem('emailUser');
     if (nombreCompleto) {
       // Extraer solo el primer nombre
       const primerNombre = nombreCompleto.split(' ')[0];
       // Asegurar que la primera letra sea mayúscula
       this.nombreUsuario = primerNombre.charAt(0).toUpperCase() + primerNombre.slice(1).toLowerCase();
+    } else if (email === 'admin@admin.com') {
+      this.nombreUsuario = 'Admin';
     } else {
       this.nombreUsuario = 'Usuario';
     }
+  }
+
+  isAdmin(): boolean {
+    // Puedes cambiar esto por una lógica real de roles
+    // Por ahora, si el email es admin@admin.com es admin
+    const email = localStorage.getItem('emailUser');
+    return email === 'admin@admin.com';
   }
 
   logout() {
