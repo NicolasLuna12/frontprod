@@ -1,7 +1,7 @@
 <!-- <div class="bloqueo" *ngIf="brilloBajado"></div> -->
 <h1 class="title">Conoce nuestra variedad de comidas.</h1>
 
-@if(estaLogueado()) {
+@if(estaLogueado() && mostrarCarrito) {
 <button
   class="btn-carrito"
   aria-label="mostrar carrito de compras"

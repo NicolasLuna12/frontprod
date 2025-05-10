@@ -14,7 +14,7 @@ import { Pagina404Component } from './pages/pagina404/pagina404.component';
 import { ExitoNuevoUsuarioComponent } from './pages/auth/exito-nuevo-usuario/exito-nuevo-usuario.component';
 import { ServerErrorComponent } from './pages/server-error/server-error.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
-
+import { AdminProductosComponent } from './pages/admin-productos/admin-productos.component';
 
 export const routes: Routes = [
     {path:"home", component:HomeComponent},
@@ -31,6 +31,7 @@ export const routes: Routes = [
     {path:"quienes-somos", component:NosotrosDevsComponent},
     {path:"contacto", component:ContactoComponent},
     {path:"serverError", component:ServerErrorComponent},
+    {path:"admin-productos", component:AdminProductosComponent, canActivate:[authGuard]},
     {path:'**', component:Pagina404Component},
 
 
