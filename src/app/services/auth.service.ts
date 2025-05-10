@@ -60,16 +60,6 @@ export class AuthService {
   }
 
   updateUser(userId: string, userData: any): Observable<any> {
-    // Si userData es FormData, enviar como multipart/form-data
-    if (userData instanceof FormData) {
-      return this.http.put<any>(`${this.apiUrl}update/`, userData).pipe(
-        map(response => {
-          this.toastr.success('Usuario actualizado con éxito!');
-          return response;
-        })
-      );
-    }
-    // Si no, enviar como JSON
     return this.http.put<any>(`${this.apiUrl}update/`, userData).pipe(
       map(response => {
         this.toastr.success('Usuario actualizado con éxito!');

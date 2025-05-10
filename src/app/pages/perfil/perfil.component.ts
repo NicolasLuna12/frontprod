@@ -116,22 +116,18 @@ export class PerfilComponent implements OnInit {
     }
 
     this.cargando = true;
-    // Usar FormData para enviar la imagen como archivo
-    const formData = new FormData();
-    formData.append('nombre', this.perfilForm.value.nombre);
-    formData.append('apellido', this.perfilForm.value.apellido);
-    formData.append('email', this.perfilForm.value.email);
-    formData.append('telefono', this.perfilForm.value.telefono);
-    formData.append('direccion', this.perfilForm.value.direccion);
-    formData.append('id_usuario', userId);
-    if (this.imagenArchivo) {
-      formData.append('imagen_perfil', this.imagenArchivo);
-    }
+    const datosUsuario = {
+      ...this.perfilForm.value,
+      id_usuario: userId,
+      // En una aplicación real, aquí se enviaría también la imagen al servidor
+      imagen_perfil: this.imagenPerfil
+    };
 
-    this.authService.updateUser(userId, formData).subscribe({
+    this.authService.updateUser(userId, datosUsuario).subscribe({
       next: (response) => {
         this.toastr.success('Perfil actualizado con éxito');
-        localStorage.setItem('nameUser', `${this.perfilForm.value.nombre} ${this.perfilForm.value.apellido}`);
+        // Actualizar nombre en localStorage
+        localStorage.setItem('nameUser', `${datosUsuario.nombre} ${datosUsuario.apellido}`);
         this.cargando = false;
       },
       error: (error) => {
