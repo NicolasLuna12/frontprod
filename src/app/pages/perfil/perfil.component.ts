@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Usuario } from '../../model/usuario.model';
+import { ImageUploadService } from '../../services/image-upload.service';
 
 @Component({
   selector: 'app-perfil',
@@ -25,7 +26,8 @@ export class PerfilComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public authService: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private imageUploadService: ImageUploadService // Inyectar el servicio
   ) {
     this.perfilForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -53,31 +55,32 @@ export class PerfilComponent implements OnInit {
   onImagenSeleccionada(event: any): void {
     this.imagenError = null;
     const file = event.target.files[0];
-    
     if (file) {
       // Validar tamaño (máximo 2MB)
       if (file.size > 2 * 1024 * 1024) {
         this.imagenError = 'La imagen no debe superar los 2MB';
         return;
       }
-      
       // Validar tipo de archivo
       if (!file.type.match(/image\/(jpeg|jpg|png|gif|webp)/)) {
         this.imagenError = 'Formato de imagen no válido. Use JPG, PNG, GIF o WEBP.';
         return;
       }
-      
-      // Guardar archivo para enviarlo al servidor más tarde
       this.imagenArchivo = file;
-      
-      // Mostrar vista previa
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.imagenPerfil = e.target.result;
-        // Guardar imagen en localStorage (en una aplicación real se enviaría al servidor)
-        localStorage.setItem('profileImage', e.target.result);
-      };
-      reader.readAsDataURL(file);
+      this.cargando = true;
+      // Subir a Cloudinary automáticamente
+      this.imageUploadService.uploadImage(file).subscribe({
+        next: (res) => {
+          this.imagenPerfil = res.secure_url;
+          localStorage.setItem('profileImage', res.secure_url);
+          this.toastr.success('Imagen subida correctamente');
+          this.cargando = false;
+        },
+        error: (err) => {
+          this.imagenError = 'Error al subir la imagen';
+          this.cargando = false;
+        }
+      });
     }
   }
 
