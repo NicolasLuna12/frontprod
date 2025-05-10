@@ -40,4 +40,17 @@ import { ContactoComponent } from './pages/contacto/contacto.component';
 })
 export class AppComponent {
   title = 'ISPC Food';
+  vistaUsuario = false;
+  estaAutenticado = false;
+  esAdmin = false;
+
+  constructor() {
+    const email = localStorage.getItem('emailUser');
+    this.estaAutenticado = !!localStorage.getItem('authToken');
+    this.esAdmin = email === 'admin@admin.com';
+  }
+
+  setVistaUsuario(valor: boolean) {
+    this.vistaUsuario = valor;
+  }
 }
