@@ -62,7 +62,7 @@ export class AuthService {
   updateUser(userId: string, userData: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}update/`, userData).pipe(
       map(response => {
-        this.toastr.success('Usuario actualizado con éxito!');
+        // Eliminado el mensaje de éxito aquí para evitar duplicados
         return response;
       })
     );

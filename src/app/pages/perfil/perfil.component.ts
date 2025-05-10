@@ -41,6 +41,11 @@ export class PerfilComponent implements OnInit {
   ngOnInit(): void {
     this.cargarDatosUsuario();
     this.cargarImagenPerfil();
+    // Cargar fecha de última actualización si existe
+    const fecha = localStorage.getItem('fechaActualizacion');
+    if (fecha) {
+      this.usuario.fechaActualizacion = fecha;
+    }
   }
 
   // Método para cargar la imagen de perfil guardada
@@ -119,18 +124,25 @@ export class PerfilComponent implements OnInit {
     }
 
     this.cargando = true;
+    const fechaActualizacion = new Date();
+    const fechaActualizacionStr = fechaActualizacion.toLocaleString('es-AR', {
+      day: '2-digit', month: '2-digit', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
     const datosUsuario = {
       ...this.perfilForm.value,
       id_usuario: userId,
-      // En una aplicación real, aquí se enviaría también la imagen al servidor
-      imagen_perfil: this.imagenPerfil
+      imagen_perfil: this.imagenPerfil,
+      fechaActualizacion: fechaActualizacionStr
     };
 
     this.authService.updateUser(userId, datosUsuario).subscribe({
       next: (response) => {
+        // Solo un mensaje de éxito
         this.toastr.success('Perfil actualizado con éxito');
-        // Actualizar nombre en localStorage
         localStorage.setItem('nameUser', `${datosUsuario.nombre} ${datosUsuario.apellido}`);
+        localStorage.setItem('fechaActualizacion', fechaActualizacionStr);
+        this.usuario.fechaActualizacion = fechaActualizacionStr;
         this.cargando = false;
       },
       error: (error) => {
