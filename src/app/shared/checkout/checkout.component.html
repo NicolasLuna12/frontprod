@@ -36,11 +36,20 @@
               <label class="form-check-label" for="mp">MercadoPago</label>
             </div>
             <img src="https://contactopuro.com/files/mercadopago-81090.png" alt="mercadopago" style="height:50px;object-fit:contain;margin-left:auto;padding:2px;">
+          </div>        </div>        <div class="mb-3" *ngIf="paymentMethod === 'mercadopago'">
+          <div *ngIf="mpLoading" class="alert alert-info text-center">
+            <div class="spinner-border spinner-border-sm me-2" role="status">
+              <span class="visually-hidden">Cargando...</span>
+            </div>
+            Cargando opciones de pago de Mercado Pago...
           </div>
-        </div>        <div class="mb-3" *ngIf="paymentMethod === 'mercadopago'">
-          <div *ngIf="mpLoading" class="alert alert-info text-center">Cargando MercadoPago...</div>
           <div *ngIf="mpError" class="alert alert-danger text-center">{{mpError}}</div>
-          <div id="mp-checkout" class="d-flex justify-content-center align-items-center mt-3" style="text-align:center;width:100%;"></div>
+          <div *ngIf="brickError" class="alert alert-danger text-center">{{brickError}}</div>
+          <!-- Contenedor para el Payment Brick de Mercado Pago -->
+          <div id="mp-checkout" class="d-flex justify-content-center align-items-center mt-3" style="text-align:center;width:100%;" #paymentBrick></div>
+          <div *ngIf="brickLoaded" class="text-center mt-2 text-muted">
+            <small>Las opciones de pago están gestionadas de forma segura por Mercado Pago</small>
+          </div>
         </div>
         <div class="mb-3" *ngIf="paymentMethod === 'card'">
           <label for="cardholdername" class="form-label">Nombre</label>
@@ -85,10 +94,9 @@
           <div class="col">
             <label for="cvv" class="form-label">CVC/CVV</label>
             <input type="text" class="form-control" id="cvv" maxlength="4" placeholder="123" [(ngModel)]="cvv" name="cvv" required>
-          </div>
-        </div>
+          </div>        </div>
         <div class="d-grid">
-          <button type="submit" class="btn btn-primary" [disabled]="!paymentForm.valid || paymentMethod==='mercadopago'"><i class="bi bi-lock"></i> Confirmar y pagar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="!paymentForm.valid || (paymentMethod==='mercadopago' && !brickLoaded)"><i class="bi bi-lock"></i> Confirmar y pagar</button>
         </div>
       </form>
     </div>
