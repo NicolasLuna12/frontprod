@@ -69,11 +69,11 @@ export class CheckoutComponent implements OnInit, OnChanges, DoCheck {
       const res = await fetch('https://backmobile1.onrender.com/api/producto/mercadopago/preference/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
+        body: JSON.stringify(body)      });
       const data = await res.json();
       console.log('Respuesta backend MercadoPago:', data); // <-- LOG AGREGADO
       this.preferenceId = data.preferenceId || data.preference_id;
+      console.log('ID de preferencia:', this.preferenceId);
       if (!this.preferenceId) throw new Error('No se pudo obtener la preferencia de MercadoPago');
       if (!(window as any).MercadoPago) {
         const script = document.createElement('script');
@@ -86,12 +86,15 @@ export class CheckoutComponent implements OnInit, OnChanges, DoCheck {
     } catch (err: any) {
       this.mpError = 'Error al inicializar MercadoPago: ' + (err.message || err);
       const mpDiv = document.getElementById('mp-checkout');
-      if (mpDiv) mpDiv.innerHTML = '';
-    } finally {
+      if (mpDiv) mpDiv.innerHTML = '';    } finally {
       this.mpLoading = false;
     }
   }
-  initMercadoPago() {    const mp = new MercadoPago('TEST-c09738c0-d908-4be3-a4b2-553792940e79', { locale: 'es-AR' });
+
+  initMercadoPago() {
+    // Asegúrate de que esta Public Key esté en modo Sandbox
+    const mp = new MercadoPago('TEST-c09738c0-d908-4be3-a4b2-553792940e79', { locale: 'es-AR' });
+    
     mp.checkout({
       preference: { id: this.preferenceId },
       render: { 
