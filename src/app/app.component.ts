@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -38,13 +38,20 @@ import { ContactoComponent } from './pages/contacto/contacto.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'ISPC Food';
   vistaUsuario = false;
   estaAutenticado = false;
   esAdmin = false;
 
-  constructor() {
+  constructor() {}
+
+  ngOnInit(): void {
+    this.inicializarUsuario();
+  }
+
+  async inicializarUsuario() {
+    // En el futuro, aquí podrías obtener datos de usuario desde una API
     const email = localStorage.getItem('emailUser');
     this.estaAutenticado = !!localStorage.getItem('authToken');
     this.esAdmin = email === 'admin@admin.com';
