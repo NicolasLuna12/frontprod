@@ -92,11 +92,23 @@ export class CheckoutComponent implements OnInit, OnChanges, DoCheck {
     }
   }
 
-  initMercadoPago() {
-    const mp = new MercadoPago('TEST-05849f07-bb39-4db6-8f18-cfb98bd99a98', { locale: 'es-AR' });
+  initMercadoPago() {    const mp = new MercadoPago('TEST-05849f07-bb39-4db6-8f18-cfb98bd99a98', { locale: 'es-AR' });
     mp.checkout({
       preference: { id: this.preferenceId },
-      render: { container: '#mp-checkout', label: 'Pagar con MercadoPago' },
+      render: { 
+        container: '#mp-checkout', 
+        label: 'Pagar con MercadoPago',
+        customization: {
+          visual: {
+            buttonBackground: '#009ee3',
+            borderRadius: '6px',
+          },
+          texts: {
+            action: 'pay',
+            valueProp: 'security_details',
+          }
+        }
+      },
       autoOpen: false, // Evita abrir automáticamente
       onSubmit: () => {}, // No usado
       onReady: () => {}, // No usado
