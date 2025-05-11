@@ -31,7 +31,6 @@ export class CheckoutComponent implements OnInit {
 
 
 
-
   onSubmit() {
     if (this.paymentMethod === 'paypal') {
       console.log('Procesando pago con PayPal');
