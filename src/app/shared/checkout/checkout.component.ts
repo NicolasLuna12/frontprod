@@ -91,8 +91,7 @@ export class CheckoutComponent implements OnInit, OnChanges, DoCheck {
       this.mpLoading = false;
     }
   }
-
-  initMercadoPago() {    const mp = new MercadoPago('TEST-05849f07-bb39-4db6-8f18-cfb98bd99a98', { locale: 'es-AR' });
+  initMercadoPago() {    const mp = new MercadoPago('TEST-c09738c0-d908-4be3-a4b2-553792940e79', { locale: 'es-AR' });
     mp.checkout({
       preference: { id: this.preferenceId },
       render: { 
