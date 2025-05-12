@@ -9,4 +9,13 @@
 <router-outlet></router-outlet>
 <app-footer></app-footer>
 
+<!-- Botón flotante de WhatsApp -->
+<a [href]="contactoService.getUrlWhatsApp('Hola, necesito ayuda con mi pedido')" 
+   class="whatsapp-float" 
+   target="_blank" 
+   rel="noopener noreferrer">
+  <i class="bi bi-whatsapp"></i>
+  <span class="whatsapp-tooltip">Chatea con nosotros</span>
+</a>
+
 

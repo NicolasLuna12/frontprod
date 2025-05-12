@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PedidosService } from '../../services/pedidos.service';
+import { ContactoService } from '../../services/contacto.service';
 import { Pedido } from '../../model/pedido.model';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
@@ -23,12 +24,13 @@ export class CheckoutComponent implements OnInit {
   cvv: string = '';
   isProcessing: boolean = false;
   pedido: Pedido = new Pedido(0, 0, '', '', '', []);
-
+  
   constructor(
     private router: Router,
     private pedidoService: PedidosService,
     private toastr: ToastrService,
-    private http: HttpClient
+    private http: HttpClient,
+    public contactoService: ContactoService
   ) {}
 
   ngOnInit(): void {
