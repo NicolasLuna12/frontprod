@@ -45,18 +45,12 @@ export class PedidosService {
 
   deleteDetallePedido(detalle:Carrito):Observable<void>{
 
-
     return this.http.delete<void>(this.url + 'eliminar/'+detalle.id)
 
   }
 
   public agregarProducto(product:DetallePedido):Observable<any> {
 
-
-
     return this.http.post(this.url + 'agregar/'+ product.id_producto+'/',product  );
   }
-
-
-
 }

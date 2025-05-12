@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NgFor } from '@angular/common';
+import { NgFor, CommonModule } from '@angular/common';
 import { PedidosService } from '../../services/pedidos.service';
 import { Carrito } from '../../model/Carrito.model';
 import { CarritoService } from '../../services/carrito.service';
@@ -19,7 +19,7 @@ declare var bootstrap: any;
 @Component({
   selector: 'app-carrito',
   standalone: true,
-  imports: [NgFor, ReactiveFormsModule],
+  imports: [NgFor, ReactiveFormsModule, CommonModule],
   templateUrl: './carrito.component.html',
   styleUrl: './carrito.component.css',
 })
@@ -29,7 +29,7 @@ export class CarritoComponent implements OnInit, OnDestroy {
   total: number = 0;
   subscription: Subscription = new Subscription();
   direccion: string = 'Sin especificar';
-  info:string='';
+  info: string = '';
   isVisible: boolean = false;
   form: FormGroup;
 
@@ -46,7 +46,6 @@ export class CarritoComponent implements OnInit, OnDestroy {
       info: [''],
     });
   }
-
   ngOnInit(): void {
     this.subscription = this.carritoService.carritoVisible$.subscribe(
       (visible) => {
@@ -64,6 +63,11 @@ export class CarritoComponent implements OnInit, OnDestroy {
         console.log(error);
       },
     });
+
+    // Cargar el detalle al inicializar si hay token
+    if (localStorage.getItem('authToken') != null) {
+      this.cargarDetalle();
+    }
   }
 
   ngOnDestroy() {
@@ -98,9 +102,8 @@ export class CarritoComponent implements OnInit, OnDestroy {
       },
     });
   }
-
   irAPagar() {
-    if ((this.direccion == 'Sin especificar')) {
+    if (this.direccion == 'Sin especificar') {
       this.toastr.error('Debe especificar el domicilio de entrega');
       this.abrirModal();
     } else {
@@ -112,7 +115,7 @@ export class CarritoComponent implements OnInit, OnDestroy {
         1,
         this.total,
         'Pedido realizado',
-        this.direccion+'-'+this.info,
+        this.direccion + '-' + this.info,
         nameUser,
         this.detallePedido
       );
@@ -139,7 +142,7 @@ export class CarritoComponent implements OnInit, OnDestroy {
     if (this.form.valid) {
       this.cerrarModal();
       this.direccion = this.form.value.domicilio;
-      this.info=this.form.value.info;
+      this.info = this.form.value.info;
     } else {
       this.form.markAllAsTouched();
     }

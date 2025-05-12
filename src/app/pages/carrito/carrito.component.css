@@ -99,4 +99,31 @@ h3 {
     }
     .ng-invalid:not(form).ng-touched {
       border-left: 5px solid #a94442; /* red */
-      }
+    }
+
+/* Estilos para los métodos de pago */
+.payment-methods {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.payment-methods .form-check {
+  margin-bottom: 8px;
+}
+
+.payment-methods .form-check-input {
+  cursor: pointer;
+}
+
+.payment-methods .form-check-label {
+  color: white;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.payment-methods img {
+  margin-left: 10px;
+}
