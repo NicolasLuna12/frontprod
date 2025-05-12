@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PedidosService } from '../../services/pedidos.service';
@@ -14,7 +14,7 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css'
 })
-export class CheckoutComponent implements OnInit {
+export class CheckoutComponent implements OnInit, AfterViewChecked {
   paymentMethod: string = '';
   cardholderName: string = '';
   cardNumber: string = '';
@@ -23,6 +23,9 @@ export class CheckoutComponent implements OnInit {
   cvv: string = '';
   isProcessing: boolean = false;
   pedido: Pedido = new Pedido(0, 0, '', '', '', []);
+  mercadoPago: any;
+  mpButtonRendered = false;
+  preferenceId: string | null = null;
 
   constructor(
     private router: Router,
@@ -31,8 +34,59 @@ export class CheckoutComponent implements OnInit {
     private http: HttpClient
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.pedido = this.pedidoService.getPedido();
+    // Inicializar Mercado Pago SDK
+    if ((window as any).MercadoPago) {
+      this.mercadoPago = new (window as any).MercadoPago('APP_USR-15dcbbb0-ed10-4a65-a8ec-4279e83029a4', {
+        locale: 'es-AR'
+      });
+    }
+  }
+
+  ngAfterViewChecked(): void {
+    // Renderizar el botón solo si corresponde y no está ya renderizado
+    if (this.paymentMethod === 'mercadopago' && this.mercadoPago && !this.mpButtonRendered && this.preferenceId) {
+      this.renderMercadoPagoButton();
+    }
+  }
+
+  async onPaymentMethodChange(): Promise<void> {
+    if (this.paymentMethod === 'mercadopago') {
+      // Llamar al backend para obtener el preferenceId
+      try {
+        const response: any = await this.http.post('producto/mercadopago/preference/', {
+          items: this.pedido.carrito.map(item => ({
+            title: item.producto,
+            quantity: item.cantidad,
+            unit_price: item.precio
+          })),
+          total: this.pedido.total
+        }).toPromise();
+        this.preferenceId = response.preferenceId;
+        this.mpButtonRendered = false;
+      } catch (error) {
+        this.toastr.error('No se pudo inicializar Mercado Pago');
+      }
+    }
+  }
+
+  renderMercadoPagoButton() {
+    const mpButtonContainer = document.getElementById('mp-button-container');
+    if (mpButtonContainer && this.mercadoPago && this.preferenceId) {
+      mpButtonContainer.innerHTML = '';
+      this.mercadoPago.bricks().create('wallet', 'mp-button-container', {
+        initialization: {
+          preferenceId: this.preferenceId,
+        },
+        callbacks: {
+          onReady: () => {},
+          onError: (error: any) => { console.error(error); },
+          onSubmit: () => {},
+        }
+      });
+      this.mpButtonRendered = true;
+    }
   }
 
   onSubmit() {
@@ -45,6 +99,9 @@ export class CheckoutComponent implements OnInit {
       setTimeout(() => {
         this.finalizarProcesoDePago();
       }, 2000);
+    } else if (this.paymentMethod === 'mercadopago') {
+      // El flujo lo maneja el botón nativo de MP
+      this.isProcessing = false;
     } else {
       this.toastr.warning('Selecciona un método de pago');
       this.isProcessing = false;
