@@ -32,8 +32,6 @@ export class CarritoComponent implements OnInit, OnDestroy {
   info: string = '';
   isVisible: boolean = false;
   form: FormGroup;
-  isLoadingMercadoPago: boolean = false;
-  selectedPaymentMethod: string = '';
 
   constructor(
     private pedidoService: PedidosService,
@@ -104,7 +102,6 @@ export class CarritoComponent implements OnInit, OnDestroy {
       },
     });
   }
-
   irAPagar() {
     if (this.direccion == 'Sin especificar') {
       this.toastr.error('Debe especificar el domicilio de entrega');
@@ -123,42 +120,9 @@ export class CarritoComponent implements OnInit, OnDestroy {
         this.detallePedido
       );
       this.pedidoService.setPedido(pedido);
-
-      if (this.selectedPaymentMethod === 'mercadopago') {
-        this.procesarPagoMercadoPago(pedido);
-      } else {
-        this.cerrarSidebar();
-        this.router.navigate(['/pagar']);
-      }
+      this.cerrarSidebar();
+      this.router.navigate(['/pagar']);
     }
-  }
-
-  procesarPagoMercadoPago(pedido: Pedido) {
-    this.isLoadingMercadoPago = true;
-    
-    // Mostrar mensaje de espera
-    this.toastr.info('Preparando el pago con Mercado Pago...', 'Procesando');
-    
-    this.pedidoService.generarPreferenciaMercadoPago(pedido).subscribe({
-      next: (response) => {
-        if (response && response.init_point) {
-          // Redirigir al usuario a la URL de pago de Mercado Pago
-          window.location.href = response.init_point;
-        } else {
-          this.toastr.error('La respuesta del servidor no contiene una URL de pago válida');
-          this.isLoadingMercadoPago = false;
-        }
-      },
-      error: (error) => {
-        console.error('Error al generar la preferencia de Mercado Pago:', error);
-        this.toastr.error('Error al procesar el pago. Intente nuevamente.');
-        this.isLoadingMercadoPago = false;
-      }
-    });
-  }
-
-  setPaymentMethod(method: string) {
-    this.selectedPaymentMethod = method;
   }
 
   eliminarDetalle(detalle: Carrito) {
