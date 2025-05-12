@@ -81,13 +81,60 @@
       }}<a style="font-size: small">(iva Incluido)</a>
     </p>
 
+    <!-- Métodos de pago -->
+    <div class="payment-methods mb-3">
+      <p class="text-center lh-1 titleDireccion">Método de pago:</p>
+      <div class="form-check d-flex align-items-center mb-2">
+        <input 
+          class="form-check-input" 
+          type="radio" 
+          name="payment" 
+          id="mpago" 
+          value="mercadopago"
+          [checked]="selectedPaymentMethod === 'mercadopago'"
+          (change)="setPaymentMethod('mercadopago')"
+        >
+        <label class="form-check-label ms-2" for="mpago">
+          Mercado Pago
+          <img 
+            src="https://http2.mlstatic.com/frontend-assets/mp-web-navigation/ui-navigation/5.19.0/mercadopago/logo__small@2x.png" 
+            alt="mercadopago" 
+            height="20" 
+            class="ms-2"
+          >
+        </label>
+      </div>
+      <div class="form-check d-flex align-items-center">
+        <input 
+          class="form-check-input" 
+          type="radio" 
+          name="payment" 
+          id="other" 
+          value="other"
+          [checked]="selectedPaymentMethod === 'other' || selectedPaymentMethod === ''"
+          (change)="setPaymentMethod('other')"
+        >
+        <label class="form-check-label ms-2" for="other">
+          Otros métodos
+        </label>
+      </div>
+    </div>
+
     <div class="btn-group" role="group" aria-label="Basic example">
       <!-- <button type="button" class="btn btn-secondary">Vaciar Carrito</button> -->
       <button type="button" class="btn btn-secondary" (click)="cerrarSidebar()">
         Añadir + Productos
       </button>
-      <button type="button" class="btn btn-success" (click)="irAPagar()">
-        Confirmar Compra
+      <button 
+        type="button" 
+        class="btn" 
+        [class.btn-success]="selectedPaymentMethod !== 'mercadopago'" 
+        [class.btn-primary]="selectedPaymentMethod === 'mercadopago'"
+        (click)="irAPagar()" 
+        [disabled]="isLoadingMercadoPago"
+      >
+        <span *ngIf="isLoadingMercadoPago" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+        {{ selectedPaymentMethod === 'mercadopago' ? 'Pagar con Mercado Pago' : 'Confirmar Compra' }}
       </button>
     </div>
     }
