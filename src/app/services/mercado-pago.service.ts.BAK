@@ -6,16 +6,13 @@ import { PedidosService } from './pedidos.service';
 @Injectable({
   providedIn: 'root'
 })
-export class MercadoPagoService {
-  private apiUrl = 'appCART/';
+export class MercadoPagoService {  private apiUrl = 'appCART/';
   private mercadoPagoUrl = 'http://127.0.0.1:8000/';
 
   constructor(
     private http: HttpClient,
     private pedidoService: PedidosService
-  ) { }
-
-  /**
+  ) { }/**
    * Crea una preferencia de pago en MercadoPago
    * @returns Observable con la URL de pago (init_point)
    */
@@ -23,17 +20,16 @@ export class MercadoPagoService {
     const token = localStorage.getItem('authToken');
     
     if (!token) {
-      console.error('No se encontrÛ el token de autenticaciÛn');
+      console.error('No se encontr√≥ el token de autenticaci√≥n');
       return new Observable(observer => {
-        observer.error({ message: 'No se encontrÛ el token de autenticaciÛn' });
+        observer.error({ message: 'No se encontr√≥ el token de autenticaci√≥n' });
         observer.complete();
       });
     }
     
     // Eliminar comillas si las hay
     const cleanToken = token.replace(/"/g, '');
-    
-    // Obtener el pedido del servicio
+      // Obtener el pedido del servicio
     const pedido = this.pedidoService.getPedido();
     
     if (!pedido || !pedido.carrito || pedido.carrito.length === 0) {
@@ -43,8 +39,7 @@ export class MercadoPagoService {
         observer.complete();
       });
     }
-    
-    // Preparar items para MercadoPago
+      // Preparar items para MercadoPago
     const items = pedido.carrito.map(item => {
       return {
         title: item.producto,
@@ -53,9 +48,7 @@ export class MercadoPagoService {
         currency_id: 'ARS',
         id: item.id.toString()
       };
-    });
-    
-    // Preparar payload para la solicitud
+    });    // Preparar payload para la solicitud
     const email = pedido.email || localStorage.getItem('emailUser') || 'usuario@ejemplo.com';
     
     const payload = {
@@ -64,10 +57,10 @@ export class MercadoPagoService {
       items: items,
       payer: {
         name: pedido.nombreCliente.split(' ')[0] || 'Cliente',
-        surname: pedido.nombreCliente.split(' ')[1] || 'AnÛnimo',
+        surname: pedido.nombreCliente.split(' ')[1] || 'An√≥nimo',
         email: email,
         address: {
-          street_name: pedido.direccion || 'DirecciÛn no especificada'
+          street_name: pedido.direccion || 'Direcci√≥n no especificada'
         }
       },
       back_urls: {
@@ -85,49 +78,37 @@ export class MercadoPagoService {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
       .set('Authorization', `Bearer ${cleanToken}`);
-    
-    // Llamar al endpoint para crear preferencia de pago
+      // Llamar al endpoint para crear preferencia de pago
     console.log('URL del endpoint:', `${this.mercadoPagoUrl}payment/create-preference/`);
-    console.log('Headers enviados:', headers);
-    
-    return this.http.post<any>(`${this.mercadoPagoUrl}payment/create-preference/`, payload, { 
+    console.log('Headers enviados:', headers);      return this.http.post<any>(`${this.mercadoPagoUrl}payment/create-preference/`, payload, { 
       headers: headers
-    }).pipe(
-      map((response: any) => {
+    }).pipe(      map((response: any) => {
         // Asegurarnos de que la respuesta incluya el ID de preferencia en un formato consistente
         console.log('Respuesta original de MercadoPago:', response);
         
-        // La respuesta puede tener diferentes estructuras seg˙n el backend
+        // La respuesta puede tener diferentes estructuras seg√∫n el backend
         // Buscamos el init_point en diferentes ubicaciones de la respuesta
         if (!response.init_point) {
-          // Verificar si init_point est· en response.body
+          // Verificar si init_point est√° en response.body
           if (response.body && response.body.init_point) {
             response.init_point = response.body.init_point;
           }
-          // Verificar si init_point est· en response.data
+          // Verificar si init_point est√° en response.data
           else if (response.data && response.data.init_point) {
             response.init_point = response.data.init_point;
           }
-          // Verificar si init_point est· en response.response
+          // Verificar si init_point est√° en response.response
           else if (response.response && response.response.init_point) {
             response.init_point = response.response.init_point;
           }
-          // Verificar si init_point est· en response.sandbox_init_point (para ambiente de prueba)
+          // Verificar si init_point est√° en response.sandbox_init_point (para ambiente de prueba)
           else if (response.sandbox_init_point) {
             response.init_point = response.sandbox_init_point;
-          }
-          // Verificar si hay un payment_request_id
+          }          // Verificar si hay un payment_request_id
           else if (response.payment_request_id) {
-            console.log('Se detectÛ payment_request_id:', response.payment_request_id);
-            
-            // Intentamos construir diferentes formatos de URL usando el payment_request_id
-            // Para identificar el formato correcto, verificamos si parece ser un UUID (contiene guiones)
-            if (response.payment_request_id.includes('-')) {
-              response.init_point = `https://www.mercadopago.com.ar/checkout/v1/redirect?payment-id=${response.payment_request_id}`;
-            } else {
-              response.init_point = `https://www.mercadopago.com.ar/checkout/v1/redirect?preference-id=${response.payment_request_id}`;
-            }
-            
+            console.log('Se detect√≥ payment_request_id:', response.payment_request_id);
+            // Intentamos construir un init_point usando el payment_request_id
+            response.init_point = `https://www.mercadopago.com/mla/checkout/start?pref_id=${response.payment_request_id}`;
             console.log('URL construida con payment_request_id:', response.init_point);
           }
         }
@@ -165,7 +146,6 @@ export class MercadoPagoService {
   verificarServicio(): Observable<any> {
     return this.http.get<any>(`${this.mercadoPagoUrl}health/`);
   }
-
   /**
    * Verifica el estado de un pago de MercadoPago
    * @param paymentId ID del pago de MercadoPago
@@ -175,11 +155,11 @@ export class MercadoPagoService {
     const token = localStorage.getItem('authToken');
     
     if (!token) {
-      console.error('No se encontrÛ el token de autenticaciÛn');
+      console.error('No se encontr√≥ el token de autenticaci√≥n');
       return new Observable(observer => {
-        observer.error({ message: 'No se encontrÛ el token de autenticaciÛn' });
+        observer.error({ message: 'No se encontr√≥ el token de autenticaci√≥n' });
         observer.complete();
-      });
+      });    
     }
     
     const cleanToken = token.replace(/"/g, '');
@@ -195,17 +175,17 @@ export class MercadoPagoService {
   /**
    * Verifica y procesa un pago usando el ID de solicitud de pago
    * @param paymentRequestId ID de la solicitud de pago
-   * @returns Observable con el estado del pago y la URL de redirecciÛn
+   * @returns Observable con el estado del pago y la URL de redirecci√≥n
    */
   verificarPagoConRequestId(paymentRequestId: string): Observable<any> {
     const token = localStorage.getItem('authToken');
     
     if (!token) {
-      console.error('No se encontrÛ el token de autenticaciÛn');
+      console.error('No se encontr√≥ el token de autenticaci√≥n');
       return new Observable(observer => {
-        observer.error({ message: 'No se encontrÛ el token de autenticaciÛn' });
+        observer.error({ message: 'No se encontr√≥ el token de autenticaci√≥n' });
         observer.complete();
-      });
+      });    
     }
     
     const cleanToken = token.replace(/"/g, '');
@@ -213,12 +193,12 @@ export class MercadoPagoService {
       .set('Content-Type', 'application/json')
       .set('Authorization', `Bearer ${cleanToken}`);
     
-    // Este endpoint puede no existir. Si es necesario, habrÌa que implementarlo en el backend
+    // Este endpoint puede no existir. Si es necesario, habr√≠a que implementarlo en el backend
     return this.http.get<any>(`${this.mercadoPagoUrl}payment/request/${paymentRequestId}/`, { 
       headers: headers
     }).pipe(
       map((response: any) => {
-        console.log('Respuesta de verificaciÛn con payment_request_id:', response);
+        console.log('Respuesta de verificaci√≥n con payment_request_id:', response);
         
         // Si la respuesta contiene una URL de pago, la extraemos
         if (response && response.payment_url) {
@@ -233,12 +213,11 @@ export class MercadoPagoService {
   }
 
   /**
-   * Recibe notificaciones de MercadoPago vÌa webhook
-   * @param data Datos de la notificaciÛn
+   * Recibe notificaciones de MercadoPago v√≠a webhook
+   * @param data Datos de la notificaci√≥n
    * @returns Observable con la respuesta del servidor
    */
-  recibirWebhook(data: any): Observable<any> {
-    const headers = new HttpHeaders()
+  recibirWebhook(data: any): Observable<any> {    const headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
     
     return this.http.post<any>(`${this.mercadoPagoUrl}payment/webhook/`, data, { 

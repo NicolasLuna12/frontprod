@@ -41,3 +41,35 @@
     margin-top: 10px;
   }
 }
+
+/* Estilos específicos para el botón de Mercado Pago */
+.mercadopago-button {
+  background-color: #009ee3 !important;
+  border-color: #009ee3 !important;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.mercadopago-button:hover {
+  background-color: #007eb5 !important;
+  border-color: #007eb5 !important;
+  box-shadow: 0 4px 8px rgba(0, 158, 227, 0.3);
+}
+
+.mercadopago-button:focus {
+  box-shadow: 0 0 0 0.25rem rgba(0, 158, 227, 0.5);
+}
+
+.mercadopago-button img {
+  max-height: 24px;
+  margin-right: 8px;
+}
+
+.mercadopago-button:disabled {
+  opacity: 0.65;  cursor: not-allowed;
+}

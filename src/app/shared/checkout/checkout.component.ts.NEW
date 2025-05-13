@@ -69,11 +69,11 @@ export class CheckoutComponent implements OnInit {
     console.log('Procesando pago con MercadoPago...');
     
     this.mercadoPagoService.crearPreferencia().subscribe({
-      next: (response) => {
+      next: (response: any) => {
         console.log('Respuesta completa de MercadoPago:', response);
         
         // Buscar el init_point o alguna URL de redirección en toda la respuesta
-        let redirectUrl = null;
+        let redirectUrl: string | null = null;
         
         if (response && response.init_point) {
           redirectUrl = response.init_point;
@@ -101,9 +101,27 @@ export class CheckoutComponent implements OnInit {
                         searchInObj(response, 'url');
         }
         
+        // Si tenemos payment_request_id pero no tenemos redirectUrl
+        if (!redirectUrl && response.payment_request_id) {
+          console.log('Usando payment_request_id para la redirección:', response.payment_request_id);
+          
+          // Probamos con diferentes formatos de URL para Mercado Pago
+          let mpUrl = `https://www.mercadopago.com.ar/checkout/v1/redirect?preference-id=${response.payment_request_id}`;
+          
+          // Si el payment_request_id parece ser un UUID (contiene guiones), usamos un formato diferente
+          if (response.payment_request_id.includes('-')) {
+            mpUrl = `https://www.mercadopago.com.ar/checkout/v1/redirect?payment-id=${response.payment_request_id}`;
+          }
+          
+          console.log('URL construida para MercadoPago:', mpUrl);
+          localStorage.setItem('mpPaymentRequestId', response.payment_request_id);
+          window.location.href = mpUrl;
+          return;
+        }
+        
         if (redirectUrl) {
           console.log('URL de redirección encontrada:', redirectUrl);
-          // Redireccionar al usuario a la página de pago de MercadoPago
+          localStorage.setItem('mpRedirectUrl', redirectUrl);
           window.location.href = redirectUrl;
         } else {
           console.error('Respuesta incompleta de MercadoPago:', response);
