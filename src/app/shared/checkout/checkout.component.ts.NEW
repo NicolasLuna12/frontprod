@@ -74,7 +74,6 @@ export class CheckoutComponent implements OnInit {
         
         // Buscar el init_point o alguna URL de redirección en toda la respuesta
         let redirectUrl: string | null = null;
-        
         if (response && response.init_point) {
           redirectUrl = response.init_point;
         } else if (response && response.sandbox_init_point) {
@@ -83,62 +82,49 @@ export class CheckoutComponent implements OnInit {
           // Intentar buscar en otros lugares de la respuesta
           const searchInObj = (obj: any, searchProp: string): string | null => {
             if (!obj || typeof obj !== 'object') return null;
-            
             if (obj[searchProp]) return obj[searchProp];
-            
             for (const key in obj) {
               if (typeof obj[key] === 'object') {
                 const found = searchInObj(obj[key], searchProp);
                 if (found) return found;
               }
             }
-            
             return null;
           };
-          
           redirectUrl = searchInObj(response, 'init_point') || 
                         searchInObj(response, 'sandbox_init_point') ||
                         searchInObj(response, 'url');
         }
-        
         // Si tenemos payment_request_id pero no tenemos redirectUrl
         if (!redirectUrl && response.payment_request_id) {
-          console.log('Usando payment_request_id para la redirección:', response.payment_request_id);
-          
-          // Probamos con diferentes formatos de URL para Mercado Pago
-          let mpUrl = `https://www.mercadopago.com.ar/checkout/v1/redirect?preference-id=${response.payment_request_id}`;
-          
-          // Si el payment_request_id parece ser un UUID (contiene guiones), usamos un formato diferente
-          if (response.payment_request_id.includes('-')) {
-            mpUrl = `https://www.mercadopago.com.ar/checkout/v1/redirect?payment-id=${response.payment_request_id}`;
-          }
-          
-          console.log('URL construida para MercadoPago:', mpUrl);
-          localStorage.setItem('mpPaymentRequestId', response.payment_request_id);
-          window.location.href = mpUrl;
+          console.log('Consultando estado de PaymentRequest:', response.payment_request_id);
+          this.mercadoPagoService.consultarEstadoPaymentRequest(response.payment_request_id).subscribe({
+            next: (estado: any) => {
+              console.log('Respuesta de estado de PaymentRequest:', estado);
+              const url = estado.init_point || estado.sandbox_init_point || estado.url;
+              if (url) {
+                window.location.href = url;
+              } else {
+                this.toastr.error('No se pudo obtener la URL de pago de Mercado Pago.');
+                this.isProcessing = false;
+              }
+            },
+            error: (err) => {
+              this.toastr.error('No se pudo consultar el estado del pago.');
+              this.isProcessing = false;
+            }
+          });
           return;
         }
-        
         if (redirectUrl) {
-          console.log('URL de redirección encontrada:', redirectUrl);
-          localStorage.setItem('mpRedirectUrl', redirectUrl);
           window.location.href = redirectUrl;
         } else {
-          console.error('Respuesta incompleta de MercadoPago:', response);
           this.toastr.error('Error al crear preferencia de pago. No se encontró URL de redirección.');
           this.isProcessing = false;
         }
       },
       error: (error: any) => {
-        console.error('Error al procesar pago con MercadoPago:', error);
-        let errorMsg = 'Error al procesar pago. Intente nuevamente.';
-        
-        if (error.error && error.error.detail) {
-          errorMsg += ' Detalle: ' + error.error.detail;
-          console.error('Detalle del error:', error.error.detail);
-        }
-        
-        this.toastr.error(errorMsg);
+        this.toastr.error('Error al procesar pago. Intente nuevamente.');
         this.isProcessing = false;
       }
     });
