@@ -56,6 +56,17 @@ export class ExitoComponent implements OnInit {
   verificarPagoMercadoPago() {
     if (!this.paymentId) return;
     
+    // Confirmar el pedido en el backend al volver de Mercado Pago
+    this.pedidoService.confirmarPedido().subscribe({
+      next: () => {
+        this.toastr.success('¡Pedido confirmado y ticket generado!');
+        // Aquí podrías recargar datos del pedido si es necesario
+      },
+      error: (error) => {
+        this.toastr.error('No se pudo confirmar el pedido automáticamente.');
+      }
+    });
+    
     this.mercadoPagoService.verificarPago(this.paymentId).subscribe({
       next: (response) => {
         if (response && response.status === 'approved') {
