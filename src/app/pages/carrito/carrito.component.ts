@@ -106,10 +106,13 @@ export class CarritoComponent implements OnInit, OnDestroy {
     if (this.direccion == 'Sin especificar') {
       this.toastr.error('Debe especificar el domicilio de entrega');
       this.abrirModal();
-    } else {
-      let nameUser: any = localStorage.getItem('nameUser')
+    } else {      let nameUser: any = localStorage.getItem('nameUser')
         ? localStorage.getItem('nameUser')
         : 'Sin nombre';
+      
+      let emailUser: any = localStorage.getItem('emailUser')
+        ? localStorage.getItem('emailUser')
+        : '';
 
       let pedido: Pedido = new Pedido(
         1,
@@ -117,7 +120,8 @@ export class CarritoComponent implements OnInit, OnDestroy {
         'Pedido realizado',
         this.direccion + '-' + this.info,
         nameUser,
-        this.detallePedido
+        this.detallePedido,
+        emailUser
       );
       this.pedidoService.setPedido(pedido);
       this.cerrarSidebar();
