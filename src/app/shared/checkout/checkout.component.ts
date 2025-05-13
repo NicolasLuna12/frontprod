@@ -25,6 +25,7 @@ export class CheckoutComponent implements OnInit {
   cvv: string = '';
   isProcessing: boolean = false;
   pedido: Pedido = new Pedido(0, 0, '', '', '', []);
+  mercadoPagoIcon: string = 'https://contactopuro.com/files/mercadopago-81090.png';
   
   constructor(
     private router: Router,
@@ -146,9 +147,9 @@ export class CheckoutComponent implements OnInit {
     modal.style.alignItems = 'center';
     modal.style.justifyContent = 'center';
     modal.innerHTML = `
-      <div style="background:#fff; border-radius:8px; max-width:600px; width:95vw; height:90vh; position:relative; display:flex; flex-direction:column;">
-        <button id="mp-modal-close" style="position:absolute;top:10px;right:10px;z-index:2;font-size:1.5rem;background:none;border:none;cursor:pointer;">&times;</button>
-        <iframe src="${url}" style="width:100%;height:100%;border:none;border-radius:8px;"></iframe>
+      <div style="background:#fff; border-radius:16px; width:98vw; height:96vh; position:relative; display:flex; flex-direction:column; box-shadow:0 0 32px #0008;">
+        <button id="mp-modal-close" style="position:absolute;top:18px;right:24px;z-index:2;font-size:2.5rem;background:none;border:none;cursor:pointer;line-height:1;">&times;</button>
+        <iframe src="${url}" style="flex:1;width:100%;height:100%;border:none;border-radius:16px;"></iframe>
       </div>
     `;
     document.body.appendChild(modal);

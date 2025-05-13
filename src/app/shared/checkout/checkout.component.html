@@ -1,8 +1,7 @@
 <div class="container my-5 card-container">
   <div class="card">
     <div class="card-body">
-      <h1 class="card-title">Paga nuestro producto</h1>
-      <h1 class="h5" >Total a facturar: $ {{pedido.total}}</h1>
+      <h1 class="h5">Total a facturar: $ {{pedido.total}}</h1>
       <form (ngSubmit)="onSubmit()" #paymentForm="ngForm">        <!-- Opción de PayPal -->
         <div class="mb-3">          <div class="form-check d-flex justify-content-between align-items-center">
             <div>
@@ -18,7 +17,7 @@
               <input class="form-check-input" type="radio" name="payment" id="mp" [(ngModel)]="paymentMethod" value="mercadopago" (change)="onPaymentMethodChange()" required>
               <label class="form-check-label" for="mp">MercadoPago</label>
             </div>
-            <img src="https://logosandtypes.com/wp-content/uploads/2020/06/mercado-pago.png" alt="mercadopago" style="max-height: 32px;">
+            <img [src]="mercadoPagoIcon" alt="mercadopago" style="max-height: 32px;">
           </div>
         </div>
 
@@ -98,8 +97,7 @@
             <div *ngIf="isProcessing" class="spinner-border spinner-border-sm me-2" role="status">
               <span class="visually-hidden">Cargando...</span>
             </div>
-            <img src="https://logosandtypes.com/wp-content/uploads/2020/06/mercado-pago.png" alt="MP" 
-                 style="height: 20px; margin-right: 10px;"> 
+            <img [src]="mercadoPagoIcon" alt="MP" style="height: 24px; margin-right: 10px;vertical-align:middle;"> 
             Pagar con Mercado Pago
           </button>
           <div class="small text-muted mt-2 text-center">

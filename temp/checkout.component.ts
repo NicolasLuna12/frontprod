@@ -25,6 +25,7 @@ export class CheckoutComponent implements OnInit {
   cvv: string = '';
   isProcessing: boolean = false;
   pedido: Pedido = new Pedido(0, 0, '', '', '', []);
+  mercadoPagoIcon: string = 'https://contactopuro.com/files/mercadopago-81090.png';
   
   constructor(
     private router: Router,
@@ -103,8 +104,29 @@ export class CheckoutComponent implements OnInit {
         
         if (redirectUrl) {
           console.log('URL de redirección encontrada:', redirectUrl);
-          // Redireccionar al usuario a la página de pago de MercadoPago
-          window.location.href = redirectUrl;
+          // Forzar el uso del modal original de Mercado Pago
+          if ((window as any).MercadoPago) {
+            const mp = new (window as any).MercadoPago('APP_USR-15dcbbb0-ed10-4a65-a8ec-4279e83029a4', { locale: 'es-AR' });
+            mp.checkout({
+              url: redirectUrl,
+              autoOpen: true,
+              autoClose: false,
+              // Forzar tamaño grande
+              renderMode: 'modal',
+              theme: {
+                elements: {
+                  modal: {
+                    width: '100vw',
+                    height: '100vh',
+                    borderRadius: '0px'
+                  }
+                }
+              }
+            });
+          } else {
+            // Fallback: abrir en modal propio si el SDK no está disponible
+            this.abrirModalMercadoPago(redirectUrl);
+          }
         } else {
           console.error('Respuesta incompleta de MercadoPago:', response);
           this.toastr.error('Error al crear preferencia de pago. No se encontró URL de redirección.');
@@ -121,6 +143,50 @@ export class CheckoutComponent implements OnInit {
         }
         
         this.toastr.error(errorMsg);
+        this.isProcessing = false;
+      }
+    });
+  }
+
+  abrirModalMercadoPago(url: string): void {
+    // Modal Bootstrap grande y control de habilitación del botón
+    let modal = document.getElementById('mp-modal-bootstrap');
+    if (modal) modal.remove(); // Elimina si ya existe
+    modal = document.createElement('div');
+    modal.id = 'mp-modal-bootstrap';
+    modal.className = 'modal fade show';
+    modal.style.display = 'block';
+    modal.style.background = 'rgba(0,0,0,0.85)';
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100vw';
+    modal.style.height = '100vh';
+    modal.style.zIndex = '9999';
+    modal.innerHTML = `
+      <div class="modal-dialog modal-xl modal-dialog-centered" style="max-width:95vw;width:95vw;height:95vh;">
+        <div class="modal-content" style="height:95vh;display:flex;flex-direction:column;">
+          <div class="modal-header" style="border-bottom:1px solid #eee;">
+            <img src='${this.mercadoPagoIcon}' alt='Mercado Pago' style='height:48px;width:auto;object-fit:contain;margin-right:12px;' />
+            <h5 class="modal-title">Mercado Pago</h5>
+            <button type="button" class="btn-close" id="mp-modal-bootstrap-close" aria-label="Cerrar" style="font-size:2rem;margin-left:auto;"></button>
+          </div>
+          <div class="modal-body p-0" style="flex:1;overflow:hidden;">
+            <iframe src="${url}" style="width:100%;height:100%;border:none;"></iframe>
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    // Cierre del modal y habilitación del botón
+    document.getElementById('mp-modal-bootstrap-close')?.addEventListener('click', () => {
+      if (modal) modal.remove();
+      this.isProcessing = false;
+    });
+    // Permite cerrar el modal haciendo click fuera del contenido
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.remove();
         this.isProcessing = false;
       }
     });
