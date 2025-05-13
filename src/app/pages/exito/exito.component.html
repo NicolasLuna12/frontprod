@@ -8,9 +8,7 @@
             Esta es la factura por el pago de
             <strong class="compra-total">$ {{ pedido.total }}</strong> que
             hiciste a ISPC FooD.
-          </p>
-
-          <div class="border-top border-gray-200 pt-4 mt-4">
+          </p>          <div class="border-top border-gray-200 pt-4 mt-4">
             <div class="row">
               <div class="col-md-6">
                 <div class="text-muted mb-2">Factura C</div>
@@ -19,6 +17,22 @@
               <div class="col-md-6 text-md-end">
                 <div class="text-muted mb-2">Fecha de Pago</div>
                 <strong class="fecha-pago">{{ fechaActual }}</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Info de MercadoPago si existe -->
+          <div class="border-top border-gray-200 mt-4 py-4" *ngIf="paymentId">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="text-muted mb-2">ID de Pago (MercadoPago)</div>
+                <strong>{{ paymentId }}</strong>
+              </div>
+              <div class="col-md-6 text-md-end">
+                <div class="text-muted mb-2">Estado</div>
+                <strong [ngClass]="{'text-success': status === 'approved', 'text-warning': status === 'in_process', 'text-danger': status === 'rejected'}">
+                  {{ status === 'approved' ? 'Aprobado' : (status === 'in_process' ? 'En proceso' : (status === 'rejected' ? 'Rechazado' : status)) }}
+                </strong>
               </div>
             </div>
           </div>

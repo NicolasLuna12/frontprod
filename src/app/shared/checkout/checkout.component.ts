@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PedidosService } from '../../services/pedidos.service';
 import { ContactoService } from '../../services/contacto.service';
+import { MercadoPagoService } from '../../services/mercado-pago.service';
 import { Pedido } from '../../model/pedido.model';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
@@ -30,6 +31,7 @@ export class CheckoutComponent implements OnInit {
     private pedidoService: PedidosService,
     private toastr: ToastrService,
     private http: HttpClient,
+    private mercadoPagoService: MercadoPagoService,
     public contactoService: ContactoService
   ) {}
 
@@ -47,10 +49,31 @@ export class CheckoutComponent implements OnInit {
       setTimeout(() => {
         this.finalizarProcesoDePago();
       }, 2000);
+    } else if (this.paymentMethod === 'mercadopago') {
+      this.procesarPagoMercadoPago();
     } else {
       this.toastr.warning('Selecciona un método de pago');
       this.isProcessing = false;
     }
+  }
+
+  procesarPagoMercadoPago() {
+    this.mercadoPagoService.crearPreferencia().subscribe({
+      next: (response) => {
+        if (response && response.init_point) {
+          // Redirigir al usuario a la página de pago de MercadoPago
+          window.location.href = response.init_point;
+        } else {
+          this.toastr.error('Error al crear preferencia de pago');
+          this.isProcessing = false;
+        }
+      },
+      error: (error) => {
+        console.error('Error al procesar pago con MercadoPago:', error);
+        this.toastr.error('Error al procesar pago. Intente nuevamente.');
+        this.isProcessing = false;
+      }
+    });
   }
 
   finalizarProcesoDePago() {
