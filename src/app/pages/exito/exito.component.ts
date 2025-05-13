@@ -20,6 +20,7 @@ export class ExitoComponent implements OnInit {
   paymentId: string | null = null;
   status: string | null = null;
   paymentType: string | null = null;
+  mercadoPagoTicket: any = null;
   
   constructor(
     private router: Router, 
@@ -45,7 +46,16 @@ export class ExitoComponent implements OnInit {
       this.status = params['status'] || null;
       this.paymentType = params['payment_type'] || null;
       
-      if (this.paymentId && this.status) {
+      // Si viene el ticket de MercadoPago en los queryParams, parsearlo
+      if (params['mp_ticket']) {
+        try {
+          this.mercadoPagoTicket = JSON.parse(params['mp_ticket']);
+        } catch (e) {
+          this.mercadoPagoTicket = null;
+        }
+      }
+      
+      if (this.paymentId && this.status && !this.mercadoPagoTicket) {
         this.verificarPagoMercadoPago();
       } else {
         this.startCountdown();
@@ -60,7 +70,7 @@ export class ExitoComponent implements OnInit {
     this.pedidoService.confirmarPedido().subscribe({
       next: () => {
         this.toastr.success('¡Pedido confirmado y ticket generado!');
-        // Aquí podrías recargar datos del pedido si es necesario
+        // No asignar paymentId, status ni paymentType al pedido porque no existen en el modelo
       },
       error: (error) => {
         this.toastr.error('No se pudo confirmar el pedido automáticamente.');
@@ -71,6 +81,20 @@ export class ExitoComponent implements OnInit {
       next: (response) => {
         if (response && response.status === 'approved') {
           this.toastr.success('¡Pago confirmado con MercadoPago!');
+          // Redirigir a /exito si no estamos ya allí
+          if (this.router.url !== '/exito') {
+            this.router.navigate(['/exito'], {
+              queryParams: {
+                payment_id: this.paymentId,
+                status: this.status,
+                payment_type: this.paymentType,
+                mp_ticket: JSON.stringify(response)
+              }
+            });
+            return;
+          }
+          // Guardar el ticket de MercadoPago para mostrarlo
+          this.mercadoPagoTicket = response;
         } else if (response && response.status === 'in_process') {
           this.toastr.info('El pago está siendo procesado.');
         } else if (response && response.status === 'rejected') {

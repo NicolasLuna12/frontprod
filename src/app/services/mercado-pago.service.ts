@@ -71,7 +71,7 @@ export class MercadoPagoService {
         }
       },
       back_urls: {
-        success: window.location.origin + '/exito',
+        success: 'http://localhost:4200/exito',
         failure: window.location.origin + '/checkout',
         pending: window.location.origin + '/exito'
       },
