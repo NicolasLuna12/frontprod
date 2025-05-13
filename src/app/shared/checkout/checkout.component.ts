@@ -56,21 +56,32 @@ export class CheckoutComponent implements OnInit {
       this.isProcessing = false;
     }
   }
-
   procesarPagoMercadoPago() {
+    this.isProcessing = true;
+    console.log('Procesando pago con MercadoPago...');
+    
     this.mercadoPagoService.crearPreferencia().subscribe({
       next: (response) => {
+        console.log('Respuesta de MercadoPago:', response);
         if (response && response.init_point) {
           // Redirigir al usuario a la página de pago de MercadoPago
           window.location.href = response.init_point;
         } else {
-          this.toastr.error('Error al crear preferencia de pago');
+          console.error('Respuesta incompleta de MercadoPago:', response);
+          this.toastr.error('Error al crear preferencia de pago. Faltan datos en la respuesta.');
           this.isProcessing = false;
         }
       },
       error: (error) => {
         console.error('Error al procesar pago con MercadoPago:', error);
-        this.toastr.error('Error al procesar pago. Intente nuevamente.');
+        let errorMsg = 'Error al procesar pago. Intente nuevamente.';
+        
+        if (error.error && error.error.detail) {
+          errorMsg += ' Detalle: ' + error.error.detail;
+          console.error('Detalle del error:', error.error.detail);
+        }
+        
+        this.toastr.error(errorMsg);
         this.isProcessing = false;
       }
     });

@@ -10,7 +10,6 @@ export class MercadoPagoService {
   private mercadoPagoUrl = 'http://127.0.0.1:8000/';
 
   constructor(private http: HttpClient) { }
-
   /**
    * Crea una preferencia de pago en MercadoPago
    * @returns Observable con la URL de pago (init_point)
@@ -24,27 +23,24 @@ export class MercadoPagoService {
         observer.error({ message: 'No se encontró el token de autenticación' });
         observer.complete();
       });
-    }
-    
-    // Eliminar comillas si las hay
+    }    // Eliminar comillas si las hay
     const cleanToken = token.replace(/"/g, '');
     
-    // Preparar payload para la solicitud
+    // Preparar payload para la solicitud - Usamos el token sin "Bearer" en el payload
     const payload = {
-      user_token: cleanToken
-      // El email se puede obtener del servicio de autenticación o del usuario logueado
-      // si no está disponible, el backend lo manejará
+      user_token: cleanToken,
+      email: localStorage.getItem('userEmail') || 'usuario@ejemplo.com'
     };
     
-    // Configurar headers para la solicitud
+    console.log('Enviando solicitud a MercadoPago:', payload);
+      // Configurar headers para la solicitud
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
       .set('Authorization', `Bearer ${cleanToken}`);
     
     // Llamar al endpoint para crear preferencia de pago
     return this.http.post<any>(`${this.mercadoPagoUrl}payment/create-preference/`, payload, { 
-      headers: headers,
-      withCredentials: true
+      headers: headers
     });
   }
   
@@ -69,17 +65,14 @@ export class MercadoPagoService {
       return new Observable(observer => {
         observer.error({ message: 'No se encontró el token de autenticación' });
         observer.complete();
-      });
-    }
-    
-    const cleanToken = token.replace(/"/g, '');
+      });    }
+      const cleanToken = token.replace(/"/g, '');
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
       .set('Authorization', `Bearer ${cleanToken}`);
     
     return this.http.get<any>(`${this.mercadoPagoUrl}payment/status/${paymentId}/`, { 
-      headers: headers,
-      withCredentials: true
+      headers: headers
     });
   }
 
@@ -88,13 +81,11 @@ export class MercadoPagoService {
    * @param data Datos de la notificación
    * @returns Observable con la respuesta del servidor
    */
-  recibirWebhook(data: any): Observable<any> {
-    const headers = new HttpHeaders()
+  recibirWebhook(data: any): Observable<any> {    const headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
     
     return this.http.post<any>(`${this.mercadoPagoUrl}payment/webhook/`, data, { 
-      headers: headers,
-      withCredentials: true
+      headers: headers
     });
   }
 }
