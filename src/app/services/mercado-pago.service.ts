@@ -8,7 +8,7 @@ import { PedidosService } from './pedidos.service';
 })
 export class MercadoPagoService {
   private apiUrl = 'appCART/';
-  private mercadoPagoUrl = 'http://127.0.0.1:8000/';
+  private mercadoPagoUrl = 'https://backmp.onrender.com/';
 
   constructor(
     private http: HttpClient,
@@ -71,7 +71,7 @@ export class MercadoPagoService {
         }
       },
       back_urls: {
-        success: 'http://localhost:4200/exito',
+        success: 'https://backmp.onrender.com/payment/success/',
         failure: window.location.origin + '/checkout',
         pending: window.location.origin + '/exito'
       },
@@ -163,7 +163,7 @@ export class MercadoPagoService {
    * @returns Observable con el estado del servicio
    */
   verificarServicio(): Observable<any> {
-    return this.http.get<any>(`${this.mercadoPagoUrl}health/`);
+    return this.http.get<any>(`${this.mercadoPagoUrl}payment/health/`);
   }
 
   /**
