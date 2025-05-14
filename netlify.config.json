@@ -1,0 +1,4 @@
+{
+  "name": "@netlify/angular-runtime",
+  "buildDir": "dist/app/browser"
+}
