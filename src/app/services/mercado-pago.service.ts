@@ -71,7 +71,7 @@ export class MercadoPagoService {
         }
       },
       back_urls: {
-        success: window.location.origin + '/exito',
+        success: 'https://backmp.onrender.com/payment/success/',
         failure: window.location.origin + '/checkout',
         pending: window.location.origin + '/exito'
       },
@@ -97,57 +97,38 @@ export class MercadoPagoService {
         // Asegurarnos de que la respuesta incluya el ID de preferencia en un formato consistente
         console.log('Respuesta original de MercadoPago:', response);
         
-        // La respuesta puede tener diferentes estructuras según el backend
+        // La respuesta puede tener diferentes estructuras seg�n el backend
         // Buscamos el init_point en diferentes ubicaciones de la respuesta
         if (!response.init_point) {
-          // Verificar si init_point está en response.body
+          // Verificar si init_point est� en response.body
           if (response.body && response.body.init_point) {
             response.init_point = response.body.init_point;
           }
-          // Verificar si init_point está en response.data
+          // Verificar si init_point est� en response.data
           else if (response.data && response.data.init_point) {
             response.init_point = response.data.init_point;
           }
-          // Verificar si init_point está en response.response
+          // Verificar si init_point est� en response.response
           else if (response.response && response.response.init_point) {
             response.init_point = response.response.init_point;
           }
-          // Verificar si init_point está en response.sandbox_init_point (para ambiente de prueba)
+          // Verificar si init_point est� en response.sandbox_init_point (para ambiente de prueba)
           else if (response.sandbox_init_point) {
             response.init_point = response.sandbox_init_point;
           }
           // Verificar si hay un payment_request_id
           else if (response.payment_request_id) {
-            console.log('Se detectó payment_request_id:', response.payment_request_id);
+            console.log('Se detect� payment_request_id:', response.payment_request_id);
             
             // Intentamos construir diferentes formatos de URL usando el payment_request_id
             // Para identificar el formato correcto, verificamos si parece ser un UUID (contiene guiones)
             if (response.payment_request_id.includes('-')) {
-              response.init_point = `https://www.mercadopago.com.ar/checkout/v1/redirect?preference-id=${response.payment_request_id}`;
+              response.init_point = `https://www.mercadopago.com.ar/checkout/v1/redirect?payment-id=${response.payment_request_id}`;
             } else {
               response.init_point = `https://www.mercadopago.com.ar/checkout/v1/redirect?preference-id=${response.payment_request_id}`;
             }
             
             console.log('URL construida con payment_request_id:', response.init_point);
-          }
-        }
-        
-        // Verificar si la URL comienza con mercadopago:// y transformarla
-        if (response.init_point && response.init_point.startsWith('mercadopago://')) {
-          console.log('Detectada URL de esquema mercadopago://, transformando a URL web');
-          // Extraer los parámetros de la URL
-          try {
-            const urlString = response.init_point;
-            const urlParams = new URLSearchParams(urlString.substring(urlString.indexOf('?')));
-            const prefId = urlParams.get('pref_id');
-            
-            if (prefId) {
-              // Construir una URL web equivalente
-              response.init_point = `https://www.mercadopago.com.ar/checkout/v1/redirect?preference-id=${prefId}`;
-              console.log('URL transformada:', response.init_point);
-            }
-          } catch (error) {
-            console.error('Error al transformar URL de MercadoPago:', error);
           }
         }
         
