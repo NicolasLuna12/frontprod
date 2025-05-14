@@ -38,11 +38,6 @@ export class CheckoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.pedido = this.pedidoService.getPedido();
-    // Inicialización del SDK de Mercado Pago usando el modelo oficial y evitando error de TypeScript
-    if ((window as any).MercadoPago) {
-      const mp = new (window as any).MercadoPago('APP_USR-15dcbbb0-ed10-4a65-a8ec-4279e83029a4', { locale: 'es-AR' });
-      // Si necesitas usar mp luego, guárdalo en una propiedad de la clase
-    }
   }
 
   onSubmit(): void {
@@ -68,134 +63,132 @@ export class CheckoutComponent implements OnInit {
       this.isProcessing = false;
     }
   }
+
   // Método para procesar el pago con Mercado Pago
   procesarPagoMercadoPago(): void {
     this.isProcessing = true;
     console.log('Procesando pago con MercadoPago...');
     
     this.mercadoPagoService.crearPreferencia().subscribe({
-      next: (response: any) => {
+      next: (response) => {
         console.log('Respuesta completa de MercadoPago:', response);
-        let redirectUrl: string | null = null;
         
-        // Intentar extraer la URL de redirección de la respuesta
+        // Buscar el init_point o alguna URL de redirección en toda la respuesta
+        let redirectUrl = null;
+        
         if (response && response.init_point) {
           redirectUrl = response.init_point;
-          console.log('URL de redirección encontrada en init_point:', redirectUrl);
         } else if (response && response.sandbox_init_point) {
           redirectUrl = response.sandbox_init_point;
-          console.log('URL de redirección encontrada en sandbox_init_point:', redirectUrl);
         } else {
-          // Buscar recursivamente en el objeto de respuesta
+          // Intentar buscar en otros lugares de la respuesta
           const searchInObj = (obj: any, searchProp: string): string | null => {
             if (!obj || typeof obj !== 'object') return null;
+            
             if (obj[searchProp]) return obj[searchProp];
+            
             for (const key in obj) {
               if (typeof obj[key] === 'object') {
                 const found = searchInObj(obj[key], searchProp);
                 if (found) return found;
               }
             }
+            
             return null;
           };
           
           redirectUrl = searchInObj(response, 'init_point') || 
                         searchInObj(response, 'sandbox_init_point') ||
                         searchInObj(response, 'url');
-          
-          if (redirectUrl) {
-            console.log('URL de redirección encontrada mediante búsqueda recursiva:', redirectUrl);
-          }
         }
         
-        // Si no se encontró URL pero hay un ID de preferencia, intentar construirla
-        if (!redirectUrl && response.id) {
-          redirectUrl = `https://www.mercadopago.com.ar/checkout/v1/redirect?preference-id=${response.id}`;
-          console.log('URL de redirección construida con ID de preferencia:', redirectUrl);
-        }
-        
-        // Si aún no hay URL pero hay un payment_request_id, consultarlo
-        if (!redirectUrl && response.payment_request_id) {
-          console.log('Consultando estado de PaymentRequest:', response.payment_request_id);
-          this.mercadoPagoService.consultarEstadoPaymentRequest(response.payment_request_id).subscribe({
-            next: (estado: any) => {
-              console.log('Respuesta de estado de PaymentRequest:', estado);
-              const url = estado.init_point || estado.sandbox_init_point || estado.url;
-              if (url) {
-                this.abrirModalMercadoPago(url);
-              } else {
-                this.toastr.error('No se pudo obtener la URL de pago de Mercado Pago.');
-                this.isProcessing = false;
-              }
-            },
-            error: (err) => {
-              console.error('Error al consultar estado del PaymentRequest:', err);
-              this.toastr.error('No se pudo consultar el estado del pago.');
-              this.isProcessing = false;
-            }
-          });
-          return;
-        }
-        
-        // Finalmente, abrir el modal con la URL o mostrar error
         if (redirectUrl) {
-          this.abrirModalMercadoPago(redirectUrl);
+          console.log('URL de redirección encontrada:', redirectUrl);
+          // Forzar el uso del modal original de Mercado Pago
+          if ((window as any).MercadoPago) {
+            const mp = new (window as any).MercadoPago('APP_USR-15dcbbb0-ed10-4a65-a8ec-4279e83029a4', { locale: 'es-AR' });
+            mp.checkout({
+              url: redirectUrl,
+              autoOpen: true,
+              autoClose: false,
+              // Forzar tamaño grande
+              renderMode: 'modal',
+              theme: {
+                elements: {
+                  modal: {
+                    width: '100vw',
+                    height: '100vh',
+                    borderRadius: '0px'
+                  }
+                }
+              }
+            });
+          } else {
+            // Fallback: abrir en modal propio si el SDK no está disponible
+            this.abrirModalMercadoPago(redirectUrl);
+          }
         } else {
-          console.error('No se encontró URL de redirección en la respuesta:', response);
+          console.error('Respuesta incompleta de MercadoPago:', response);
           this.toastr.error('Error al crear preferencia de pago. No se encontró URL de redirección.');
           this.isProcessing = false;
         }
       },
       error: (error: any) => {
-        console.error('Error al crear preferencia de pago:', error);
-        this.toastr.error('Error al procesar pago. Intente nuevamente.');
+        console.error('Error al procesar pago con MercadoPago:', error);
+        let errorMsg = 'Error al procesar pago. Intente nuevamente.';
+        
+        if (error.error && error.error.detail) {
+          errorMsg += ' Detalle: ' + error.error.detail;
+          console.error('Detalle del error:', error.error.detail);
+        }
+        
+        this.toastr.error(errorMsg);
         this.isProcessing = false;
       }
     });
   }
+
   abrirModalMercadoPago(url: string): void {
-    // Verificar si la URL comienza con 'mercadopago://' y transformarla
-    if (url.startsWith('mercadopago://')) {
-      console.log('Detectada URL de esquema mercadopago://, transformando a URL web');
-      // Extraer los parámetros de la URL
-      const urlParams = new URLSearchParams(url.substring(url.indexOf('?')));
-      const prefId = urlParams.get('pref_id');
-      
-      if (prefId) {
-        // Construir una URL web equivalente
-        url = `https://www.mercadopago.com.ar/checkout/v1/redirect?preference-id=${prefId}`;
-        console.log('URL transformada:', url);
-      } else {
-        console.error('No se pudo obtener el ID de preferencia de la URL:', url);
-        this.toastr.error('Error al procesar la URL de pago. Intente nuevamente.');
-        this.isProcessing = false;
-        return;
-      }
-    }
-    
-    // Crea un modal simple con un iframe que carga la URL de Mercado Pago
-    const modal = document.createElement('div');
-    modal.id = 'mp-modal';
+    // Modal Bootstrap grande y control de habilitación del botón
+    let modal = document.getElementById('mp-modal-bootstrap');
+    if (modal) modal.remove(); // Elimina si ya existe
+    modal = document.createElement('div');
+    modal.id = 'mp-modal-bootstrap';
+    modal.className = 'modal fade show';
+    modal.style.display = 'block';
+    modal.style.background = 'rgba(0,0,0,0.85)';
     modal.style.position = 'fixed';
     modal.style.top = '0';
     modal.style.left = '0';
     modal.style.width = '100vw';
     modal.style.height = '100vh';
-    modal.style.background = 'rgba(0,0,0,0.7)';
     modal.style.zIndex = '9999';
-    modal.style.display = 'flex';
-    modal.style.alignItems = 'center';
-    modal.style.justifyContent = 'center';
     modal.innerHTML = `
-      <div style="background:#fff; border-radius:16px; width:1200px; max-width:99vw; height:80vh; position:relative; display:flex; flex-direction:column; box-shadow:0 0 32px #0008;">
-        <button id="mp-modal-close" style="position:absolute;top:18px;right:24px;z-index:2;font-size:2.5rem;background:none;border:none;cursor:pointer;line-height:1;">&times;</button>
-        <iframe src="${url}" style="flex:1;width:100%;height:100%;border:none;border-radius:16px;"></iframe>
+      <div class="modal-dialog modal-xl modal-dialog-centered" style="max-width:95vw;width:95vw;height:95vh;">
+        <div class="modal-content" style="height:95vh;display:flex;flex-direction:column;">
+          <div class="modal-header" style="border-bottom:1px solid #eee;">
+            <img src='${this.mercadoPagoIcon}' alt='Mercado Pago' style='height:48px;width:auto;object-fit:contain;margin-right:12px;' />
+            <h5 class="modal-title">Mercado Pago</h5>
+            <button type="button" class="btn-close" id="mp-modal-bootstrap-close" aria-label="Cerrar" style="font-size:2rem;margin-left:auto;"></button>
+          </div>
+          <div class="modal-body p-0" style="flex:1;overflow:hidden;">
+            <iframe src="${url}" style="width:100%;height:100%;border:none;"></iframe>
+          </div>
+        </div>
       </div>
     `;
     document.body.appendChild(modal);
-    document.getElementById('mp-modal-close')?.addEventListener('click', () => {
-      modal.remove();
+    // Cierre del modal y habilitación del botón
+    document.getElementById('mp-modal-bootstrap-close')?.addEventListener('click', () => {
+      if (modal) modal.remove();
       this.isProcessing = false;
+    });
+    // Permite cerrar el modal haciendo click fuera del contenido
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.remove();
+        this.isProcessing = false;
+      }
     });
   }
 

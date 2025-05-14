@@ -1,15 +1,20 @@
 <div class="container mt-6 mb-7" id="factura">
   <div class="row justify-content-center">
     <div class="col-lg-12 col-xl-7">
-      <div class="card">
-        <div class="card-body p-5">
-          <h2 class="user-nombre">{{ pedido.nombreCliente }},</h2>
-          <p class="fs-sm">
+      <div class="card">        <div class="card-body p-5">
+          <!-- Mensaje para cuando no hay pedido o se accede directamente -->
+          <div *ngIf="!pedido || !pedido.carrito || pedido.carrito.length === 0" class="alert alert-warning mb-4">
+            <h4 class="alert-heading">¡Acceso directo detectado!</h4>
+            <p>Parece que has accedido directamente a esta página sin completar un pedido.</p>
+            <p class="mb-0">Serás redirigido a la página de inicio en {{ contador }} segundos...</p>
+          </div>
+
+          <h2 class="user-nombre" *ngIf="pedido && pedido.nombreCliente">{{ pedido.nombreCliente }},</h2>
+          <p class="fs-sm" *ngIf="pedido && pedido.total">
             Esta es la factura por el pago de
             <strong class="compra-total">$ {{ pedido.total }}</strong> que
             hiciste a ISPC FooD.
-          </p>
-
+          </p>          
           <div class="border-top border-gray-200 pt-4 mt-4">
             <div class="row">
               <div class="col-md-6">
@@ -21,6 +26,35 @@
                 <strong class="fecha-pago">{{ fechaActual }}</strong>
               </div>
             </div>
+          </div>
+
+          <!-- Info de MercadoPago si existe -->
+          <div class="border-top border-gray-200 mt-4 py-4" *ngIf="paymentId">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="text-muted mb-2">ID de Pago (MercadoPago)</div>
+                <strong>{{ paymentId }}</strong>
+              </div>
+              <div class="col-md-6 text-md-end">
+                <div class="text-muted mb-2">Estado</div>
+                <strong [ngClass]="{'text-success': status === 'approved', 'text-warning': status === 'in_process', 'text-danger': status === 'rejected'}">
+                  {{ status === 'approved' ? 'Aprobado' : (status === 'in_process' ? 'En proceso' : (status === 'rejected' ? 'Rechazado' : status)) }}
+                </strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Logo Mercado Pago si el pago fue con MercadoPago -->
+          <div class="text-center my-3" *ngIf="paymentId">
+            <img src="https://contactopuro.com/files/mercadopago-81090.png" alt="Mercado Pago" style="height:48px;width:auto;object-fit:contain;" />
+          </div>
+
+          <!-- Ticket Mercado Pago completo si existe -->
+          <div *ngIf="mercadoPagoTicket" class="alert alert-info mt-4">
+            <h5 class="mb-2">Ticket Mercado Pago</h5>
+            <pre style="white-space:pre-wrap;word-break:break-all;font-size:0.95em;background:#f8f9fa;border-radius:8px;padding:12px;">
+              {{ mercadoPagoTicket | json }}
+            </pre>
           </div>
 
           <div class="border-top border-gray-200 mt-4 py-4">
