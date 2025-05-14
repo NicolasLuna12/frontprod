@@ -4,10 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build && npm run copy-netlify-files",
+    "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "copy-netlify-files": "powershell -Command \"Copy-Item -Path src\\_redirects -Destination dist\\app\\ -Force; Copy-Item -Path netlify.toml -Destination dist\\app\\ -Force\""
+    "test": "ng test"
   },
   "private": true,
   "dependencies": {

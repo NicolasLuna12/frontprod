@@ -68,6 +68,7 @@ export class CheckoutComponent implements OnInit {
       this.isProcessing = false;
     }
   }
+
   // Método para procesar el pago con Mercado Pago
   procesarPagoMercadoPago(): void {
     this.isProcessing = true;
@@ -77,16 +78,11 @@ export class CheckoutComponent implements OnInit {
       next: (response: any) => {
         console.log('Respuesta completa de MercadoPago:', response);
         let redirectUrl: string | null = null;
-        
-        // Intentar extraer la URL de redirección de la respuesta
         if (response && response.init_point) {
           redirectUrl = response.init_point;
-          console.log('URL de redirección encontrada en init_point:', redirectUrl);
         } else if (response && response.sandbox_init_point) {
           redirectUrl = response.sandbox_init_point;
-          console.log('URL de redirección encontrada en sandbox_init_point:', redirectUrl);
         } else {
-          // Buscar recursivamente en el objeto de respuesta
           const searchInObj = (obj: any, searchProp: string): string | null => {
             if (!obj || typeof obj !== 'object') return null;
             if (obj[searchProp]) return obj[searchProp];
@@ -98,23 +94,10 @@ export class CheckoutComponent implements OnInit {
             }
             return null;
           };
-          
           redirectUrl = searchInObj(response, 'init_point') || 
                         searchInObj(response, 'sandbox_init_point') ||
                         searchInObj(response, 'url');
-          
-          if (redirectUrl) {
-            console.log('URL de redirección encontrada mediante búsqueda recursiva:', redirectUrl);
-          }
         }
-        
-        // Si no se encontró URL pero hay un ID de preferencia, intentar construirla
-        if (!redirectUrl && response.id) {
-          redirectUrl = `https://www.mercadopago.com.ar/checkout/v1/redirect?preference-id=${response.id}`;
-          console.log('URL de redirección construida con ID de preferencia:', redirectUrl);
-        }
-        
-        // Si aún no hay URL pero hay un payment_request_id, consultarlo
         if (!redirectUrl && response.payment_request_id) {
           console.log('Consultando estado de PaymentRequest:', response.payment_request_id);
           this.mercadoPagoService.consultarEstadoPaymentRequest(response.payment_request_id).subscribe({
@@ -129,50 +112,27 @@ export class CheckoutComponent implements OnInit {
               }
             },
             error: (err) => {
-              console.error('Error al consultar estado del PaymentRequest:', err);
               this.toastr.error('No se pudo consultar el estado del pago.');
               this.isProcessing = false;
             }
           });
           return;
         }
-        
-        // Finalmente, abrir el modal con la URL o mostrar error
         if (redirectUrl) {
           this.abrirModalMercadoPago(redirectUrl);
         } else {
-          console.error('No se encontró URL de redirección en la respuesta:', response);
           this.toastr.error('Error al crear preferencia de pago. No se encontró URL de redirección.');
           this.isProcessing = false;
         }
       },
       error: (error: any) => {
-        console.error('Error al crear preferencia de pago:', error);
         this.toastr.error('Error al procesar pago. Intente nuevamente.');
         this.isProcessing = false;
       }
     });
   }
+
   abrirModalMercadoPago(url: string): void {
-    // Verificar si la URL comienza con 'mercadopago://' y transformarla
-    if (url.startsWith('mercadopago://')) {
-      console.log('Detectada URL de esquema mercadopago://, transformando a URL web');
-      // Extraer los parámetros de la URL
-      const urlParams = new URLSearchParams(url.substring(url.indexOf('?')));
-      const prefId = urlParams.get('pref_id');
-      
-      if (prefId) {
-        // Construir una URL web equivalente
-        url = `https://www.mercadopago.com.ar/checkout/v1/redirect?preference-id=${prefId}`;
-        console.log('URL transformada:', url);
-      } else {
-        console.error('No se pudo obtener el ID de preferencia de la URL:', url);
-        this.toastr.error('Error al procesar la URL de pago. Intente nuevamente.');
-        this.isProcessing = false;
-        return;
-      }
-    }
-    
     // Crea un modal simple con un iframe que carga la URL de Mercado Pago
     const modal = document.createElement('div');
     modal.id = 'mp-modal';
