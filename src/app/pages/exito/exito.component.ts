@@ -36,9 +36,15 @@ export class ExitoComponent implements OnInit {
     window.print();
     window.location.href = './home';
   }
-  
-  ngOnInit(): void {
+    ngOnInit(): void {
+    // Intentar recuperar el pedido del servicio
     this.pedido = this.pedidoService.getPedido();
+    
+    // Si no hay pedido y estamos accediendo directamente a la página de éxito,
+    // podemos crear un pedido mínimo para evitar errores de visualización
+    if (!this.pedido || !this.pedido.carrito || this.pedido.carrito.length === 0) {
+      console.log('No se encontró un pedido válido al acceder a la página de éxito');
+    }
     
     // Verificar si hay parámetros de MercadoPago en la URL
     this.route.queryParams.subscribe(params => {
