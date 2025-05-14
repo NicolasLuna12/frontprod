@@ -21,7 +21,8 @@
               "src/favicon.ico",
               "src/iconoPrincipal.ico",
               "src/assets",
-              "src/_redirects"
+              "src/_redirects",
+              "src/netlify.toml"
             ],
             "styles": [
               "src/styles.css"
@@ -81,7 +82,8 @@
               "src/favicon.ico",
               "src/iconoPrincipal.ico",
               "src/assets",
-              "src/_redirects"
+              "src/_redirects",
+              "src/netlify.toml"
             ],
             "styles": [
               "src/styles.css",
