@@ -1,0 +1,10 @@
+{
+  "plugins": [
+    {
+      "package": "@netlify/angular-runtime",
+      "inputs": {
+        "buildDir": "dist/app/browser"
+      }
+    }
+  ]
+}
