@@ -70,9 +70,8 @@ h3 {
 }
 #imageProducto{
   
-    height: 120px;
+    height: 160px;
     width: 120px;
-    object-fit: cover;
 }
 
 .title{
