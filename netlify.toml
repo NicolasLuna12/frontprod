@@ -2,10 +2,12 @@
   from = "/*"
   to = "/index.html"
   status = 200
+  force = false
 
+# Configuración específica para SPA (Single Page Application)
 [build]
   publish = "dist/app/browser"
-  command = "npm run build && npm run postbuild"
+  command = "npm run netlify-build"
 
 # Headers para mejorar seguridad y rendimiento
 [[headers]]

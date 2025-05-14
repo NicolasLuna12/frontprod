@@ -6,7 +6,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "postbuild": "mkdir -p dist/app/browser && cp -r dist/app/* dist/app/browser/ && cp src/_redirects dist/app/browser/"
+    "netlify-build": "npm run build && powershell -File prepare-netlify.ps1"
   },
   "private": true,
   "dependencies": {

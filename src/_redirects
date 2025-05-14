@@ -3,5 +3,12 @@
 /payment/webhook/*  https://backmp.onrender.com/payment/webhook/:splat  200
 /payment/health/*   https://backmp.onrender.com/payment/health/:splat   200
 
-# Redireccionar todas las rutas a index.html (SPA)
-/*  /index.html  200
+# Rutas específicas para dar prioridad a algunas páginas
+/exito              /index.html                                         200
+/checkout           /index.html                                         200
+/login              /index.html                                         200
+/cart               /index.html                                         200
+/home               /index.html                                         200
+
+# Redirigir todas las demás rutas a index.html para que Angular maneje el enrutamiento
+/*                  /index.html                                         200
