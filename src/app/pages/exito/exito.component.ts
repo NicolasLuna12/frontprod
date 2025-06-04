@@ -64,77 +64,51 @@ export class ExitoComponent implements OnInit {
   }
   
   verificarPagoMercadoPago() {
-    if (!this.paymentId) {
-      console.error('No se encontró ID de pago');
-      this.toastr.error('No se pudo identificar el pago');
-      this.startCountdown();
-      return;
-    }
-    
-    console.log('Verificando pago con ID:', this.paymentId);
-    
-    // Si el pedido está vacío o incompleto, intentemos reconstruirlo a partir de la URL
-    if (!this.pedido || !this.pedido.nombreCliente || this.pedido.total <= 0) {
-      console.warn('Pedido incompleto, intentando reconstruir información mínima');
-      // Crear un pedido básico para mostrar algo en la factura
-      this.pedido.idPedido = parseInt(this.paymentId.substring(0, 6), 10) || 0;
-      if (!this.pedido.total) this.pedido.total = 0;
-      if (!this.pedido.nombreCliente) this.pedido.nombreCliente = 'Cliente';
-    }
+    if (!this.paymentId) return;
     
     // Confirmar el pedido en el backend al volver de Mercado Pago
-    // Intentamos hacer esto, pero si falla continuamos con el flujo
     this.pedidoService.confirmarPedido().subscribe({
-      next: (response) => {
-        console.log('Respuesta de confirmación de pedido:', response);
+      next: () => {
         this.toastr.success('¡Pedido confirmado y ticket generado!');
+        // No asignar paymentId, status ni paymentType al pedido porque no existen en el modelo
       },
       error: (error) => {
-        console.error('Error al confirmar pedido:', error);
-        this.toastr.warning('No se pudo confirmar el pedido automáticamente, pero tu pago se procesó correctamente.');
+        this.toastr.error('No se pudo confirmar el pedido automáticamente.');
       }
     });
     
-    // Verificar pago (ahora usa nuestra implementación simulada)
     this.mercadoPagoService.verificarPago(this.paymentId).subscribe({
       next: (response) => {
-        console.log('Respuesta de verificación de pago:', response);
-        
-        // Asegurarnos de que tengamos datos para mostrar
-        if (response) {
-          // Actualizar información del pedido si es necesario
-          if (response.transaction_amount && this.pedido.total <= 0) {
-            this.pedido.total = response.transaction_amount;
-          }
-          
-          if (response.order_details?.customer?.name && !this.pedido.nombreCliente) {
-            this.pedido.nombreCliente = response.order_details.customer.name;
-          }
-          
+        if (response && response.status === 'approved') {
           this.toastr.success('¡Pago confirmado con MercadoPago!');
-          
           // Redirigir a /exito si no estamos ya allí
           if (this.router.url !== '/exito') {
             this.router.navigate(['/exito'], {
               queryParams: {
                 payment_id: this.paymentId,
-                status: this.status || response.status,
-                payment_type: this.paymentType || response.payment_type,
+                status: this.status,
+                payment_type: this.paymentType,
                 mp_ticket: JSON.stringify(response)
               }
             });
             return;
           }
-          
           // Guardar el ticket de MercadoPago para mostrarlo
           this.mercadoPagoTicket = response;
+        } else if (response && response.status === 'in_process') {
+          this.toastr.info('El pago está siendo procesado.');
+        } else if (response && response.status === 'rejected') {
+          this.toastr.error('El pago fue rechazado.');
+          setTimeout(() => {
+            this.router.navigate(['/checkout']);
+          }, 5000);
+          return;
         }
-        
         this.startCountdown();
       },
       error: (error) => {
-        console.error('Error al verificar el pago:', error);
-        this.toastr.error('No se pudo verificar el estado del pago, pero tu compra está siendo procesada.');
+        console.error('Error al verificar estado del pago:', error);
+        this.toastr.warning('No se pudo verificar el estado del pago.');
         this.startCountdown();
       }
     });

@@ -157,62 +157,38 @@ export class MercadoPagoService {
       })
     );
   }
-    /**
+  
+  /**
    * Verifica el estado del servicio de MercadoPago
    * @returns Observable con el estado del servicio
    */
   verificarServicio(): Observable<any> {
-    return this.http.get<any>(`${this.mercadoPagoUrl}health/`);
+    return this.http.get<any>(`${this.mercadoPagoUrl}payment/health/`);
   }
 
   /**
    * Verifica el estado de un pago de MercadoPago
    * @param paymentId ID del pago de MercadoPago
    * @returns Observable con el estado del pago
-   * Nota: Como no existe el endpoint payment/status/, simulamos una respuesta exitosa
    */
   verificarPago(paymentId: string): Observable<any> {
     const token = localStorage.getItem('authToken');
     
     if (!token) {
-      console.error('No se encontró el token de autenticación');
+      console.error('No se encontr� el token de autenticaci�n');
       return new Observable(observer => {
-        observer.error({ message: 'No se encontró el token de autenticación' });
+        observer.error({ message: 'No se encontr� el token de autenticaci�n' });
         observer.complete();
       });
     }
     
-    console.log('Verificando pago con ID:', paymentId);
+    const cleanToken = token.replace(/"/g, '');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${cleanToken}`);
     
-    // Como no existe el endpoint payment/status/, simulamos una respuesta basada en el status de la URL
-    // Esto permite que la aplicación siga funcionando sin depender del endpoint inexistente
-    return new Observable(observer => {
-      // Obtenemos la información del pedido actual
-      const pedido = this.pedidoService.getPedido();
-      
-      // Creamos una respuesta simulada con los datos disponibles
-      const simulatedResponse = {
-        id: paymentId,
-        status: 'approved', // Asumimos aprobado por defecto
-        payment_type: 'credit_card',
-        transaction_amount: pedido.total,
-        order_details: {
-          items: pedido.carrito.map(item => ({
-            title: item.producto,
-            quantity: item.cantidad,
-            unit_price: item.precio
-          })),
-          customer: {
-            name: pedido.nombreCliente,
-            email: pedido.email || localStorage.getItem('emailUser') || 'usuario@ejemplo.com',
-            address: pedido.direccion
-          }
-        }
-      };
-      
-      console.log('Respuesta simulada de pago:', simulatedResponse);
-      observer.next(simulatedResponse);
-      observer.complete();
+    return this.http.get<any>(`${this.mercadoPagoUrl}payment/status/${paymentId}/`, { 
+      headers: headers
     });
   }
 
