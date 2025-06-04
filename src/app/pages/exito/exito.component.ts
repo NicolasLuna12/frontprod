@@ -5,7 +5,6 @@ import { Pedido } from '../../model/pedido.model';
 import { PedidosService } from '../../services/pedidos.service';
 import { MercadoPagoService } from '../../services/mercado-pago.service';
 import { ToastrService } from 'ngx-toastr';
-import { Carrito } from '../../model/Carrito.model';
 
 @Component({
   selector: 'app-exito',
@@ -37,14 +36,9 @@ export class ExitoComponent implements OnInit {
     window.print();
     window.location.href = './home';
   }
-    ngOnInit(): void {
-    // Primero intentamos obtener el pedido normal
+  
+  ngOnInit(): void {
     this.pedido = this.pedidoService.getPedido();
-    
-    // Si el pedido está vacío o no tiene los datos correctos, lo reconstruimos
-    if (!this.pedido || !this.pedido.nombreCliente || this.pedido.total <= 0) {
-      this.reconstruirDatosPedido();
-    }
     
     // Verificar si hay parámetros de MercadoPago en la URL
     this.route.queryParams.subscribe(params => {
@@ -61,19 +55,8 @@ export class ExitoComponent implements OnInit {
         }
       }
       
-      // Simulamos un estado de pago aprobado
-      this.status = this.status || 'approved';
-      
-      // Si hay problemas con el ticket, llamamos al método para reconstruirlo
-      if ((!this.mercadoPagoTicket || Object.keys(this.mercadoPagoTicket).length === 0) && this.paymentId) {
-        this.reconstruirTicketMercadoPago();
-      }
-      
       if (this.paymentId && this.status && !this.mercadoPagoTicket) {
-        // Solo llamamos a verificar si realmente tenemos backend
-        // this.verificarPagoMercadoPago();
-        // En su lugar, simulamos éxito
-        this.simularPagoExitoso();
+        this.verificarPagoMercadoPago();
       } else {
         this.startCountdown();
       }
@@ -139,89 +122,5 @@ export class ExitoComponent implements OnInit {
         this.router.navigate(['/']);
       }
     }, 1000);
-  }
-  // Método para reconstruir los datos del pedido usando localStorage
-  reconstruirDatosPedido() {
-    console.log('Reconstruyendo datos del pedido...');
-    
-    // Obtener datos del cliente desde localStorage
-    const nombreCliente = localStorage.getItem('nameUser') || 'Cliente';
-    const email = localStorage.getItem('emailUser') || 'usuario@ejemplo.com';
-    
-    // Crear carrito con datos falsos (para la profe)
-    const carritoFalso: Carrito[] = [
-      new Carrito('Hamburguesa completa', 1, 1200, 2, 'assets/carta/hamburguesa.webp', 1),
-      new Carrito('Papas fritas grandes', 2, 800, 1, 'assets/carta/j&q.webp', 1),
-      new Carrito('Empanadas de Pollo', 3, 500, 3, 'assets/carta/arabes.webp', 1)
-    ];
-    
-    // Calcular total
-    let total = 0;
-    carritoFalso.forEach(item => {
-      total += item.precio * item.cantidad;
-    });
-    
-    // Crear nuevo pedido con los datos reconstruidos
-    this.pedido = new Pedido(
-      Date.now(), // ID generado con timestamp
-      total,
-      'Pedido del ' + this.fechaActual.toLocaleDateString(),
-      'Dirección de entrega (Córdoba)',
-      nombreCliente,
-      carritoFalso,
-      email
-    );
-    
-    console.log('Pedido reconstruido:', this.pedido);
-    this.toastr.success('¡Datos de pedido cargados correctamente!');
-  }
-  
-  // Método para reconstruir el ticket de MercadoPago
-  reconstruirTicketMercadoPago() {
-    console.log('Reconstruyendo ticket de MercadoPago...');
-    
-    // Creamos un ticket falso que se vea realista
-    this.mercadoPagoTicket = {
-      id: this.paymentId || Math.floor(Math.random() * 1000000000).toString(),
-      status: 'approved',
-      status_detail: 'accredited',
-      payment_method_id: 'visa',
-      payment_type_id: 'credit_card',
-      transaction_amount: this.pedido.total,
-      date_approved: this.fechaActual.toISOString(),
-      card: {
-        last_four_digits: '1234',
-        expiration_month: 12,
-        expiration_year: 2028,
-        cardholder: {
-          name: localStorage.getItem('nameUser') || 'Cliente'
-        }
-      },
-      payer: {
-        email: localStorage.getItem('emailUser') || 'usuario@ejemplo.com',
-        identification: {
-          type: 'DNI',
-          number: '12345678'
-        }
-      }
-    };
-    
-    console.log('Ticket MercadoPago reconstruido:', this.mercadoPagoTicket);
-  }
-  
-  // Método para simular que el pago fue exitoso
-  simularPagoExitoso() {
-    console.log('Simulando pago exitoso...');
-    
-    // Simular éxito sin llamar al backend
-    this.toastr.success('¡Pedido confirmado y pago procesado correctamente!');
-    this.status = 'approved';
-    
-    // Si no tenemos datos del ticket, los creamos
-    if (!this.mercadoPagoTicket) {
-      this.reconstruirTicketMercadoPago();
-    }
-    
-    this.startCountdown();
   }
 }
