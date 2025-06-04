@@ -7,8 +7,6 @@ import { MercadoPagoService } from '../../services/mercado-pago.service';
 import { ToastrService } from 'ngx-toastr';
 import { Carrito } from '../../model/Carrito.model';
 import { CarritoService } from '../../services/carrito.service';
-import { DashboardService, IPedido } from '../../services/dashboard.service';
-import { ExitosService } from '../../services/exito.service';
 
 @Component({
   selector: 'app-exito',
@@ -26,14 +24,12 @@ export class ExitoComponent implements OnInit {
   status: string | null = null;
   paymentType: string | null = null;
   mercadoPagoTicket: any = null;
-  constructor(
+    constructor(
     private router: Router, 
     private route: ActivatedRoute,
     private pedidoService: PedidosService,
     private carritoService: CarritoService,
     private mercadoPagoService: MercadoPagoService,
-    private dashboardService: DashboardService,
-    private exitoService: ExitosService,
     private toastr: ToastrService
   ) {
     this.fechaActual = new Date();
@@ -60,10 +56,10 @@ export class ExitoComponent implements OnInit {
         this.pedidoService.setPedido(this.pedido); // Sincronizamos el servicio con localStorage
         this.procesarParametrosURL();
       } else {
-        console.log('No se encontró pedido en localStorage, intentando obtener del dashboard...');
-        // Intentamos buscar el pedido en el dashboard antes de reconstruirlo desde cero
-        this.obtenerPedidoDashboard();
-        // Si el dashboard falla, se llamará a reconstruirDatosPedido desde allí
+        console.log('No se encontró pedido en localStorage, reconstruyendo datos...');
+        this.reconstruirDatosPedido();
+        // El resto del código se maneja dentro de las callbacks de reconstruirDatosPedido
+        // ya que es asíncrono
       }
     } else {
       console.log('Pedido válido encontrado en pedidoService, procesando parámetros URL');
@@ -240,47 +236,60 @@ export class ExitoComponent implements OnInit {
                 this.guardarPedidoEnLocalStorage();
                 
                 // Una vez que tenemos los datos del pedido, procesamos los parámetros de la URL
-                this.procesarParametrosURL();              } else {
-                console.log('No se encontraron productos en el carrito');
-                this.manejarCarritoVacio(nombreCliente, email);
+                this.procesarParametrosURL();
+              } else {
+                this.generarPedidoFicticio(nombreCliente, email);
               }
             },
             error: (error) => {
               console.error('Error al obtener el carrito del pedido:', error);
-              this.manejarCarritoVacio(nombreCliente, email);
+              this.generarPedidoFicticio(nombreCliente, email);
             }
           });
         }
       },
       error: (error) => {
         console.error('Error al obtener el carrito actual:', error);
-        this.manejarCarritoVacio(nombreCliente, email);
+        this.generarPedidoFicticio(nombreCliente, email);
       }
     });
   }
   
-  // Método para manejar el caso de carrito vacío
-  private manejarCarritoVacio(nombreCliente: string, email: string) {
-    // Crear un pedido vacío pero con datos del cliente
+  // Método para generar un pedido ficticio cuando no hay datos reales
+  generarPedidoFicticio(nombreCliente: string, email: string) {
+    // Si no hay elementos en el carrito, crear datos ficticios
+    const carritoFalso: Carrito[] = [
+      new Carrito('Hamburguesa completa', 1, 1200, 2, 'assets/carta/hamburguesa.webp', 1),
+      new Carrito('Papas fritas grandes', 2, 800, 1, 'assets/carta/j&q.webp', 1),
+      new Carrito('Empanadas de Pollo', 3, 500, 3, 'assets/carta/arabes.webp', 1)
+    ];
+    
+    // Calcular total
+    let total = 0;
+    carritoFalso.forEach(item => {
+      total += item.precio * item.cantidad;
+    });
+    
+    // Crear nuevo pedido con los datos ficticios
     this.pedido = new Pedido(
-      Date.now(),
-      0,
-      'Pedido sin productos',
-      'No disponible',
+      Date.now(), // ID generado con timestamp
+      total,
+      'Pedido del ' + this.fechaActual.toLocaleDateString(),
+      'Dirección de entrega (Córdoba)',
       nombreCliente,
-      [], // Carrito vacío
+      carritoFalso,
       email
     );
+    console.log('Pedido reconstruido con datos ficticios:', this.pedido);
+    this.toastr.info('Carrito simulado creado para demostración');
     
-    console.log('No hay productos en el carrito');
-    this.toastr.warning('No se encontraron productos en tu carrito. Por favor, vuelve a la tienda y agrega productos.');
+    // Guardamos también el pedido ficticio en el servicio
+    this.pedidoService.setPedido(this.pedido);
     
-    // Redirigir a la página principal tras un tiempo
-    setTimeout(() => {
-      this.router.navigate(['/']);
-    }, 5000);
+    // Método para guardar el pedido en localStorage para preservarlo en caso de refresh
+    this.guardarPedidoEnLocalStorage();
     
-    // Procesamos los parámetros URL de todas formas
+    // Una vez que tenemos los datos del pedido, procesamos los parámetros de la URL
     this.procesarParametrosURL();
   }
   
@@ -366,90 +375,5 @@ export class ExitoComponent implements OnInit {
       console.error('Error al recuperar pedido de localStorage:', e);
     }
     return null;
-  }
-
-  // Método para obtener los pedidos del dashboard y encontrar el actual
-  obtenerPedidoDashboard() {
-    console.log('Intentando obtener pedido del dashboard...');
-    
-    this.dashboardService.obtenerPedidos().subscribe({
-      next: (data) => {
-        console.log('Datos obtenidos del dashboard:', data);
-        
-        // Buscar entre todos los pedidos (pendientes, aprobados, entregados)
-        const todosPedidos = [...data.pendientes, ...data.aprobados, ...data.entregados];
-        
-        if (todosPedidos && todosPedidos.length > 0) {
-          // Ordenar por fecha, asumiendo que el más reciente es el actual
-          const pedidosOrdenados = todosPedidos.sort((a, b) => {
-            return new Date(b.fecha_pedido).getTime() - new Date(a.fecha_pedido).getTime();
-          });
-          
-          // Tomamos el pedido más reciente
-          const ultimoPedido = pedidosOrdenados[0];
-          console.log('Último pedido encontrado en el dashboard:', ultimoPedido);
-          
-          // Convertir el formato de pedido del dashboard al formato local
-          this.convertirPedidoDashboard(ultimoPedido);
-        } else {
-          console.log('No se encontraron pedidos en el dashboard');
-          // Continuar con la reconstrucción normal
-          this.reconstruirDatosPedido();
-        }
-      },
-      error: (error) => {
-        console.error('Error al obtener pedidos del dashboard:', error);
-        // Continuar con la reconstrucción normal
-        this.reconstruirDatosPedido();
-      }
-    });
-  }
-  
-  // Método para convertir un pedido del dashboard al formato local
-  convertirPedidoDashboard(pedidoDashboard: IPedido) {
-    // Obtener datos del cliente desde localStorage
-    const nombreCliente = localStorage.getItem('nameUser') || 'Cliente';
-    const email = localStorage.getItem('emailUser') || 'usuario@ejemplo.com';
-    
-    // Convertir los detalles del pedido al formato de Carrito
-    const carritoItems: Carrito[] = pedidoDashboard.detalles.map((detalle, index) => {
-      return new Carrito(
-        detalle.producto.nombre_producto,
-        index + 1, // ID temporal basado en el índice
-        detalle.precio_producto,
-        detalle.cantidad_productos,
-        'assets/carta/hamburguesa.webp', // Usamos una imagen por defecto ya que no viene en los datos
-        1 // ID de pedido genérico
-      );
-    });
-    
-    // Calcular total
-    let total = 0;
-    pedidoDashboard.detalles.forEach(detalle => {
-      total += detalle.subtotal;
-    });
-    
-    // Crear el pedido con los datos convertidos
-    this.pedido = new Pedido(
-      Date.now(), // ID generado con timestamp
-      total,
-      'Pedido del ' + new Date(pedidoDashboard.fecha_pedido).toLocaleDateString(),
-      pedidoDashboard.direccion_entrega,
-      nombreCliente,
-      carritoItems,
-      email
-    );
-    
-    console.log('Pedido convertido desde dashboard:', this.pedido);
-    this.toastr.success('¡Datos de pedido cargados desde el dashboard!');
-    
-    // Guardamos el pedido en el servicio para futuras referencias
-    this.pedidoService.setPedido(this.pedido);
-    
-    // Guardamos el pedido en localStorage
-    this.guardarPedidoEnLocalStorage();
-    
-    // Procesamos los parámetros de la URL
-    this.procesarParametrosURL();
   }
 }
