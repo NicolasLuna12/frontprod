@@ -13,7 +13,7 @@ import { Pedido } from '../model/pedido.model';
 })
 export class PedidosService {
 
-  url:string="https://backmobile1.onrender.com/appCART/";
+  url:string="appCART/";
   private pedido: Pedido = new Pedido(0,0,"","","",[]);
 
 
@@ -36,11 +36,11 @@ export class PedidosService {
 
     return this.http.get<Carrito[]>(this.url + 'ver');
   }
-  confirmarPedido():Observable<any>{
-    // Enviamos el pedido actual en lugar de un objeto vacío
-    const pedidoData = this.getPedido();
 
-    return this.http.post(this.url + 'confirmar/', pedidoData);
+  confirmarPedido():Observable<any>{
+    const hola={};
+
+    return this.http.post(this.url + 'confirmar/',hola);
   }
 
   deleteDetallePedido(detalle:Carrito):Observable<void>{
