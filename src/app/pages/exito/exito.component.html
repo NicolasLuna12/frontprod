@@ -51,63 +51,56 @@
             </pre>
           </div>
 
+          <!-- DATOS DEL USUARIO Y COMPRA (siempre visibles, pero destacado para MercadoPago) -->
           <div class="border-top border-gray-200 mt-4 py-4">
             <div class="row">
               <div class="col-md-6">
                 <div class="text-muted mb-2">Cliente</div>
-                <strong> {{ pedido.nombreCliente }} </strong>
-                <p class="fs-sm">
+                <strong>{{ pedido.nombreCliente }}</strong>
+                <p class="fs-sm mb-1">
+                  <span *ngIf="pedido.email">{{ pedido.email }}<br /></span>
                   {{ pedido.direccion }}
-                  <br />
-                  <a href="#!" class="text-purple user-mail"> </a>
                 </p>
               </div>
               <div class="col-md-6 text-md-end">
-                <div class="text-muted mb-2">Pago realizado a:</div>
-                <strong> ISPC FooD S.A. </strong>
-                <p class="fs-sm">
-                  Humberto Primo 680, Córdoba, Argentina
-                  <br />
-                  <a href="#!" class="text-purple">ispcfood&#64;email.com</a>
+                <div class="text-muted mb-2">Fecha de Pago</div>
+                <strong class="fecha-pago">{{ fechaActual | date:'dd/MM/yyyy HH:mm' }}</strong>
+                <div class="text-muted mt-2 mb-1">Pago realizado a:</div>
+                <strong>ISPC FooD S.A.</strong>
+                <p class="fs-sm mb-0">
+                  Humberto Primo 680, Córdoba, Argentina<br />
+                  <a href="mailto:ispcfood&#64;email.com" class="text-purple">ispcfood&#64;email.com</a>
                 </p>
               </div>
             </div>
           </div>
 
-          <table class="table border-bottom border-gray-200 mt-3">
-            <thead>
-              <tr>
-                <th scope="col" class="fs-sm text-color-terciario px-0">
-                Cantidad
-              </th>
-                <th scope="col" class="fs-sm text-color-terciario px-0">
-                  Descripción
-                </th>
-                <th
-                  scope="col"
-                  class="fs-sm text-color-terciario text-end px-0"
-                >
-                  Monto
-                </th>
-              </tr>
-            </thead>
-            <tbody class="table-container">
-              @for (item of pedido.carrito; track pedido.carrito){
-             <tr>
-              <td>{{item.cantidad}}</td>
+          <!-- DETALLE DE PRODUCTOS COMPRADOS -->
+          <div class="mt-4">
+            <h5 class="mb-3">Detalle de la compra</h5>
+            <table class="table border-bottom border-gray-200">
+              <thead>
+                <tr>
+                  <th scope="col" class="fs-sm text-color-terciario px-0">Cantidad</th>
+                  <th scope="col" class="fs-sm text-color-terciario px-0">Descripción</th>
+                  <th scope="col" class="fs-sm text-color-terciario text-end px-0">Monto</th>
+                </tr>
+              </thead>
+              <tbody class="table-container">
+                <tr *ngFor="let item of pedido.carrito">
+                  <td>{{ item.cantidad }}</td>
+                  <td>{{ item.producto }}</td>
+                  <td class="text-end">{{ item.precio | currency:'ARS':'symbol':'1.2-2' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-              <td>{{item.producto}}</td>
-              <td>{{"$ "+ item.precio}}</td>
-
-             </tr>
-              }
-            </tbody>
-          </table>
-
+          <!-- RESUMEN DE TOTALES -->
           <div class="mt-5">
             <div class="d-flex justify-content-end">
               <p class="text-muted me-3">Subtotal: </p>
-              <span class="subtotal">{{"$ "+ pedido.total}}</span>
+              <span class="subtotal">{{ pedido.total | currency:'ARS':'symbol':'1.2-2' }}</span>
             </div>
             <div class="d-flex justify-content-end">
               <p class="text-muted me-3">Descuento:</p>
@@ -115,7 +108,7 @@
             </div>
             <div class="d-flex justify-content-end mt-3">
               <h5 class="me-3">Total:</h5>
-              <h5 class="text-success total">{{"$ "+pedido.total}}</h5>
+              <h5 class="text-success total">{{ pedido.total | currency:'ARS':'symbol':'1.2-2' }}</h5>
             </div>
           </div>
         </div>
