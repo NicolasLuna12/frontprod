@@ -1,7 +1,7 @@
 # Configuración para Netlify
 [build]
   # Directorio que se publicará en el sitio web de Netlify
-  publish = "dist/app"
+  publish = "dist/app/browser"
   # Comando para construir el sitio
   command = "ng build --configuration production"
 
