@@ -36,9 +36,15 @@ export class ExitoComponent implements OnInit {
     window.print();
     window.location.href = './home';
   }
-  
-  ngOnInit(): void {
+    ngOnInit(): void {
+    // Obtener el pedido del servicio
     this.pedido = this.pedidoService.getPedido();
+    
+    // Si el pedido está vacío o incompleto, mostrar un mensaje
+    if (!this.pedido || !this.pedido.nombreCliente || this.pedido.total <= 0) {
+      console.warn('Pedido vacío o incompleto:', this.pedido);
+      this.toastr.warning('No se pudo cargar la información completa del pedido');
+    }
     
     // Verificar si hay parámetros de MercadoPago en la URL
     this.route.queryParams.subscribe(params => {
@@ -50,7 +56,9 @@ export class ExitoComponent implements OnInit {
       if (params['mp_ticket']) {
         try {
           this.mercadoPagoTicket = JSON.parse(params['mp_ticket']);
+          console.log('Ticket MercadoPago parseado correctamente:', this.mercadoPagoTicket);
         } catch (e) {
+          console.error('Error al parsear el ticket de MercadoPago:', e);
           this.mercadoPagoTicket = null;
         }
       }
@@ -62,23 +70,31 @@ export class ExitoComponent implements OnInit {
       }
     });
   }
-  
-  verificarPagoMercadoPago() {
-    if (!this.paymentId) return;
+    verificarPagoMercadoPago() {
+    if (!this.paymentId) {
+      console.error('No se encontró ID de pago');
+      return;
+    }
+    
+    console.log('Verificando pago con ID:', this.paymentId);
     
     // Confirmar el pedido en el backend al volver de Mercado Pago
     this.pedidoService.confirmarPedido().subscribe({
-      next: () => {
+      next: (response) => {
+        console.log('Respuesta de confirmación de pedido:', response);
         this.toastr.success('¡Pedido confirmado y ticket generado!');
         // No asignar paymentId, status ni paymentType al pedido porque no existen en el modelo
       },
       error: (error) => {
+        console.error('Error al confirmar pedido:', error);
         this.toastr.error('No se pudo confirmar el pedido automáticamente.');
       }
     });
     
     this.mercadoPagoService.verificarPago(this.paymentId).subscribe({
       next: (response) => {
+        console.log('Respuesta de verificación de pago:', response);
+        
         if (response && response.status === 'approved') {
           this.toastr.success('¡Pago confirmado con MercadoPago!');
           // Redirigir a /exito si no estamos ya allí
