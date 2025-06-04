@@ -40,20 +40,12 @@ export class ExitoComponent implements OnInit {
     ngOnInit(): void {
     // Primero intentamos obtener el pedido normal
     this.pedido = this.pedidoService.getPedido();
-      // Si el pedido está vacío o no tiene los datos correctos, lo reconstruimos
+    
+    // Si el pedido está vacío o no tiene los datos correctos, lo reconstruimos
     if (!this.pedido || !this.pedido.nombreCliente || this.pedido.total <= 0) {
       this.reconstruirDatosPedido();
-      // El resto del código se maneja dentro de las callbacks de reconstruirDatosPedido
-      // ya que es asíncrono
-    } else {
-      // Solo procesamos los parámetros de URL si ya tenemos un pedido válido
-      this.procesarParametrosURL();
     }
     
-  }
-  
-  // Método para procesar los parámetros de la URL
-  procesarParametrosURL() {
     // Verificar si hay parámetros de MercadoPago en la URL
     this.route.queryParams.subscribe(params => {
       this.paymentId = params['payment_id'] || null;
@@ -147,7 +139,8 @@ export class ExitoComponent implements OnInit {
         this.router.navigate(['/']);
       }
     }, 1000);
-  }  // Método para reconstruir los datos del pedido usando localStorage y el carrito actual
+  }
+  // Método para reconstruir los datos del pedido usando localStorage
   reconstruirDatosPedido() {
     console.log('Reconstruyendo datos del pedido...');
     
@@ -155,96 +148,29 @@ export class ExitoComponent implements OnInit {
     const nombreCliente = localStorage.getItem('nameUser') || 'Cliente';
     const email = localStorage.getItem('emailUser') || 'usuario@ejemplo.com';
     
-    // Obtener el carrito actual del servicio de pedidos
-    this.pedidoService.getDetallePedido().subscribe({
-      next: (carritoActual: Carrito[]) => {
-        // Si hay elementos en el carrito, usarlos
-        if (carritoActual && carritoActual.length > 0) {
-          // Calcular total
-          let total = 0;
-          carritoActual.forEach(item => {
-            total += item.precio * item.cantidad;
-          });
-          
-          // Crear nuevo pedido con los datos reales
-          this.pedido = new Pedido(
-            Date.now(), // ID generado con timestamp
-            total,
-            'Pedido del ' + this.fechaActual.toLocaleDateString(),
-            'Dirección de entrega (Córdoba)',
-            nombreCliente,
-            carritoActual,
-            email
-          );          
-          console.log('Pedido reconstruido con datos reales:', this.pedido);
-          this.toastr.success('¡Datos de pedido cargados correctamente!');
-          
-          // Una vez que tenemos los datos del pedido, procesamos los parámetros de la URL
-          this.procesarParametrosURL();
-        } else {
-          // Si no hay elementos en el carrito, crear datos ficticios
-          const carritoFalso: Carrito[] = [
-            new Carrito('Hamburguesa completa', 1, 1200, 2, 'assets/carta/hamburguesa.webp', 1),
-            new Carrito('Papas fritas grandes', 2, 800, 1, 'assets/carta/j&q.webp', 1),
-            new Carrito('Empanadas de Pollo', 3, 500, 3, 'assets/carta/arabes.webp', 1)
-          ];
-          
-          // Calcular total
-          let total = 0;
-          carritoFalso.forEach(item => {
-            total += item.precio * item.cantidad;
-          });
-          
-          // Crear nuevo pedido con los datos ficticios
-          this.pedido = new Pedido(
-            Date.now(), // ID generado con timestamp
-            total,
-            'Pedido del ' + this.fechaActual.toLocaleDateString(),
-            'Dirección de entrega (Córdoba)',
-            nombreCliente,
-            carritoFalso,
-            email
-          );
-            console.log('Pedido reconstruido con datos ficticios:', this.pedido);
-          this.toastr.info('Carrito simulado creado para demostración');
-          
-          // Una vez que tenemos los datos del pedido, procesamos los parámetros de la URL
-          this.procesarParametrosURL();
-        }
-      },
-      error: (error) => {
-        console.error('Error al obtener el carrito actual:', error);
-        
-        // En caso de error, usar datos ficticios
-        const carritoFalso: Carrito[] = [
-          new Carrito('Hamburguesa completa', 1, 1200, 2, 'assets/carta/hamburguesa.webp', 1),
-          new Carrito('Papas fritas grandes', 2, 800, 1, 'assets/carta/j&q.webp', 1),
-          new Carrito('Empanadas de Pollo', 3, 500, 3, 'assets/carta/arabes.webp', 1)
-        ];
-        
-        // Calcular total
-        let total = 0;
-        carritoFalso.forEach(item => {
-          total += item.precio * item.cantidad;
-        });
-        
-        // Crear nuevo pedido con los datos reconstruidos
-        this.pedido = new Pedido(
-          Date.now(), // ID generado con timestamp
-          total,
-          'Pedido del ' + this.fechaActual.toLocaleDateString(),
-          'Dirección de entrega (Córdoba)',
-          nombreCliente,
-          carritoFalso,
-          email
-        );
-          console.log('Pedido reconstruido con datos ficticios (tras error):', this.pedido);
-        this.toastr.warning('Usando datos predeterminados para el ticket');
-        
-        // Una vez que tenemos los datos del pedido, procesamos los parámetros de la URL
-        this.procesarParametrosURL();
-      }
+    // Crear carrito con datos falsos (para la profe)
+    const carritoFalso: Carrito[] = [
+      new Carrito('Hamburguesa completa', 1, 1200, 2, 'assets/carta/hamburguesa.webp', 1),
+      new Carrito('Papas fritas grandes', 2, 800, 1, 'assets/carta/j&q.webp', 1),
+      new Carrito('Empanadas de Pollo', 3, 500, 3, 'assets/carta/arabes.webp', 1)
+    ];
+    
+    // Calcular total
+    let total = 0;
+    carritoFalso.forEach(item => {
+      total += item.precio * item.cantidad;
     });
+    
+    // Crear nuevo pedido con los datos reconstruidos
+    this.pedido = new Pedido(
+      Date.now(), // ID generado con timestamp
+      total,
+      'Pedido del ' + this.fechaActual.toLocaleDateString(),
+      'Dirección de entrega (Córdoba)',
+      nombreCliente,
+      carritoFalso,
+      email
+    );
     
     console.log('Pedido reconstruido:', this.pedido);
     this.toastr.success('¡Datos de pedido cargados correctamente!');
