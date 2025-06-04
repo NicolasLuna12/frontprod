@@ -23,7 +23,7 @@
           </div>
 
           <!-- Info de MercadoPago si existe -->
-          <!-- <div class="border-top border-gray-200 mt-4 py-4" *ngIf="paymentId">
+          <div class="border-top border-gray-200 mt-4 py-4" *ngIf="paymentId">
             <div class="row">
               <div class="col-md-6">
                 <div class="text-muted mb-2">ID de Pago (MercadoPago)</div>
@@ -36,43 +36,11 @@
                 </strong>
               </div>
             </div>
-          </div>          Logo Mercado Pago si el pago fue con MercadoPago 
+          </div>          <!-- Logo Mercado Pago si el pago fue con MercadoPago -->
           <div class="text-center my-3" *ngIf="paymentId">
             <img src="https://contactopuro.com/files/mercadopago-81090.png" alt="Mercado Pago" style="height:48px;width:auto;object-fit:contain;" />
             <div class="alert alert-success mt-2">
               <h5 class="mb-0">Pago procesado correctamente con MercadoPago</h5>
-            </div>
-          </div> -->
-
-          <!-- Bloque de información de pago unificado para PayPal y MercadoPago -->
-          <div class="border-top border-gray-200 mt-4 py-4" *ngIf="paymentId && status">
-            <div class="row align-items-center">
-              <div class="col-md-2 text-center">
-                <img *ngIf="paymentType === 'paypal'" src="https://cdn.icon-icons.com/icons2/2108/PNG/512/paypal_icon_130860.png" alt="PayPal" style="height:48px;width:auto;object-fit:contain;" />
-                <img *ngIf="paymentType === 'mercadopago'" src="https://contactopuro.com/files/mercadopago-81090.png" alt="Mercado Pago" style="height:48px;width:auto;object-fit:contain;" />
-              </div>
-              <div class="col-md-5">
-                <div class="text-muted mb-2">ID de Pago</div>
-                <strong>{{ paymentId }}</strong>
-              </div>
-              <div class="col-md-5 text-md-end">
-                <div class="text-muted mb-2">Estado</div>
-                <strong [ngClass]="{'text-success': status === 'approved', 'text-warning': status === 'in_process', 'text-danger': status === 'rejected'}">
-                  {{ status === 'approved' ? 'Aprobado' : (status === 'in_process' ? 'En proceso' : (status === 'rejected' ? 'Rechazado' : status)) }}
-                </strong>
-                <div *ngIf="status === 'approved' && paymentType === 'paypal'" class="alert alert-success mt-2">
-                  <h5 class="mb-0">Pago procesado correctamente con PayPal</h5>
-                </div>
-                <div *ngIf="status === 'approved' && paymentType === 'mercadopago'" class="alert alert-success mt-2">
-                  <h5 class="mb-0">Pago procesado correctamente con MercadoPago</h5>
-                </div>
-                <div *ngIf="status === 'in_process'" class="alert alert-warning mt-2">
-                  <h5 class="mb-0">El pago está siendo procesado</h5>
-                </div>
-                <div *ngIf="status === 'rejected'" class="alert alert-danger mt-2">
-                  <h5 class="mb-0">El pago fue rechazado</h5>
-                </div>
-              </div>
             </div>
           </div>
 
