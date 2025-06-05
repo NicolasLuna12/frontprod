@@ -9,9 +9,13 @@
 <router-outlet></router-outlet>
 <app-footer></app-footer>
 
+<!-- Chatbot flotante en el filo abajo a la derecha -->
+<app-chat-bot></app-chat-bot>
+
 <!-- Botón flotante de WhatsApp -->
 <a [href]="contactoService.getUrlWhatsApp('Hola, necesito ayuda con mi pedido')" 
-   class="whatsapp-float" 
+   class="whatsapp-float"
+   [ngClass]="{'whatsapp-float-home': isHome}"
    target="_blank" 
    rel="noopener noreferrer">
   <i class="bi bi-whatsapp"></i>
