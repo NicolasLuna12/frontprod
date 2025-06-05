@@ -59,6 +59,12 @@
   white-space: nowrap;
 }
 
+/* Estilo específico para el tooltip cuando está en la home (a la izquierda) */
+.whatsapp-float-home .whatsapp-tooltip {
+  right: auto;
+  left: 70px;
+}
+
 .whatsapp-float:hover .whatsapp-tooltip {
   opacity: 1;
 }
@@ -176,7 +182,7 @@ body {
 
 .whatsapp-float-home {
   bottom: 120px !important; /* Más abajo pero aún arriba del traductor */
-  left: 30px !important;
-  right: auto !important;
+  left: 30px !important; /* Posicionarlo a la izquierda en la home */
+  right: auto !important; /* Anular la posición derecha del estilo base */
   transition: bottom 0.3s, left 0.3s;
 }

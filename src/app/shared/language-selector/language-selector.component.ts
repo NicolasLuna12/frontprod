@@ -6,15 +6,14 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-language-selector',
   standalone: true,
-  imports: [CommonModule],
-  template: `
+  imports: [CommonModule],  template: `
     <div class="language-selector-container">
       <button 
         class="language-selector-button" 
         [class.active]="isDropdownOpen" 
-        (click)="toggleDropdown()"
-        title="Cambiar idioma">
+        (click)="toggleDropdown()">
         <img class="current-flag" [src]="getCurrentLanguageFlag()" [alt]="getCurrentLanguageName() + ' flag'">
+        <span class="language-tooltip">Cambiar idioma</span>
       </button>
       
       <div class="language-dropdown" [class.show]="isDropdownOpen">
@@ -29,13 +28,12 @@ import { Subscription } from 'rxjs';
         </div>
       </div>
     </div>
-  `,  styles: [`
-    .language-selector-container {
+  `,  styles: [`    .language-selector-container {
       position: fixed;
       bottom: 40px;
       left: 30px;
-      z-index: 1000;
-    }.language-selector-button {
+      z-index: 1060; /* Mayor que el z-index del botón de WhatsApp (1050) */
+    }    .language-selector-button {
       width: 60px;
       height: 60px;
       border-radius: 50%;
@@ -49,24 +47,37 @@ import { Subscription } from 'rxjs';
       justify-content: center;
       transition: all 0.3s ease;
       position: relative;
-      overflow: hidden;
+      overflow: visible;
       padding: 0;
-    }
-    
-    .current-flag {
+      box-sizing: border-box;
+    }.current-flag {
       width: 100%;
       height: 100%;
       border-radius: 50%;
       object-fit: cover;
-      box-shadow: 0 0 0 3px white;
-    }
-
-    .language-selector-button:hover {
+      position: relative;
+    }.language-selector-button:hover {
       transform: scale(1.05);
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
     }
-
-    .language-dropdown {
+      .language-tooltip {
+      position: absolute;
+      left: 70px;
+      background-color: #333;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+      z-index: 1070; /* Asegurar que esté por encima de todo */
+    }
+    
+    .language-selector-button:hover .language-tooltip {
+      opacity: 1;
+    }.language-dropdown {
       position: absolute;
       bottom: 70px;
       left: 0;
@@ -79,6 +90,7 @@ import { Subscription } from 'rxjs';
       transition: max-height 0.3s ease, opacity 0.3s ease;
       opacity: 0;
       visibility: hidden;
+      z-index: 1060; /* Asegurar que esté por encima del botón de WhatsApp */
     }
 
     .language-dropdown.show {
