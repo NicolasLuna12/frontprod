@@ -136,3 +136,40 @@
     padding: 0.5rem 1.1rem;
   }
 }
+
+/* Estilos para ocultar elementos de Google Translate */
+.goog-te-banner-frame,
+.goog-te-menu-frame,
+.skiptranslate {
+  display: none !important;
+}
+
+body {
+  top: 0 !important;
+}
+
+.goog-te-gadget {
+  font-size: 0 !important;
+}
+
+.goog-te-gadget span {
+  display: none !important;
+}
+
+.goog-te-gadget div {
+  display: inline !important;
+}
+
+.goog-tooltip {
+  display: none !important;
+}
+
+.goog-tooltip:hover {
+  display: none !important;
+}
+
+.goog-text-highlight {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}

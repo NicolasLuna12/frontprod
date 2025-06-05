@@ -5,6 +5,7 @@ import { NavComponent } from './shared/nav/nav.component';
 import { CarritoComponent } from './pages/carrito/carrito.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { ContactoService } from './services/contacto.service';
+import { LanguageSelectorComponent } from './shared/language-selector/language-selector.component';
 
 
 @Component({
@@ -15,7 +16,8 @@ import { ContactoService } from './services/contacto.service';
     RouterOutlet,
     CarritoComponent,
     CommonModule,
-    FooterComponent
+    FooterComponent,
+    LanguageSelectorComponent
   ],
 
   templateUrl: './app.component.html',
