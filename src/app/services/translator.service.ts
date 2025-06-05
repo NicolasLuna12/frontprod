@@ -27,25 +27,52 @@ export class TranslatorService {
   // Comprobar si hay un idioma guardado previamente
   private checkSavedLanguage(): void {
     const savedLanguage = localStorage.getItem('selectedLanguage');
-    // Solo cambiar si el idioma guardado es distinto al actual
-    if (savedLanguage && savedLanguage !== 'es' && savedLanguage !== this.currentLanguage.value) {
+    // Leer la cookie actual de Google Translate
+    const googtrans = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('googtrans='));
+    const cookieLang = googtrans ? googtrans.split('/')[2] : 'es';
+
+    // Solo cambiar si el idioma guardado es distinto al de la cookie
+    if (
+      savedLanguage &&
+      savedLanguage !== 'es' &&
+      savedLanguage !== cookieLang
+    ) {
       this.changeLanguage(savedLanguage);
     }
   }
 
-  // Obtener el idioma actual
+  // Obtener el idioma currente
   get language() {
     return this.currentLanguage.asObservable();
   }
   // Cambiar el idioma
-  changeLanguage(languageCode: string): void {    // Si seleccionamos español, simplemente eliminamos el widget y recargamos la página
+  changeLanguage(languageCode: string): void {
+    // Si seleccionamos español, simplemente eliminamos el widget y recargamos la página
     if (languageCode === 'es') {
       this.removeTranslateWidget();
       localStorage.removeItem('selectedLanguage');
       window.location.reload();
       return;
     }
-      this.currentLanguage.next(languageCode);
+
+    // Leer la cookie actual de Google Translate
+    const googtrans = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('googtrans='));
+    const cookieLang = googtrans ? googtrans.split('/')[2] : 'es';
+
+    // Si el idioma es distinto al de la cookie, setear y recargar
+    if (languageCode !== cookieLang) {
+      localStorage.setItem('selectedLanguage', languageCode);
+      this.setTranslateCookie(languageCode);
+      window.location.reload();
+      return;
+    }
+
+    // Si ya está en el idioma correcto, solo actualiza el observable (opcional)
+    this.currentLanguage.next(languageCode);
     
     // Almacenar el idioma seleccionado en localStorage
     localStorage.setItem('selectedLanguage', languageCode);
