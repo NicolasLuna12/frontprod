@@ -68,35 +68,11 @@ export class CarritoComponent implements OnInit, OnDestroy {
     if (direccionPerfil && direccionPerfil.trim() !== '') {
       this.direccion = direccionPerfil;
       this.form.patchValue({ domicilio: direccionPerfil });
-      this.isDireccionPerfil = true;  // La dirección actual es la del perfil
-    } else {
-      // Solicitar al backend que obtenga la dirección actualizada del usuario
-      const userId = localStorage.getItem('idUser');
-      if (userId) {
-        this.authService.getUserProfile(userId).subscribe({
-          next: (userData: any) => {
-            if (userData && userData.direccion && userData.direccion.trim() !== '') {
-              this.direccion = userData.direccion;
-              // Usar el SharedDataService para actualizar la dirección
-              this.sharedDataService.actualizarDireccion(userData.direccion);
-              this.form.patchValue({ domicilio: userData.direccion });
-              this.isDireccionPerfil = true;  // La dirección actual es la del perfil
-            } else {
-              this.direccion = '';  // No usamos "Sin especificar" como valor
-              this.isDireccionPerfil = false;
-            }
-          },
-          error: () => {
-            // En caso de error, dejamos la dirección vacía
-            this.direccion = '';
-            this.isDireccionPerfil = false;
-          }
-        });
-      } else {
-        // Si no hay ID de usuario, dejamos la dirección vacía
-        this.direccion = '';
-        this.isDireccionPerfil = false;
-      }
+      this.isDireccionPerfil = true;  // La dirección actual es la del perfil    } else {
+      // Ya que no queremos hacer llamadas al backend para la dirección,
+      // simplemente dejamos la dirección vacía y permitimos que el usuario la especifique
+      this.direccion = '';
+      this.isDireccionPerfil = false;
     }
     
     // Cargar los detalles del carrito
@@ -235,19 +211,12 @@ export class CarritoComponent implements OnInit, OnDestroy {
       this.cerrarModal();
       this.direccion = this.form.value.domicilio;
       this.info = this.form.value.info;
-      
-      // Guardar la dirección en localStorage para uso futuro
-      if (this.direccion && this.direccion.trim() !== '') {
-        // Usar el SharedDataService para actualizar la dirección en todos los componentes
-        this.sharedDataService.actualizarDireccion(this.direccion);
-        
-        // Determinar si estamos usando la dirección del perfil
-        const direccionPerfil = localStorage.getItem('direccion') || '';
-        this.isDireccionPerfil = this.direccion === direccionPerfil;
-        
-        // Mostrar mensaje de confirmación al usuario
-        this.toastr.success('Dirección actualizada correctamente');
-      }
+      // Solo sincronizar la dirección en la UI, no modificar localStorage ni perfil
+      this.sharedDataService.actualizarDireccion(this.direccion);
+      // Determinar si estamos usando la dirección del perfil (solo para mostrar en UI)
+      const direccionPerfil = localStorage.getItem('direccion') || '';
+      this.isDireccionPerfil = this.direccion === direccionPerfil;
+      this.toastr.success('Dirección de entrega actualizada para este pedido');
     } else {
       this.form.markAllAsTouched();
     }
