@@ -254,4 +254,8 @@ export class CarritoComponent implements OnInit, OnDestroy {
   get Domicilio() {
     return this.form.get('domicilio');
   }
+
+  get direccionPerfil(): string {
+    return localStorage.getItem('direccion') || 'No hay dirección en perfil';
+  }
 }
