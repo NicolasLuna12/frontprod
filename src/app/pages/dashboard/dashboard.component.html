@@ -31,6 +31,7 @@
     <table class="table table-bordered table-hover">
       <thead class="table-dark">
         <tr>
+          <th scope="col">ID Pedido</th>
           <th scope="col">Fecha</th>
           <th scope="col">Dirección de Entrega</th>
           <th scope="col">Estado</th>
@@ -41,6 +42,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let pedido of pedidosFiltrados">
+          <td>{{ pedido.id_pedidos }}</td>
           <td>{{ pedido.fecha_pedido }}</td>
           <td>{{ pedido.direccion_entrega }}</td>
           <td>

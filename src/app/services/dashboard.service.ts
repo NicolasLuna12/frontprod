@@ -16,6 +16,7 @@ export interface IDetalle {
 }
 
 export interface IPedido {
+  id_pedidos: number;
   fecha_pedido: string;
   direccion_entrega: string;
   estado: string;

@@ -47,6 +47,13 @@ export class CarritoComponent implements OnInit, OnDestroy {
     });
   }
   ngOnInit(): void {
+    // En lugar de llamar a getUserProfile, obtenemos la dirección desde localStorage
+    const direccion = localStorage.getItem('direccion') || '';
+    if (direccion && direccion !== '') {
+      this.direccion = direccion;
+      this.form.patchValue({ domicilio: direccion });
+    }
+
     this.subscription = this.carritoService.carritoVisible$.subscribe(
       (visible) => {
         this.isVisible = visible;
@@ -106,10 +113,11 @@ export class CarritoComponent implements OnInit, OnDestroy {
     if (this.direccion == 'Sin especificar') {
       this.toastr.error('Debe especificar el domicilio de entrega');
       this.abrirModal();
-    } else {      let nameUser: any = localStorage.getItem('nameUser')
+    } else {
+      let nameUser: any = localStorage.getItem('nameUser')
         ? localStorage.getItem('nameUser')
         : 'Sin nombre';
-      
+
       let emailUser: any = localStorage.getItem('emailUser')
         ? localStorage.getItem('emailUser')
         : '';

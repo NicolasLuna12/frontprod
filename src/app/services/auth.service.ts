@@ -60,17 +60,12 @@ export class AuthService {
     return this.authStatus$;
   }
 
-  // Nuevo método para obtener el perfil del usuario (incluyendo la URL de la imagen)
-  getUserProfile(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}profile/`);
-  }
-
   // Nuevo método para actualizar la URL de la imagen de perfil en el backend usando el endpoint de update
-  updateUserProfileImage(imageUrl: string): Observable<any> {
-    const userId = localStorage.getItem('idUser');
-    // Puedes agregar más campos si tu backend los requiere
-    return this.http.put<any>(`${this.apiUrl}update/`, { id_usuario: userId, imagen_perfil_url: imageUrl });
-  }
+  // updateUserProfileImage(imageUrl: string): Observable<any> {
+  //   const userId = localStorage.getItem('idUser');
+  //   // Puedes agregar más campos si tu backend los requiere
+  //   return this.http.put<any>(`${this.apiUrl}update/`, { id_usuario: userId, imagen_perfil_url: imageUrl });
+  // }
 
   register(userData: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}register/`, userData).pipe(
