@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Usuario } from '../../model/usuario.model';
 import { ImageUploadService } from '../../services/image-upload.service';
+import { SharedDataService } from '../../services/shared-data.service';
 
 @Component({
   selector: 'app-perfil',
@@ -22,12 +23,12 @@ export class PerfilComponent implements OnInit {
   imagenPerfil: string | null = null;
   imagenError: string | null = null;
   imagenArchivo: File | null = null;
-  
-  constructor(
+    constructor(
     private fb: FormBuilder,
     public authService: AuthService,
     private toastr: ToastrService,
-    private imageUploadService: ImageUploadService // Inyectar el servicio
+    private imageUploadService: ImageUploadService, // Inyectar el servicio
+    private sharedDataService: SharedDataService
   ) {
     this.perfilForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -156,10 +157,14 @@ export class PerfilComponent implements OnInit {
 
     this.authService.updateUser(userId, datosUsuario).subscribe({
       next: (response) => {
-        this.toastr.success('Perfil actualizado con éxito');
-        localStorage.setItem('nameUser', `${datosUsuario.nombre} ${datosUsuario.apellido}`);
+        this.toastr.success('Perfil actualizado con éxito');        localStorage.setItem('nameUser', `${datosUsuario.nombre} ${datosUsuario.apellido}`);
         localStorage.setItem('fechaActualizacion', fechaActualizacionStr);
-        localStorage.setItem('direccion', datosUsuario.direccion || '');
+        
+        // Utilizar el servicio compartido para actualizar la dirección
+        if (datosUsuario.direccion && datosUsuario.direccion.trim() !== '') {
+          this.sharedDataService.actualizarDireccion(datosUsuario.direccion);
+        }
+        
         localStorage.setItem('telefono', datosUsuario.telefono || '');
         this.usuario.fechaActualizacion = fechaActualizacionStr;
         this.cargando = false;

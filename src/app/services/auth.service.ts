@@ -19,16 +19,35 @@ export class AuthService {
   private hasToken(): boolean {
     return !!localStorage.getItem('authToken');
   }
-
   login(email: string, password: string): Observable<any> {
     // Simula una llamada HTTP POST a tu API de autenticación
-    return this.http.post<{ access: string, user_id: string, nombre:string, apellido:string, email:string, imagen_perfil_url?:string }>(`${this.apiUrl}login/`, { email, password }).pipe(
+    return this.http.post<{ 
+      access: string, 
+      user_id: string, 
+      nombre: string, 
+      apellido: string, 
+      email: string, 
+      direccion?: string, 
+      telefono?: string, 
+      imagen_perfil_url?: string 
+    }>(`${this.apiUrl}login/`, { email, password }).pipe(
       map(response => {
         
         localStorage.setItem('nameUser', response.nombre+' '+response.apellido);
         localStorage.setItem('emailUser', response.email);
         localStorage.setItem('authToken', response.access);
         localStorage.setItem('idUser', response.user_id);
+        
+        // Guardar la dirección del usuario si viene en la respuesta
+        if (response.direccion) {
+          localStorage.setItem('direccion', response.direccion);
+        }
+        
+        // Guardar el teléfono si viene en la respuesta
+        if (response.telefono) {
+          localStorage.setItem('telefono', response.telefono);
+        }
+        
         // Guardar la URL de la imagen de perfil SIEMPRE que venga del backend
         if (response.imagen_perfil_url) {
           localStorage.setItem('imagenPerfil', response.imagen_perfil_url);
@@ -88,7 +107,6 @@ export class AuthService {
       })
     );
   }
-
   deleteUser(userId: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}delete/`).pipe(
       map(response => {
@@ -98,6 +116,11 @@ export class AuthService {
         return response;
       })
     );
+  }
+  
+  // Método para obtener el perfil del usuario incluyendo su dirección
+  getUserProfile(userId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}user/${userId}/`);
   }
 
   // Método para actualizar la URL de la imagen de perfil manualmente (opcional)

@@ -8,11 +8,8 @@
     ></button>
     <p class="fs-1 fw-bold title text-center">Mi Carrito</p>
     @if (detallePedido.length!=0) {
-    <hr />
-    
-    
-    <p class="text-center lh-1 titleDireccion">Dirección de entrega:</p>
-    @if(direccion=='Sin especificar'){
+    <hr />        <p class="text-center lh-1 titleDireccion">Dirección de entrega:</p>
+    @if(!direccion || direccion===''){
       <button
       class="btn btn-secondary"
       data-bs-toggle="modal"
@@ -20,11 +17,18 @@
     >
       Añadir dirección
     </button>
+    <small class="d-block text-muted mt-1">
+      Se utilizará automáticamente la dirección guardada en tu perfil.
+    </small>
     }
     @else
     {
-      
-    <p class="text-center lh-1 textDireccion" >{{direccion}} - {{info}} </p>
+    <p class="text-center lh-1 textDireccion" >{{direccion}}{{info ? ' - ' + info : ''}}</p>
+    @if(isDireccionPerfil){
+      <small class="d-block text-success mb-2">
+        <i class="bi bi-check-circle-fill me-1"></i>Usando dirección de tu perfil
+      </small>
+    }
     <button
       class="btn btn-secondary"
       data-bs-toggle="modal"
@@ -106,8 +110,7 @@
   aria-hidden="true"
 >
   <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
+    <div class="modal-content">      <div class="modal-header">
         <h5 class="modal-title">Domicilio de entrega</h5>
         <button
           type="button"
@@ -126,9 +129,10 @@
               type="text"
               class="form-control"
               id="domicilio"
-              placeholder="Ingrese su domicilio"
+              placeholder="Ingrese su domicilio o se usará el de su perfil"
               formControlName="domicilio"
             />
+            <small class="text-muted">Si no especifica una dirección, se utilizará la guardada en su perfil.</small>
             @if(Domicilio?.errors && Domicilio?.touched) {
               @if(Domicilio?.hasError('required')) {
               <p class="text-danger">El domicilio es requerido</p>
