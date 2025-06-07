@@ -3,6 +3,7 @@ import { DashboardService, IPedido, IPedidosData } from '../../services/dashboar
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { CarritoService } from '../../services/carrito.service';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class DashboardComponent implements OnInit{
   nombre: string = '';
   isLoading: boolean = true; // Añadir indicador de carga
   
-  constructor(private dashboardService: DashboardService, private authService: AuthService, private toastr: ToastrService) {}
+  constructor(private dashboardService: DashboardService, private authService: AuthService, private toastr: ToastrService, private carritoService: CarritoService) {}
 
   ngOnInit(): void {
     this.nombre = localStorage.getItem('nameUser') || '';
@@ -100,12 +101,15 @@ export class DashboardComponent implements OnInit{
   }
 
   cancelarPedido(pedido: IPedido): void {
-    // Aquí puedes implementar la lógica real de cancelación (llamada a backend, etc.)
-    // Por ahora solo lo quitamos de la lista visualmente
     this.pedidosData.pendientes = this.pedidosData.pendientes.filter(p => p.id_pedidos !== pedido.id_pedidos);
     if (this.activeTab === 'Pendientes') {
       this.setActiveTab('Pendientes');
     }
-    this.toastr.info('Pedido cancelado.');
+    // Vaciar el carrito y actualizar la UI
+    if (typeof window !== 'undefined' && localStorage) {
+      localStorage.removeItem('carrito');
+    }
+    this.carritoService.tiggerActualizarCarrito();
+    this.toastr.info('Pedido cancelado y carrito vaciado.');
   }
 }
