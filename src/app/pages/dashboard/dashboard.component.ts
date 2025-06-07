@@ -35,7 +35,9 @@ export class DashboardComponent implements OnInit{
         this.pedidosData = {
           pendientes: (data.results || []).filter((p: IPedido) => p.estado === 'Pendiente'),
           aprobados: (data.results || []).filter((p: IPedido) => p.estado === 'Aprobado por Chayanne' || p.estado === 'Aprobado'),
-          entregados: (data.results || []).filter((p: IPedido) => p.estado !== 'Pendiente' && p.estado !== 'Aprobado por Chayanne' && p.estado !== 'Aprobado')
+          entregados: (data.results || [])
+            .filter((p: IPedido) => p.estado !== 'Pendiente' && p.estado !== 'Aprobado por Chayanne' && p.estado !== 'Aprobado')
+            .sort((a: IPedido, b: IPedido) => new Date(b.fecha_pedido).getTime() - new Date(a.fecha_pedido).getTime())
         };
         this.setActiveTab(this.activeTab);
         this.isLoading = false;
