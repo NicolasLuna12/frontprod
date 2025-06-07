@@ -14,7 +14,6 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './exito.component.css',
 })
 export class ExitoComponent implements OnInit {
-  contador = 30;
   pedido: Pedido = new Pedido(0, 0, '', '', '', []);
   fechaActual: Date;
   paymentId: string | null = null;
@@ -57,8 +56,6 @@ export class ExitoComponent implements OnInit {
       
       if (this.paymentId && this.status && !this.mercadoPagoTicket) {
         this.verificarPagoMercadoPago();
-      } else {
-        this.startCountdown();
       }
     });
   }
@@ -104,23 +101,11 @@ export class ExitoComponent implements OnInit {
           }, 5000);
           return;
         }
-        this.startCountdown();
       },
       error: (error) => {
         console.error('Error al verificar estado del pago:', error);
         this.toastr.warning('No se pudo verificar el estado del pago.');
-        this.startCountdown();
       }
     });
-  }
-
-  startCountdown() {
-    const contdownInterval = setInterval(() => {
-      this.contador--;
-      if (this.contador == 0) {
-        clearInterval(contdownInterval);
-        this.router.navigate(['/']);
-      }
-    }, 1000);
   }
 }

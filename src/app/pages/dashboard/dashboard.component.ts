@@ -65,7 +65,7 @@ export class DashboardComponent implements OnInit{
                 }
               });
             }
-          }, 30000 * (idx + 1)); // 30 segundos por cada uno
+          }, 15000 * (idx + 1)); // 15 segundos por cada uno
         });
       },
       error: (error) => {
