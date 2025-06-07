@@ -33,12 +33,37 @@ export class DashboardComponent implements OnInit{
       next: (data: any) => {
         // Adaptar los datos recibidos para que todo lo que venga en results vaya a entregados
         this.pedidosData = {
-          pendientes: [],
-          aprobados: [],
-          entregados: data.results || []
+          pendientes: (data.results || []).filter((p: IPedido) => p.estado === 'Pendiente'),
+          aprobados: (data.results || []).filter((p: IPedido) => p.estado === 'Aprobado por Chayanne' || p.estado === 'Aprobado'),
+          entregados: (data.results || []).filter((p: IPedido) => p.estado !== 'Pendiente' && p.estado !== 'Aprobado por Chayanne' && p.estado !== 'Aprobado')
         };
         this.setActiveTab(this.activeTab);
         this.isLoading = false;
+        // Mover cada pedido aprobado (Aprobado o Aprobado por Chayanne) a entregados después de 1 minuto
+        this.pedidosData.aprobados.forEach((pedido, idx) => {
+          setTimeout(() => {
+            const aprobadoIndex = this.pedidosData.aprobados.findIndex(p => p.id_pedidos === pedido.id_pedidos);
+            if (aprobadoIndex !== -1) {
+              // Permitir ambos estados para el cambio
+              this.dashboardService.marcarComoEntregado(pedido.id_pedidos).subscribe({
+                next: () => {
+                  const pedidoEntregado = { ...this.pedidosData.aprobados[aprobadoIndex], estado: 'Entregado' };
+                  this.pedidosData.aprobados.splice(aprobadoIndex, 1);
+                  this.pedidosData.entregados.push(pedidoEntregado);
+                  if (this.activeTab === 'Aprobados') {
+                    this.setActiveTab('Aprobados');
+                  }
+                  if (this.activeTab === 'Entregados') {
+                    this.setActiveTab('Entregados');
+                  }
+                },
+                error: () => {
+                  this.toastr.error('No se pudo marcar como entregado en el backend.');
+                }
+              });
+            }
+          }, 30000 * (idx + 1)); // 30 segundos por cada uno
+        });
       },
       error: (error) => {
         console.error('Error al obtener pedidos:', error);
@@ -70,5 +95,15 @@ export class DashboardComponent implements OnInit{
       default:
         this.pedidosFiltrados = [];
     }
+  }
+
+  cancelarPedido(pedido: IPedido): void {
+    // Aquí puedes implementar la lógica real de cancelación (llamada a backend, etc.)
+    // Por ahora solo lo quitamos de la lista visualmente
+    this.pedidosData.pendientes = this.pedidosData.pendientes.filter(p => p.id_pedidos !== pedido.id_pedidos);
+    if (this.activeTab === 'Pendientes') {
+      this.setActiveTab('Pendientes');
+    }
+    this.toastr.info('Pedido cancelado.');
   }
 }

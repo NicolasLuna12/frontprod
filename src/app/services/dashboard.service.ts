@@ -48,4 +48,16 @@ export class DashboardService {
   agregarPedido(pedido: IPedido): Observable<IPedido> {
     return this.http.post<IPedido>(this.apiUrl, pedido);
   }
+
+  cancelarPedido(idPedido: number) {
+    // Ajusta la URL según tu backend
+    return this.http.post(this.apiUrl + 'cancelar/', { id_pedidos: idPedido });
+  }
+
+  marcarComoEntregado(idPedido: number) {
+    // El interceptor agregará el token automáticamente
+    return this.http.put(this.apiUrl + 'entregar/',
+      { id_pedidos: idPedido }
+    );
+  }
 }
