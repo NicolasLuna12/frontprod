@@ -89,7 +89,11 @@ export class AuthService {
   register(userData: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}register/`, userData).pipe(
       map(response => {
-        this.toastr.success('Registro exitoso!');
+        if (response.re_registro && response.nombre) {
+          this.toastr.success('Gracias por volver a elegirnos, ' + response.nombre + '!');
+        } else {
+          this.toastr.success('Registro exitoso!');
+        }
         return response;
       })
     );
