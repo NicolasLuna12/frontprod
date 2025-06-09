@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Usuario } from '../../model/usuario.model';
 import { ImageUploadService } from '../../services/image-upload.service';
 import { SharedDataService } from '../../services/shared-data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-perfil',
@@ -22,13 +23,13 @@ export class PerfilComponent implements OnInit {
   // Variables para la imagen de perfil
   imagenPerfil: string | null = null;
   imagenError: string | null = null;
-  imagenArchivo: File | null = null;
-    constructor(
+  imagenArchivo: File | null = null;    constructor(
     private fb: FormBuilder,
     public authService: AuthService,
     private toastr: ToastrService,
     private imageUploadService: ImageUploadService, // Inyectar el servicio
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
+    private router: Router
   ) {
     this.perfilForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -176,7 +177,6 @@ export class PerfilComponent implements OnInit {
       }
     });
   }
-
   eliminarCuenta(): void {
     const userId = localStorage.getItem('idUser');
     if (!userId) {
@@ -189,6 +189,8 @@ export class PerfilComponent implements OnInit {
         next: () => {
           // El método logout ya está siendo llamado dentro de deleteUser
           this.toastr.success('Cuenta eliminada correctamente');
+          // Redirigir al usuario a la página de login
+          this.router.navigate(['/login']);
         },
         error: (error) => {
           this.toastr.error('Error al eliminar la cuenta');

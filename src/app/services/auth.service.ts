@@ -106,8 +106,7 @@ export class AuthService {
         return response;
       })
     );
-  }
-  deleteUser(userId: string): Observable<any> {
+  }  deleteUser(userId: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}delete/`).pipe(
       map(response => {
         this.toastr.success('Usuario eliminado con éxito!');
