@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
   templateUrl: './perfil.component.html',
   styleUrls: ['./perfil.component.css']
 })
-export class PerfilComponent implements OnInit {
+export class PerfilComponent implements OnInit, OnDestroy {
   perfilForm: FormGroup;
   usuario: any = {};
   cargando = false;
@@ -23,7 +23,10 @@ export class PerfilComponent implements OnInit {
   // Variables para la imagen de perfil
   imagenPerfil: string | null = null;
   imagenError: string | null = null;
-  imagenArchivo: File | null = null;    constructor(
+  imagenArchivo: File | null = null;
+  private pollingInterval: any;
+
+  constructor(
     private fb: FormBuilder,
     public authService: AuthService,
     private toastr: ToastrService,
@@ -59,6 +62,13 @@ export class PerfilComponent implements OnInit {
     const fecha = localStorage.getItem('fechaActualizacion');
     if (fecha) {
       this.usuario.fechaActualizacion = fecha;
+    }
+    this.iniciarPollingImagenPerfil();
+  }
+
+  ngOnDestroy(): void {
+    if (this.pollingInterval) {
+      clearInterval(this.pollingInterval);
     }
   }
 
@@ -198,5 +208,20 @@ export class PerfilComponent implements OnInit {
         }
       });
     }
+  }
+
+  iniciarPollingImagenPerfil(): void {
+    const userId = localStorage.getItem('idUser');
+    if (!userId) return;
+    this.pollingInterval = setInterval(() => {
+      this.authService.getUserProfile(userId).subscribe({
+        next: (user) => {
+          if (user.imagen_perfil_url && user.imagen_perfil_url !== this.imagenPerfil) {
+            this.imagenPerfil = user.imagen_perfil_url;
+            localStorage.setItem('imagenPerfil', user.imagen_perfil_url);
+          }
+        }
+      });
+    }, 5000); // 5 segundos
   }
 }
