@@ -43,42 +43,19 @@ export class PerfilComponent implements OnInit {
   ngOnInit(): void {
     // Obtener la URL de la imagen de perfil desde localStorage (que fue guardada tras login)
     this.imagenPerfil = localStorage.getItem('imagenPerfil') || null;
-    // Obtener el id del usuario
-    const userId = localStorage.getItem('idUser');
-    if (userId) {
-      // Consultar siempre el backend para obtener los datos más recientes
-      this.authService.getUserProfile(userId).subscribe({
-        next: (user) => {
-          this.usuario = user;
-          this.perfilForm.patchValue({
-            nombre: user.nombre || '',
-            apellido: user.apellido || '',
-            email: user.email || '',
-            telefono: user.telefono || '',
-            direccion: user.direccion || ''
-          });
-          if (user.imagen_perfil_url) {
-            this.imagenPerfil = user.imagen_perfil_url;
-            localStorage.setItem('imagenPerfil', user.imagen_perfil_url);
-          }
-        },
-        error: () => {
-          // Si falla, usar los datos locales como respaldo
-          const nombre = localStorage.getItem('nameUser') || '';
-          const [nombreUsuario, apellidoUsuario] = nombre.split(' ');
-          const email = localStorage.getItem('emailUser') || 'usuario@ejemplo.com';
-          const direccion = localStorage.getItem('direccion') || '';
-          const telefono = localStorage.getItem('telefono') || '123456789';
-          this.perfilForm.patchValue({
-            nombre: nombreUsuario,
-            apellido: apellidoUsuario || '',
-            email: email,
-            telefono: telefono,
-            direccion: direccion
-          });
-        }
-      });
-    }
+    // Obtener la dirección y otros datos del usuario desde el localStorage (guardados tras login)
+    const nombre = localStorage.getItem('nameUser') || '';
+    const [nombreUsuario, apellidoUsuario] = nombre.split(' ');
+    const email = localStorage.getItem('emailUser') || 'usuario@ejemplo.com';
+    const direccion = localStorage.getItem('direccion') || '';
+    const telefono = localStorage.getItem('telefono') || '123456789';
+    this.perfilForm.patchValue({
+      nombre: nombreUsuario,
+      apellido: apellidoUsuario || '',
+      email: email,
+      telefono: telefono,
+      direccion: direccion
+    });
     const fecha = localStorage.getItem('fechaActualizacion');
     if (fecha) {
       this.usuario.fechaActualizacion = fecha;
