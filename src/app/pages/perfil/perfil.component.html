@@ -11,16 +11,20 @@
               <span class="visually-hidden">Cargando...</span>
             </div>
           </div>
-          
           <div class="row" *ngIf="!cargando">
             <!-- Imagen de perfil -->
             <div class="col-md-4 text-center mb-4">
-              <div class="profile-image-container">
+              <div class="profile-image-container position-relative">
                 <img 
                   [src]="imagenPerfil || 'assets/icons/user-default.png'" 
                   alt="Imagen de perfil" 
                   class="img-fluid rounded-circle profile-image mb-3" 
                 >
+                <!-- Botón de refresco dentro del recuadro de perfil -->
+                <button class="btn btn-outline-primary btn-refresh-inside position-absolute top-0 end-0 m-2" (click)="refrescarPerfil()" [disabled]="refrescando" style="z-index:2;">
+                  <i class="bi bi-arrow-clockwise" [ngClass]="{'spin-refresh': refrescando}"></i>
+                  <span *ngIf="refrescando" class="spinner-border spinner-border-sm ms-1" role="status" aria-hidden="true"></span>
+                </button>
                 <div class="image-upload">
                   <label for="file-input" class="btn btn-sm btn-secondary">
                     <i class="bi bi-camera me-1"></i> Cambiar foto
