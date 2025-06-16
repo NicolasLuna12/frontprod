@@ -49,6 +49,9 @@ export class CheckoutComponent implements OnInit {
     this.pedido = this.pedidoService.getPedido();
     this.emailUser = localStorage.getItem('emailUser') || '';
     this.nameUser = localStorage.getItem('nameUser') || '';
+    console.log('Email de usuario:', this.emailUser);
+    console.log('Nombre de usuario:', this.nameUser);
+    console.log('Total del pedido:', this.pedido.total);
     this.verificar2FA();
     // Inicialización del SDK de Mercado Pago usando el modelo oficial y evitando error de TypeScript
     if ((window as any).MercadoPago) {
@@ -59,36 +62,52 @@ export class CheckoutComponent implements OnInit {
 
   verificar2FA() {
     // Si ya está activo en sesión, no volver a pedir
-    if (sessionStorage.getItem('2fa_active') === 'true') return;
+    if (sessionStorage.getItem('2fa_active') === 'true') {
+      console.log('2FA ya activo en sesión');
+      return;
+    }
     const monto = this.pedido.total;
+    console.log('Verificando 2FA para monto:', monto);
     // Solo considerar el monto para 2FA
     if (monto > 50000) {
+      console.log('Monto supera 50000, llamando a servicio 2FA');
       this.twofaService.authorizePurchase(this.emailUser, monto, this.nameUser).subscribe({
         next: (resp) => {
+          console.log('Respuesta authorizePurchase:', resp);
           if (resp.requiere_2fa) {
             this.twofaMotivo = resp.motivo;
             this.twofaEnabled = false;
+            console.log('Requiere 2FA, motivos:', this.twofaMotivo);
             this.twofaService.setup2fa(this.emailUser).subscribe({
               next: (qrResp) => {
+                console.log('QR recibido:', qrResp);
                 this.twofaQR = qrResp.qr;
                 this.show2FAModal = true;
+              },
+              error: (err) => {
+                console.error('Error al obtener QR:', err);
+                this.toastr.error('Error al configurar 2FA. Por favor, intenta de nuevo.');
               }
             });
           } else {
             this.twofaEnabled = true;
             sessionStorage.setItem('2fa_active', 'true');
+            console.log('2FA no requerido o ya está configurado');
           }
         },
-        error: () => {
-          this.toastr.error('Error al verificar 2FA');
+        error: (err) => {
+          console.error('Error en verificar2FA:', err);
+          this.toastr.error('Error al verificar 2FA. Por favor, intenta de nuevo.');
         }
       });
     }
   }
 
   confirmar2FA() {
+    console.log('Enviando código 2FA:', this.twofaCode, 'para email:', this.emailUser);
     this.twofaService.verify2fa(this.emailUser, this.twofaCode).subscribe({
       next: (resp) => {
+        console.log('Respuesta verify2fa:', resp);
         if (resp.verified) {
           this.toastr.success('2FA verificado correctamente');
           this.show2FAModal = false;
@@ -97,8 +116,9 @@ export class CheckoutComponent implements OnInit {
           this.toastr.error('Código incorrecto');
         }
       },
-      error: () => {
-        this.toastr.error('Código incorrecto');
+      error: (err) => {
+        console.error('Error en confirmar2FA:', err);
+        this.toastr.error('Error al verificar el código. Por favor, intenta de nuevo.');
       }
     });
   }
