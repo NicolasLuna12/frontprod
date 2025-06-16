@@ -150,8 +150,10 @@ export class CheckoutComponent implements OnInit {
       this.toastr.warning('Selecciona un método de pago');
       return;
     }
+      this.isProcessing = true;
     
-    this.isProcessing = true;
+    // Guardar el método de pago seleccionado para recuperarlo en la página de éxito
+    sessionStorage.setItem('paymentMethod', this.paymentMethod);
     
     if (this.paymentMethod === 'paypal') {
       setTimeout(() => {
@@ -258,12 +260,16 @@ export class CheckoutComponent implements OnInit {
       this.isProcessing = false;
     });
   }
-
   // Método para confirmar el pedido (para métodos de pago diferentes a Mercado Pago)
   confirmarPedido(): void {
     this.pedidoService.confirmarPedido().subscribe({
       next: () => {
-        this.router.navigate(['/exito']);
+        // Añadir el método de pago como parámetro a la redirección
+        this.router.navigate(['/exito'], {
+          queryParams: {
+            payment_method: this.paymentMethod
+          }
+        });
       },
       error: (error: any) => {
         this.toastr.error('Error al confirmar pedido. Intente nuevamente.');
