@@ -15,13 +15,12 @@ import {
 } from '@angular/forms';
 import { Pedido } from '../../model/pedido.model';
 import { SharedDataService } from '../../services/shared-data.service';
-import { FormsModule } from '@angular/forms';
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-carrito',
   standalone: true,
-  imports: [NgFor, ReactiveFormsModule, CommonModule, FormsModule],
+  imports: [NgFor, ReactiveFormsModule, CommonModule],
   templateUrl: './carrito.component.html',
   styleUrl: './carrito.component.css',
 })
@@ -36,13 +35,6 @@ export class CarritoComponent implements OnInit, OnDestroy {
   form: FormGroup;
   isDireccionPerfil: boolean = false;  // Indica si la dirección actual es la del perfil
   private direccionSubscription: Subscription = new Subscription();  // Suscripción a la dirección compartida
-
-  // --- 2FA ---
-  show2FAModal: boolean = false;
-  requiere2FA: boolean = false;
-  motivo2FA: string[] = [];
-  code2FA: string = '';
-  tarjetaNombre: string = '';
 
   constructor(
     private pedidoService: PedidosService,
@@ -149,7 +141,7 @@ export class CarritoComponent implements OnInit, OnDestroy {
         this.form.patchValue({ domicilio: direccionPerfil });
         // Mostrar mensaje informativo
         this.toastr.info('Se utilizará la dirección guardada en tu perfil');
-        this.iniciarPago();
+        this.continuarPago();
       } else {
         // Si no hay dirección en el perfil, pedir al usuario que especifique una
         this.toastr.error('Debe especificar el domicilio de entrega');
@@ -158,52 +150,49 @@ export class CarritoComponent implements OnInit, OnDestroy {
       }
     } else {
       // Si ya tenemos una dirección, continuamos
-      this.iniciarPago();
+      this.continuarPago();
     }
   }
 
-  iniciarPago() {
-    // Aquí podrías pedir el nombre del titular de la tarjeta (ejemplo simple)
-    const nombreTitular = prompt('Ingrese el nombre del titular de la tarjeta:');
-    this.tarjetaNombre = nombreTitular ? nombreTitular : '';
-    this.pedidoService.iniciarPago(this.tarjetaNombre).subscribe({
-      next: (resp) => {
-        if (resp.requiere_2fa) {
-          this.requiere2FA = true;
-          this.motivo2FA = resp.motivo;
-          this.show2FAModal = true;
-        } else {
-          this.finalizarCompraSin2FA();
-        }
-      },
-      error: (err) => {
-        if (err.error && err.error.error && err.error.error.includes('2FA requerido')) {
-          this.toastr.error('Debes configurar Google Authenticator en tu perfil antes de continuar.');
-        } else {
-          this.toastr.error('Error al iniciar el pago.');
-        }
-      }
-    });
-  }
+  // Método separado para continuar con el proceso de pago
+  private continuarPago(): void {
+    // Obtener datos del usuario
+    let nameUser: any = localStorage.getItem('nameUser')
+      ? localStorage.getItem('nameUser')
+      : 'Sin nombre';
 
-  confirmarPago2FA() {
-    this.pedidoService.confirmarPago2FA(this.code2FA).subscribe({
-      next: (resp) => {
-        this.toastr.success('Compra confirmada con 2FA');
-        this.show2FAModal = false;
-        this.cerrarSidebar();
-        this.router.navigate(['/exito']);
-      },
-      error: (err) => {
-        this.toastr.error('Código 2FA incorrecto.');
+    let emailUser: any = localStorage.getItem('emailUser')
+      ? localStorage.getItem('emailUser')
+      : '';    // En este punto, this.direccion ya debería tener un valor válido,
+    // pero verificamos una última vez por si acaso
+    let direccionFinal = this.direccion;
+    if (!direccionFinal || direccionFinal.trim() === '') {
+      // Último intento de obtener la dirección del perfil
+      const direccionPerfil = localStorage.getItem('direccion');
+      if (direccionPerfil && direccionPerfil.trim() !== '') {
+        direccionFinal = direccionPerfil;
+        this.isDireccionPerfil = true;
+      } else {
+        // Si aún no hay dirección, usamos un valor por defecto más informativo
+        direccionFinal = "Por favor contactar para confirmar dirección";
+        this.isDireccionPerfil = false;
       }
-    });
-  }
+    }
 
-  finalizarCompraSin2FA() {
-    this.toastr.success('Compra confirmada');
+    // Crear el pedido con la dirección (que puede ser la del perfil o la especificada por el usuario)
+    let pedido: Pedido = new Pedido(
+      1,
+      this.total,
+      'Pedido realizado',
+      direccionFinal + (this.info ? ' - ' + this.info : ''),
+      nameUser,
+      this.detallePedido,
+      emailUser
+    );
+    
+    this.pedidoService.setPedido(pedido);
     this.cerrarSidebar();
-    this.router.navigate(['/exito']);
+    this.router.navigate(['/pagar']);
   }
 
   eliminarDetalle(detalle: Carrito) {

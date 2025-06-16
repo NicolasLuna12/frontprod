@@ -65,12 +65,4 @@ export class PedidosService {
 
     return this.http.post(this.url + 'agregar/'+ product.id_producto+'/',product  );
   }
-
-  iniciarPago(tarjetaNombre: string): Observable<any> {
-    return this.http.post(this.url + 'iniciar_pago/', { tarjeta_nombre: tarjetaNombre });
-  }
-
-  confirmarPago2FA(code: string): Observable<any> {
-    return this.http.post(this.url + 'confirmar_pago_2fa/', { code });
-  }
 }
