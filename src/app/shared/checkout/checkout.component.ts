@@ -27,11 +27,16 @@ export class CheckoutComponent implements OnInit {
   isProcessing: boolean = false;
   pedido: Pedido = new Pedido(0, 0, '', '', '', []);
   mercadoPagoIcon: string = 'https://contactopuro.com/files/mercadopago-81090.png';
+  
+  // Propiedades mejoradas para 2FA
   show2FAModal: boolean = false;
   twofaQR: string = '';
   twofaMotivo: string[] = [];
   twofaEnabled: boolean = false;
   twofaCode: string = '';
+  verifying2FA: boolean = false;
+  qrLoaded: boolean = false;
+  
   emailUser: string = '';
   nameUser: string = '';
 
@@ -102,23 +107,40 @@ export class CheckoutComponent implements OnInit {
       });
     }
   }
-
   confirmar2FA() {
+    if (!this.twofaCode || this.twofaCode.length !== 6) {
+      this.toastr.warning('Por favor, introduce un código de 6 dígitos');
+      return;
+    }
+    
     console.log('Enviando código 2FA:', this.twofaCode, 'para email:', this.emailUser);
+    this.verifying2FA = true; // Iniciar animación de verificación
+    
     this.twofaService.verify2fa(this.emailUser, this.twofaCode).subscribe({
       next: (resp) => {
         console.log('Respuesta verify2fa:', resp);
         if (resp.verified) {
-          this.toastr.success('2FA verificado correctamente');
-          this.show2FAModal = false;
+          this.toastr.success('Verificación completada con éxito', '2FA Correcto');
           sessionStorage.setItem('2fa_active', 'true');
+          
+          // Cerramos el modal con una pequeña demora para mejor experiencia UX
+          setTimeout(() => {
+            this.show2FAModal = false;
+            this.verifying2FA = false;
+            // Si hay un pago pendiente, continuar con él
+            if (this.paymentMethod === 'mercadopago') {
+              this.procesarPagoMercadoPago();
+            }
+          }, 1000);
         } else {
-          this.toastr.error('Código incorrecto');
+          this.verifying2FA = false; // Detener animación de verificación
+          this.toastr.error('El código introducido no es válido. Inténtalo de nuevo.');
         }
       },
       error: (err) => {
+        this.verifying2FA = false; // Detener animación de verificación en caso de error
         console.error('Error en confirmar2FA:', err);
-        this.toastr.error('Error al verificar el código. Por favor, intenta de nuevo.');
+        this.toastr.error('No pudimos verificar tu código. Por favor, inténtalo de nuevo.');
       }
     });
   }
@@ -255,5 +277,10 @@ export class CheckoutComponent implements OnInit {
     // Resetear el estado si cambia el método de pago
     this.isProcessing = false;
     console.log('Método de pago cambiado a:', this.paymentMethod);
+  }
+
+  // Método para manejar la carga del QR
+  onQRLoad() {
+    this.qrLoaded = true;
   }
 }
