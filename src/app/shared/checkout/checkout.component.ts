@@ -61,10 +61,9 @@ export class CheckoutComponent implements OnInit {
     // Si ya está activo en sesión, no volver a pedir
     if (sessionStorage.getItem('2fa_active') === 'true') return;
     const monto = this.pedido.total;
-    const titular = this.cardholderName || this.nameUser;
-    // Si el monto es mayor a 50000 o el titular es distinto al usuario
-    if (monto > 50000 || (this.cardholderName && this.cardholderName.trim().toLowerCase() !== this.nameUser.trim().toLowerCase())) {
-      this.twofaService.authorizePurchase(this.emailUser, monto, titular).subscribe({
+    // Solo considerar el monto para 2FA
+    if (monto > 50000) {
+      this.twofaService.authorizePurchase(this.emailUser, monto, this.nameUser).subscribe({
         next: (resp) => {
           if (resp.requiere_2fa) {
             this.twofaMotivo = resp.motivo;
