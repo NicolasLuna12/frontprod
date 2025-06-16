@@ -272,6 +272,36 @@
   text-align: center;
 }
 
+/* Mejoramos los estilos de los botones para mayor visibilidad */
+.action-buttons .btn {
+  padding: 10px 20px;
+  font-weight: 600;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  margin: 0 10px;
+  transition: all 0.3s ease;
+}
+
+.action-buttons .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.action-buttons .btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: white;
+}
+
+.action-buttons .btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+.action-buttons .btn i {
+  margin-right: 5px;
+}
+
 .watermark {
   opacity: 0.5;
   font-size: 0.8rem;
@@ -383,11 +413,9 @@
   .receipt-logo, .payment-logo {
     filter: grayscale(100%);
   }
-  
-  .receipt-header {
+    .receipt-header {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
-    color-adjust: exact;
   }
   
   .payment-info, .items-table-container {
