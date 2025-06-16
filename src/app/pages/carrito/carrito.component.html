@@ -159,3 +159,26 @@
     </div>
   </div>
 </div>
+
+<!-- Modal 2FA Google Authenticator -->
+<div class="modal fade" [class.show]="show2FAModal" [ngStyle]="{display: show2FAModal ? 'block' : 'none'}" tabindex="-1" aria-labelledby="modal2FALabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4">
+      <div class="modal-header bg-primary-subtle rounded-top-4">
+        <h5 class="modal-title text-primary" id="modal2FALabel">Autenticación 2FA requerida</h5>
+        <button type="button" class="btn-close" (click)="show2FAModal = false" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Para autorizar la compra debes ingresar el código de Google Authenticator.</p>
+        <div *ngIf="motivo2FA.length">
+          <small class="text-muted">Motivo: {{ motivo2FA.join(', ') }}</small>
+        </div>
+        <input type="text" maxlength="6" class="form-control my-3" [(ngModel)]="code2FA" placeholder="Código 2FA">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="show2FAModal = false">Cancelar</button>
+        <button type="button" class="btn btn-primary fw-bold" (click)="confirmarPago2FA()">Confirmar compra</button>
+      </div>
+    </div>
+  </div>
+</div>
