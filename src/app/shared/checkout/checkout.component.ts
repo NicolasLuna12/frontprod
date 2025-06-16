@@ -8,6 +8,7 @@ import { MercadoPagoService } from '../../services/mercado-pago.service';
 import { Pedido } from '../../model/pedido.model';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
+import { TwofaService } from '../../services/twofa.service';
 
 @Component({
   selector: 'app-checkout',
@@ -26,23 +27,81 @@ export class CheckoutComponent implements OnInit {
   isProcessing: boolean = false;
   pedido: Pedido = new Pedido(0, 0, '', '', '', []);
   mercadoPagoIcon: string = 'https://contactopuro.com/files/mercadopago-81090.png';
-  
+  show2FAModal: boolean = false;
+  twofaQR: string = '';
+  twofaMotivo: string[] = [];
+  twofaEnabled: boolean = false;
+  twofaCode: string = '';
+  emailUser: string = '';
+  nameUser: string = '';
+
   constructor(
     private router: Router,
     private pedidoService: PedidosService,
     private toastr: ToastrService,
     private http: HttpClient,
     private mercadoPagoService: MercadoPagoService,
-    public contactoService: ContactoService
+    public contactoService: ContactoService,
+    private twofaService: TwofaService
   ) {}
 
   ngOnInit(): void {
     this.pedido = this.pedidoService.getPedido();
+    this.emailUser = localStorage.getItem('emailUser') || '';
+    this.nameUser = localStorage.getItem('nameUser') || '';
+    this.verificar2FA();
     // Inicialización del SDK de Mercado Pago usando el modelo oficial y evitando error de TypeScript
     if ((window as any).MercadoPago) {
       const mp = new (window as any).MercadoPago('APP_USR-15dcbbb0-ed10-4a65-a8ec-4279e83029a4', { locale: 'es-AR' });
       // Si necesitas usar mp luego, guárdalo en una propiedad de la clase
     }
+  }
+
+  verificar2FA() {
+    // Si ya está activo en sesión, no volver a pedir
+    if (sessionStorage.getItem('2fa_active') === 'true') return;
+    const monto = this.pedido.total;
+    const titular = this.cardholderName || this.nameUser;
+    // Si el monto es mayor a 50000 o el titular es distinto al usuario
+    if (monto > 50000 || (this.cardholderName && this.cardholderName.trim().toLowerCase() !== this.nameUser.trim().toLowerCase())) {
+      this.twofaService.authorizePurchase(this.emailUser, monto, titular).subscribe({
+        next: (resp) => {
+          if (resp.requiere_2fa) {
+            this.twofaMotivo = resp.motivo;
+            this.twofaEnabled = false;
+            this.twofaService.setup2fa(this.emailUser).subscribe({
+              next: (qrResp) => {
+                this.twofaQR = qrResp.qr;
+                this.show2FAModal = true;
+              }
+            });
+          } else {
+            this.twofaEnabled = true;
+            sessionStorage.setItem('2fa_active', 'true');
+          }
+        },
+        error: () => {
+          this.toastr.error('Error al verificar 2FA');
+        }
+      });
+    }
+  }
+
+  confirmar2FA() {
+    this.twofaService.verify2fa(this.emailUser, this.twofaCode).subscribe({
+      next: (resp) => {
+        if (resp.verified) {
+          this.toastr.success('2FA verificado correctamente');
+          this.show2FAModal = false;
+          sessionStorage.setItem('2fa_active', 'true');
+        } else {
+          this.toastr.error('Código incorrecto');
+        }
+      },
+      error: () => {
+        this.toastr.error('Código incorrecto');
+      }
+    });
   }
 
   onSubmit(): void {
