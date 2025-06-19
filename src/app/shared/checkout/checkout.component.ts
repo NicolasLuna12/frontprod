@@ -145,16 +145,37 @@ export class CheckoutComponent implements OnInit {
     });
   }
 
+  // Nueva función para manejar el cierre/cancelación del modal 2FA
+  cancelar2FA() {
+    this.show2FAModal = false;
+    this.toastr.info('Debes completar la autenticación 2FA para continuar con el pago.');
+  }
+
   onSubmit(): void {
     if (!this.paymentMethod) {
       this.toastr.warning('Selecciona un método de pago');
       return;
     }
-      this.isProcessing = true;
-    
-    // Guardar el método de pago seleccionado para recuperarlo en la página de éxito
+    this.isProcessing = true;
     sessionStorage.setItem('paymentMethod', this.paymentMethod);
-    
+
+    // Si es MercadoPago y el monto supera 50000, forzar 2FA antes de procesar el pago
+    if (this.paymentMethod === 'mercadopago') {
+      if (this.pedido.total > 50000 && sessionStorage.getItem('2fa_active') !== 'true') {
+        this.show2FAModal = true;
+        this.isProcessing = false;
+        return;
+      } else {
+        this.procesarPagoMercadoPago();
+        return;
+      }
+    }
+    // Si es otro método y requiere 2FA, también bloquear
+    if (this.pedido.total > 50000 && sessionStorage.getItem('2fa_active') !== 'true') {
+      this.show2FAModal = true;
+      this.isProcessing = false;
+      return;
+    }
     if (this.paymentMethod === 'paypal') {
       setTimeout(() => {
         this.confirmarPedido();
@@ -163,8 +184,6 @@ export class CheckoutComponent implements OnInit {
       setTimeout(() => {
         this.confirmarPedido();
       }, 2000);
-    } else if (this.paymentMethod === 'mercadopago') {
-      this.procesarPagoMercadoPago();
     } else {
       this.toastr.warning('Selecciona un método de pago válido');
       this.isProcessing = false;
@@ -288,5 +307,9 @@ export class CheckoutComponent implements OnInit {
   // Método para manejar la carga del QR
   onQRLoad() {
     this.qrLoaded = true;
+  }
+
+  get requiere2FA(): boolean {
+    return this.pedido.total > 50000 && sessionStorage.getItem('2fa_active') !== 'true';
   }
 }
