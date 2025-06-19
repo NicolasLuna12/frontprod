@@ -220,14 +220,29 @@ export class CheckoutComponent implements OnInit {
                         searchInObj(response, 'url');
         }
         if (!redirectUrl && response.payment_request_id) {
-          // No se pudo obtener la URL de pago de Mercado Pago, no mostrar error
-          this.isProcessing = false;
+          console.log('Consultando estado de PaymentRequest:', response.payment_request_id);
+          this.mercadoPagoService.consultarEstadoPaymentRequest(response.payment_request_id).subscribe({
+            next: (estado: any) => {
+              console.log('Respuesta de estado de PaymentRequest:', estado);
+              const url = estado.init_point || estado.sandbox_init_point || estado.url;
+              if (url) {
+                this.abrirModalMercadoPago(url);
+              } else {
+                this.toastr.error('No se pudo obtener la URL de pago de Mercado Pago.');
+                this.isProcessing = false;
+              }
+            },
+            error: (err) => {
+              this.toastr.error('No se pudo consultar el estado del pago.');
+              this.isProcessing = false;
+            }
+          });
           return;
         }
         if (redirectUrl) {
           this.abrirModalMercadoPago(redirectUrl);
         } else {
-          // No mostrar error si no hay URL de redirección
+          this.toastr.error('Error al crear preferencia de pago. No se encontró URL de redirección.');
           this.isProcessing = false;
         }
       },
