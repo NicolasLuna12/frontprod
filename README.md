@@ -1,27 +1,80 @@
-# App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.6.
+# FrontProd
 
-## Development server
+FrontProd es una aplicación web desarrollada con Angular, diseñada para ofrecer una experiencia moderna, rápida y responsiva. El proyecto incluye funcionalidades avanzadas como autenticación, carrito de compras, integración con Mercado Pago, traducción automática, panel de administración y mucho más.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Características principales
 
-## Code scaffolding
+- **Framework:** Angular
+- **Gestión de usuarios:** Registro, login, perfil, autenticación 2FA
+- **Carrito de compras:** Añadir, eliminar y modificar productos
+- **Panel de administración:** Gestión de productos y pedidos
+- **Integración de pagos:** Mercado Pago
+- **Traducción automática:** Google Translate y traducción directa
+- **Sistema de comentarios y contacto**
+- **Dashboard de usuario**
+- **Página de éxito y error personalizada**
+- **Soporte multilenguaje:** Español, Inglés, Portugués
+- **Diseño responsivo y moderno**
+- **Chatbot integrado**
+- **Rutas protegidas y guards**
+- **Carga y gestión de imágenes**
+- **Documentación y configuración modular**
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Estructura del proyecto
 
-## Build
+```
+src/
+  app/
+	 pages/                # Páginas principales (home, carta, carrito, perfil, admin, etc.)
+	 services/             # Servicios (auth, productos, pedidos, pagos, traducción, etc.)
+	 model/                # Modelos de datos
+	 shared/               # Componentes compartidos (header, footer, nav, checkout, chatbot, etc.)
+	 interceptors/         # Interceptores HTTP (auth)
+	 docs/                 # Documentación y configuración extra
+	 assets/               # Imágenes, íconos, datos, estilos, etc.
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Instalación
 
-## Running unit tests
+1. Clona el repositorio:
+	```bash
+	git clone https://github.com/NicolasLuna12/frontprod.git
+	cd frontprod
+	```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+2. Instala las dependencias:
+	```bash
+	npm install
+	```
 
-## Running end-to-end tests
+3. Inicia el servidor de desarrollo:
+	```bash
+	npm start
+	```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+4. Accede a la aplicación en [http://localhost:4200](http://localhost:4200)
 
-## Further help
+## Scripts útiles
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- `npm start` - Inicia la aplicación en modo desarrollo
+- `npm test` - Ejecuta los tests unitarios
+- `npm run build` - Compila la aplicación para producción
+
+## Configuración adicional
+
+- **Base de datos simulada:** El archivo `db.json` permite simular una API REST con [json-server](https://github.com/typicode/json-server).
+- **Netlify:** Configuración para despliegue automático en Netlify (`netlify.toml`).
+- **Redirecciones:** Archivo `_redirects` para manejo de rutas en producción.
+
+## Contribuir
+
+¡Las contribuciones son bienvenidas! Por favor, abre un issue o envía un pull request con tus mejoras o sugerencias.
+
+## Créditos
+
+Desarrollado por el equipo de FrontProd. Imágenes y recursos por [NicolasLuna12](https://github.com/NicolasLuna12) y colaboradores.
+
+## Licencia
+
+Este proyecto está bajo la licencia MIT.
