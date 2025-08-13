@@ -2,8 +2,8 @@
 [build]
   # Directorio que se publicará en el sitio web de Netlify
   publish = "dist/app/browser/browser/browser"
-  # Comando para construir el sitio
-  command = "ng build --configuration production"
+  # Comando para construir el sitio (con generación de environment)
+  command = "node generate-environment.js && ng build --configuration production"
 
 # Configuración para SPA (Single Page Application)
 [[redirects]]

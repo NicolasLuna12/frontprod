@@ -5,36 +5,38 @@ FrontProd es una aplicación web desarrollada con Angular, diseñada para ofrece
 
 ## 🔧 Configuración de Variables de Entorno
 
-### **IMPORTANTE: Configuración Requerida**
+### **DESARROLLO LOCAL:**
 
-1. **Copia el archivo de ejemplo:**
+1. **Crear archivo de configuración local:**
    ```bash
-   cp .env.example .env
+   cp src/environments/environment.local.ts.example src/environments/environment.local.ts
    ```
 
-2. **Configura tus variables reales en `.env`:**
+2. **Editar `src/environments/environment.local.ts` con tus valores reales:**
+   ```typescript
+   export const environment = {
+     production: false,
+     apiBaseUrl: 'https://tu-backend.com/',
+     mercadoPagoPublicKey: 'APP_USR-TU-CLAVE-REAL',
+     twoFAApiUrl: 'https://tu-backend.com/2fa/',
+   };
+   ```
+
+### **PRODUCCIÓN (Netlify/Vercel):**
+
+1. **Configurar variables de entorno en tu plataforma:**
    ```bash
-   # API Base URL
    NG_APP_API_BASE_URL=https://tu-backend.com/
-   
-   # MercadoPago Public Key (obtén una nueva en https://developers.mercadopago.com)
-   NG_APP_MERCADO_PAGO_PUBLIC_KEY=APP_USR-XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
-   
-   # Two Factor Authentication API
+   NG_APP_MERCADO_PAGO_PUBLIC_KEY=APP_USR-TU-NUEVA-CLAVE
    NG_APP_TWOFA_API_URL=https://tu-backend.com/2fa/
-   
-   # Environment (false para desarrollo, true para producción)
-   NG_APP_PRODUCTION=false
    ```
 
-3. **Para producción (Vercel, Netlify, etc.):**
-   - Configura las variables de entorno en tu plataforma de despliegue
-   - Usa `NG_APP_PRODUCTION=true`
+2. **El script automáticamente generará el environment de producción**
 
 ### ⚠️ **SEGURIDAD IMPORTANTE:**
-- El archivo `.env` está en `.gitignore` y NO debe subirse al repositorio
+- `environment.local.ts` está en `.gitignore` y NO se sube al repositorio
 - Genera una nueva clave de MercadoPago (la anterior fue expuesta)
-- Nunca hardcodees claves API en el código
+- Los archivos base (`environment.ts`, `environment.prod.ts`) son seguros para commitear
 
 ## Características principales
 

@@ -1,0 +1,20 @@
+// Environment configuration - Local Development (TEMPLATE)
+// Copia este archivo como environment.local.ts y configura tus valores reales
+
+export const environment = {
+  production: false,
+  
+  // API Configuration - REEMPLAZA CON TU URL
+  apiBaseUrl: 'https://tu-backend.com/',
+  
+  // MercadoPago Configuration - REEMPLAZA CON TU CLAVE
+  mercadoPagoPublicKey: 'APP_USR-TU-CLAVE-REAL',
+  
+  // Two Factor Authentication - REEMPLAZA CON TU URL
+  twoFAApiUrl: 'https://tu-backend.com/2fa/',
+};
+
+// INSTRUCCIONES:
+// 1. Copia este archivo como environment.local.ts
+// 2. Reemplaza los valores con tus configuraciones reales
+// 3. El archivo .local.ts está en .gitignore y no se sube al repo

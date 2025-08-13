@@ -19,7 +19,7 @@ export class SafeTranslatorService {
     if (!this.isValidLanguageCode(languageCode)) {
       // Código de idioma inválido (solo log en desarrollo)
       if (!environment.production) {
-        if (!environment.production) { console.error(; }
+        console.error('Código de idioma inválido:', languageCode);
       }
       return;
     }
@@ -30,7 +30,7 @@ export class SafeTranslatorService {
     try {
       localStorage.setItem('selectedLanguage', languageCode);
     } catch (error) {
-      if (!environment.production) { console.error(; }
+      console.error('Error al guardar idioma:', error);
     }
 
     if (languageCode === 'es') {
@@ -66,7 +66,7 @@ export class SafeTranslatorService {
         window.location.reload();
       }
     } catch (error) {
-      if (!environment.production) { console.error(; }
+      console.error('Error al resetear idioma:', error);
     }
   }
 
@@ -88,7 +88,7 @@ export class SafeTranslatorService {
       this.loadGoogleTranslateScript();
       
     } catch (error) {
-      if (!environment.production) { console.error(; }
+      console.error('Error al inicializar Google Translate:', error);
     }
   }
 
@@ -106,7 +106,7 @@ export class SafeTranslatorService {
       document.cookie = cookieValue;
       
     } catch (error) {
-      if (!environment.production) { console.error(; }
+      console.error('Error al establecer cookie:', error);
     }
   }
 
@@ -131,7 +131,7 @@ export class SafeTranslatorService {
         });
       });
     } catch (error) {
-      if (!environment.production) { console.error(; }
+      console.error('Error en traducci�n:', error);
     }
   }
 
@@ -145,7 +145,7 @@ export class SafeTranslatorService {
       this.renderer.setStyle(translateDiv, 'display', 'none');
       this.renderer.appendChild(document.body, translateDiv);
     } catch (error) {
-      if (!environment.production) { console.error(; }
+      console.error('Error en traducci�n:', error);
     }
   }
 
@@ -169,7 +169,7 @@ export class SafeTranslatorService {
       this.renderer.appendChild(document.body, script);
       
     } catch (error) {
-      if (!environment.production) { console.error(; }
+      console.error('Error en traducci�n:', error);
     }
   }
 
@@ -196,11 +196,11 @@ export class SafeTranslatorService {
             }, 1000);
           }
         } catch (error) {
-          if (!environment.production) { console.error(; }
+          console.error('Error en traducci�n:', error);
         }
       };
     } catch (error) {
-      if (!environment.production) { console.error(; }
+      console.error('Error en traducci�n:', error);
     }
   }
 
@@ -234,7 +234,7 @@ export class SafeTranslatorService {
       }
       
     } catch (error) {
-      if (!environment.production) { console.error(; }
+      console.error('Error en traducci�n:', error);
     }
   }
 
@@ -262,7 +262,7 @@ export class SafeTranslatorService {
       delete (window as any).googleTranslateElementInit;
       
     } catch (error) {
-      if (!environment.production) { console.error(; }
+      console.error('Error en traducci�n:', error);
     }
   }
 
@@ -280,7 +280,7 @@ export class SafeTranslatorService {
     try {
       return localStorage.getItem('selectedLanguage');
     } catch (error) {
-      if (!environment.production) { console.error(; }
+      console.error('Error en traducci�n:', error);
       return null;
     }
   }

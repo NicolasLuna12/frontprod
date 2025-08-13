@@ -1,0 +1,20 @@
+// Environment configuration - Development
+// Los valores reales se configuran mediante file replacement en angular.json
+
+export const environment = {
+  production: false,
+  
+  // API Configuration - Valores por defecto para desarrollo
+  apiBaseUrl: 'http://localhost:8000/',
+  
+  // MercadoPago Configuration - PLACEHOLDER (configurar en environment.local.ts)
+  mercadoPagoPublicKey: 'TEST-PLACEHOLDER-KEY',
+  
+  // Two Factor Authentication
+  twoFAApiUrl: 'http://localhost:8000/2fa/',
+};
+
+// IMPORTANTE: 
+// - Para desarrollo local, crear src/environments/environment.local.ts con tus valores reales
+// - Para producción, usar file replacement en angular.json
+// - Nunca commitear claves reales en este archivo
