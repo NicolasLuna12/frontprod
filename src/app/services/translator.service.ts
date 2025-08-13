@@ -92,10 +92,14 @@ export class TranslatorService {
   
   // Método adicional para establecer la cookie de traducción directamente
   private setTranslateCookie(lang: string): void {
-    // Establecer las cookies para Google Translate
-    document.cookie = `googtrans=/es/${lang}`;
-    document.cookie = `googtrans=/es/${lang}; domain=.${window.location.host}`;
-    document.cookie = `googtrans=/es/${lang}; domain=${window.location.host}`;
+    // Establecer las cookies para Google Translate con flags de seguridad
+    const isSecure = window.location.protocol === 'https:';
+    const secureFlag = isSecure ? '; Secure' : '';
+    const sameSiteFlag = '; SameSite=Lax';
+    
+    document.cookie = `googtrans=/es/${lang}; path=/${sameSiteFlag}${secureFlag}`;
+    document.cookie = `googtrans=/es/${lang}; domain=.${window.location.host}; path=/${sameSiteFlag}${secureFlag}`;
+    document.cookie = `googtrans=/es/${lang}; domain=${window.location.host}; path=/${sameSiteFlag}${secureFlag}`;
   }
   
   // Método que usa un iframe para traducción directa
@@ -129,7 +133,10 @@ export class TranslatorService {
     this.removeTranslateWidget();
     
     // Establecer cookie directamente (esto es crucial para la traducción)
-    document.cookie = `googtrans=/es/${lang}`;
+    const isSecure = window.location.protocol === 'https:';
+    const secureFlag = isSecure ? '; Secure' : '';
+    const sameSiteFlag = '; SameSite=Lax';
+    document.cookie = `googtrans=/es/${lang}; path=/${sameSiteFlag}${secureFlag}`;
     
     // Crear elemento div para el widget de Google Translate (invisible)
     const translateDiv = this.renderer.createElement('div');

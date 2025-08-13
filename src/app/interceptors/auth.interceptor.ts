@@ -3,17 +3,14 @@ import { catchError, throwError } from 'rxjs';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { SecurityService } from '../services/security.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const toastr = inject(ToastrService);
+  const securityService = inject(SecurityService);
   
-  let token = localStorage.getItem('authToken');
-  
-  // Limpiar comillas si las hay (común en tokens guardados en localStorage)
-  if (token) {
-    token = token.replace(/"/g, '');
-  }
+  let token = securityService.getToken();
   
   const baseURL = 'https://backmobile1.onrender.com/';
 
@@ -33,9 +30,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       }
     });
 
-    // Log adicional para verificar
+    // Log adicional para verificar (sin exponer token)
     if (req.url.includes('checkout')) {
-      console.log('[INTERCEPTOR] Authorization header añadido:', `Bearer ${token}`);
+      console.log('[INTERCEPTOR] Authorization header añadido para checkout');
     }
   }
 
@@ -52,13 +49,13 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     }
   }
 
-  // LOG para depuración en rutas específicas
+  // LOG para depuración en rutas específicas (sin exponer datos sensibles)
   if (req.url.includes('checkout') || req.url.includes('webhook')) {
     console.log('[INTERCEPTOR] URL final:', req.url);
     console.log('[INTERCEPTOR] Método:', req.method);
-    console.log('[INTERCEPTOR] Headers completos:', req.headers);
-    if (req.body) {
-      console.log('[INTERCEPTOR] Body:', JSON.stringify(req.body));
+    console.log('[INTERCEPTOR] Headers presentes:', Object.keys(req.headers.keys()));
+    if (req.body && !req.url.includes('checkout')) {
+      console.log('[INTERCEPTOR] Body keys:', Object.keys(req.body));
     }
   }
 
@@ -74,8 +71,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           
           // Redirigir al login si es necesario
           if (error.status === 401) {
-            // Limpiamos el token
-            localStorage.removeItem('authToken');
+            // Limpiar todos los datos de autenticación
+            securityService.clearAuthData();
             router.navigate(['/login']);
           }
         }
@@ -87,8 +84,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           console.error('Error en la solicitud de pago:', {
             url: req.url,
             method: req.method,
-            headers: req.headers,
-            body: req.body
+            status: error.status
           });
           
           // Mostrar mensaje específico para errores de pago

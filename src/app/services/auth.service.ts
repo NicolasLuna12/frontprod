@@ -3,22 +3,22 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import { SecurityService } from './security.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private apiUrl = 'appUSERS/';
-  private authStatusSubject = new BehaviorSubject<boolean>(this.hasToken());
-  authStatus$ = this.authStatusSubject.asObservable();
   private imagenPerfilSubject = new BehaviorSubject<string | null>(localStorage.getItem('imagenPerfil'));
   imagenPerfil$ = this.imagenPerfilSubject.asObservable();
 
-  constructor(private http: HttpClient, private toastr:ToastrService) { }
+  constructor(
+    private http: HttpClient, 
+    private toastr: ToastrService,
+    private securityService: SecurityService
+  ) { }
 
-  private hasToken(): boolean {
-    return !!localStorage.getItem('authToken');
-  }
   login(email: string, password: string): Observable<any> {
     // Simula una llamada HTTP POST a tu API de autenticación
     return this.http.post<{ 
@@ -33,9 +33,21 @@ export class AuthService {
     }>(`${this.apiUrl}login/`, { email, password }).pipe(
       map(response => {
         
+        // Usar SecurityService para almacenar datos de forma segura
+        this.securityService.setToken(response.access);
+        this.securityService.setUserData({
+          user_id: response.user_id,
+          nombre: response.nombre,
+          apellido: response.apellido,
+          email: response.email,
+          direccion: response.direccion,
+          telefono: response.telefono,
+          imagen_perfil_url: response.imagen_perfil_url
+        });
+
+        // Mantener compatibilidad con código existente (temporal)
         localStorage.setItem('nameUser', response.nombre+' '+response.apellido);
         localStorage.setItem('emailUser', response.email);
-        localStorage.setItem('authToken', response.access);
         localStorage.setItem('idUser', response.user_id);
         
         // Guardar la dirección del usuario si viene en la respuesta
@@ -57,7 +69,6 @@ export class AuthService {
           this.imagenPerfilSubject.next(null);
         }
        
-        this.authStatusSubject.next(true); // Notifica el cambio de estado de autenticación
         this.toastr.success("Bienvenida/o "+response.nombre+' '+response.apellido+'!');
         return response;
 
@@ -66,17 +77,12 @@ export class AuthService {
   }
 
   logout() {
-  
-    localStorage.removeItem('nameUser');
-    localStorage.removeItem('emailUser');  // Eliminamos también el email al cerrar sesión
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('idUser');
-    
-    this.authStatusSubject.next(false); // Notifica el cambio de estado de autenticación
+    // Usar SecurityService para limpiar todos los datos
+    this.securityService.clearAuthData();
   }
 
   isAuthenticated(): Observable<boolean> {
-    return this.authStatus$;
+    return this.securityService.authStatus$;
   }
 
   // Nuevo método para actualizar la URL de la imagen de perfil en el backend usando el endpoint de update
@@ -110,7 +116,9 @@ export class AuthService {
         return response;
       })
     );
-  }  deleteUser(userId: string): Observable<any> {
+  }
+  
+  deleteUser(userId: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}delete/`).pipe(
       map(response => {
         this.toastr.success('Usuario eliminado con éxito!');

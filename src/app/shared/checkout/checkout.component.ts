@@ -108,12 +108,13 @@ export class CheckoutComponent implements OnInit {
     }
   }
   confirmar2FA() {
-    if (!this.twofaCode || this.twofaCode.length !== 6) {
-      this.toastr.warning('Por favor, introduce un código de 6 dígitos');
+    // Validación robusta del código 2FA
+    if (!this.isValidTwoFACode(this.twofaCode)) {
+      this.toastr.warning('Por favor, introduce un código numérico de 6 dígitos');
       return;
     }
     
-    console.log('Enviando código 2FA:', this.twofaCode, 'para email:', this.emailUser);
+    console.log('Enviando código 2FA para email:', this.emailUser);
     this.verifying2FA = true; // Iniciar animación de verificación
     
     this.twofaService.verify2fa(this.emailUser, this.twofaCode).subscribe({
@@ -143,6 +144,15 @@ export class CheckoutComponent implements OnInit {
         this.toastr.error('No pudimos verificar tu código. Por favor, inténtalo de nuevo.');
       }
     });
+  }
+
+  // Método para validar código 2FA
+  private isValidTwoFACode(code: string): boolean {
+    if (!code) return false;
+    
+    // Solo acepta exactamente 6 dígitos numéricos
+    const regex = /^[0-9]{6}$/;
+    return regex.test(code.trim());
   }
 
   // Nueva función para manejar el cierre/cancelación del modal 2FA
@@ -254,6 +264,13 @@ export class CheckoutComponent implements OnInit {
   }
 
   abrirModalMercadoPago(url: string): void {
+    // Validar la URL antes de usarla
+    if (!this.isValidMercadoPagoUrl(url)) {
+      this.toastr.error('URL de pago inválida');
+      this.isProcessing = false;
+      return;
+    }
+
     // Crea un modal simple con un iframe que carga la URL de Mercado Pago
     const modal = document.createElement('div');
     modal.id = 'mp-modal';
@@ -267,17 +284,75 @@ export class CheckoutComponent implements OnInit {
     modal.style.display = 'flex';
     modal.style.alignItems = 'center';
     modal.style.justifyContent = 'center';
-    modal.innerHTML = `
-      <div style="background:#fff; border-radius:16px; width:1200px; max-width:99vw; height:80vh; position:relative; display:flex; flex-direction:column; box-shadow:0 0 32px #0008;">
-        <button id="mp-modal-close" style="position:absolute;top:18px;right:24px;z-index:2;font-size:2.5rem;background:none;border:none;cursor:pointer;line-height:1;">&times;</button>
-        <iframe src="${url}" style="flex:1;width:100%;height:100%;border:none;border-radius:16px;"></iframe>
-      </div>
-    `;
+
+    // Crear elementos de forma segura sin innerHTML
+    const modalContent = document.createElement('div');
+    modalContent.style.background = '#fff';
+    modalContent.style.borderRadius = '16px';
+    modalContent.style.width = '1200px';
+    modalContent.style.maxWidth = '99vw';
+    modalContent.style.height = '80vh';
+    modalContent.style.position = 'relative';
+    modalContent.style.display = 'flex';
+    modalContent.style.flexDirection = 'column';
+    modalContent.style.boxShadow = '0 0 32px #0008';
+
+    const closeButton = document.createElement('button');
+    closeButton.id = 'mp-modal-close';
+    closeButton.textContent = '×';
+    closeButton.style.position = 'absolute';
+    closeButton.style.top = '18px';
+    closeButton.style.right = '24px';
+    closeButton.style.zIndex = '2';
+    closeButton.style.fontSize = '2.5rem';
+    closeButton.style.background = 'none';
+    closeButton.style.border = 'none';
+    closeButton.style.cursor = 'pointer';
+    closeButton.style.lineHeight = '1';
+
+    const iframe = document.createElement('iframe');
+    iframe.src = url;
+    iframe.style.flex = '1';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    iframe.style.borderRadius = '16px';
+
+    modalContent.appendChild(closeButton);
+    modalContent.appendChild(iframe);
+    modal.appendChild(modalContent);
+
     document.body.appendChild(modal);
-    document.getElementById('mp-modal-close')?.addEventListener('click', () => {
+    
+    closeButton.addEventListener('click', () => {
       modal.remove();
       this.isProcessing = false;
     });
+  }
+
+  // Método para validar URLs de Mercado Pago
+  private isValidMercadoPagoUrl(url: string): boolean {
+    try {
+      const urlObj = new URL(url);
+      const validDomains = [
+        'mercadopago.com',
+        'mercadopago.com.ar',
+        'mercadolibre.com',
+        'mercadolibre.com.ar',
+        'mpago.la',
+        'mercadopago.cl',
+        'mercadopago.com.mx',
+        'mercadopago.com.br',
+        'mercadopago.com.co',
+        'mercadopago.com.pe',
+        'mercadopago.com.uy'
+      ];
+      
+      return urlObj.protocol === 'https:' && 
+             validDomains.some(domain => urlObj.hostname.endsWith(domain));
+    } catch {
+      return false;
+    }
   }
   // Método para confirmar el pedido (para métodos de pago diferentes a Mercado Pago)
   confirmarPedido(): void {
