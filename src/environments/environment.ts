@@ -5,13 +5,13 @@ export const environment = {
   production: false,
   
   // API Configuration - Valores por defecto para desarrollo
-  apiBaseUrl: 'http://localhost:8000/',
+  apiBaseUrl: 'https://backmobile1.onrender.com/',
   
   // MercadoPago Configuration - PLACEHOLDER (configurar en environment.local.ts)
   mercadoPagoPublicKey: 'TEST-PLACEHOLDER-KEY',
   
   // Two Factor Authentication
-  twoFAApiUrl: 'http://localhost:8000/2fa/',
+  twoFAApiUrl: 'https://back2fa.onrender.com/api/2fa/',
 };
 
 // IMPORTANTE: 
