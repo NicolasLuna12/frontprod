@@ -4,6 +4,7 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { SecurityService } from '../services/security.service';
+import { environment } from '../../environments/environment';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
@@ -12,7 +13,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   
   let token = securityService.getToken();
   
-  const baseURL = 'https://backmobile1.onrender.com/';
+  const baseURL = environment.apiBaseUrl;
 
   // Verificar si la URL ya tiene el baseURL para evitar duplicación
   const isAbsoluteUrl = req.url.startsWith('http://') || req.url.startsWith('https://');
@@ -30,9 +31,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       }
     });
 
-    // Log adicional para verificar (sin exponer token)
-    if (req.url.includes('checkout')) {
-      console.log('[INTERCEPTOR] Authorization header añadido para checkout');
+    // Authorization header añadido para checkout (solo debug)
+    if (req.url.includes('checkout') && !environment.production) {
+      // Authorization header añadido para checkout
     }
   }
 
@@ -43,26 +44,16 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       url: baseURL + req.url
     });
 
-    // Log para verificar
-    if (req.url.includes('checkout')) {
-      console.log('[INTERCEPTOR] URL construida:', baseURL + req.url);
-    }
-  }
-
-  // LOG para depuración en rutas específicas (sin exponer datos sensibles)
-  if (req.url.includes('checkout') || req.url.includes('webhook')) {
-    console.log('[INTERCEPTOR] URL final:', req.url);
-    console.log('[INTERCEPTOR] Método:', req.method);
-    console.log('[INTERCEPTOR] Headers presentes:', Object.keys(req.headers.keys()));
-    if (req.body && !req.url.includes('checkout')) {
-      console.log('[INTERCEPTOR] Body keys:', Object.keys(req.body));
+    // URL construida con base URL (solo debug)
+    if (req.url.includes('checkout') && !environment.production) {
+      // URL construida con base URL
     }
   }
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401 || error.status === 403) {
-        console.log('Error de autenticación:', error.status, error.message);
+        // Error de autenticación detectado
         
         // Si es un error de autenticación y estamos en una ruta que requiere autenticación
         if (!req.url.includes('login')) {
@@ -77,23 +68,29 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           }
         }
       } else if (error.status === 500) {
-        console.error(`Error HTTP 500:`, error.message);
+        // Error del servidor detectado
         
         // Si es un error del servidor en el proceso de pago
         if (req.url.includes('checkout')) {
-          console.error('Error en la solicitud de pago:', {
-            url: req.url,
-            method: req.method,
-            status: error.status
-          });
+          // Log específico para errores de pago (solo en desarrollo)
+          if (!environment.production) {
+            console.error('Error en la solicitud de pago:', {
+              url: req.url,
+              method: req.method,
+              status: error.status
+            });
+          }
           
           // Mostrar mensaje específico para errores de pago
           toastr.error('Error al procesar el pago. Por favor, intenta nuevamente.');
         } else {
-          toastr.error('Error en el servidor. Por favor, intenta nuevamente más tarde.');
+          toastr.error('Error del servidor. Por favor, intenta de nuevo más tarde.');
         }
       } else if (error.status === 400) {
-        console.error(`Error HTTP 400:`, error);
+        // Error HTTP 400 - Bad Request (solo log en desarrollo)
+        if (!environment.production) {
+          console.error(`Error HTTP 400:`, error);
+        }
         
         // Mostrar mensaje específico para errores de validación
         if (error.error && error.error.detail) {
@@ -102,7 +99,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           toastr.error('Error en los datos enviados. Por favor, verifica la información.');
         }
       } else {
-        console.error(`Error HTTP ${error.status}:`, error.message);
+        // Otros errores HTTP (solo log en desarrollo)
+        if (!environment.production) {
+          console.error(`Error HTTP ${error.status}:`, error.message);
+        }
         toastr.error('Error de conexión. Por favor, verifica tu conexión a internet.');
       }
       

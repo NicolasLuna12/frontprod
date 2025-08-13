@@ -1,6 +1,7 @@
 import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { DirectTranslationService } from './direct-translation.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -124,7 +125,10 @@ export class TranslatorService {
         iframe.remove();
       }, 2000);
     } catch (e) {
-      console.error('Error al intentar traducción directa:', e);
+      // Error al intentar traducción directa (solo log en desarrollo)
+      if (!environment.production) {
+        console.error('Error al intentar traducción directa:', e);
+      }
     }
   }
   // Inicializar el widget de traducción de Google

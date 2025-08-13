@@ -9,6 +9,8 @@ import { Pedido } from '../../model/pedido.model';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
 import { TwofaService } from '../../services/twofa.service';
+import { ValidationService } from '../../services/validation.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-checkout',
@@ -47,20 +49,19 @@ export class CheckoutComponent implements OnInit {
     private http: HttpClient,
     private mercadoPagoService: MercadoPagoService,
     public contactoService: ContactoService,
-    private twofaService: TwofaService
+    private twofaService: TwofaService,
+    private validationService: ValidationService
   ) {}
 
   ngOnInit(): void {
     this.pedido = this.pedidoService.getPedido();
     this.emailUser = localStorage.getItem('emailUser') || '';
     this.nameUser = localStorage.getItem('nameUser') || '';
-    console.log('Email de usuario:', this.emailUser);
-    console.log('Nombre de usuario:', this.nameUser);
-    console.log('Total del pedido:', this.pedido.total);
+    // Información del usuario y pedido cargada
     this.verificar2FA();
     // Inicialización del SDK de Mercado Pago usando el modelo oficial y evitando error de TypeScript
     if ((window as any).MercadoPago) {
-      const mp = new (window as any).MercadoPago('APP_USR-15dcbbb0-ed10-4a65-a8ec-4279e83029a4', { locale: 'es-AR' });
+      const mp = new (window as any).MercadoPago(environment.mercadoPagoPublicKey, { locale: 'es-AR' });
       // Si necesitas usar mp luego, guárdalo en una propiedad de la clase
     }
   }
@@ -68,24 +69,24 @@ export class CheckoutComponent implements OnInit {
   verificar2FA() {
     // Si ya está activo en sesión, no volver a pedir
     if (sessionStorage.getItem('2fa_active') === 'true') {
-      console.log('2FA ya activo en sesión');
+      // 2FA ya verificado para esta sesión
       return;
     }
     const monto = this.pedido.total;
-    console.log('Verificando 2FA para monto:', monto);
+    // Verificando si monto requiere 2FA
     // Solo considerar el monto para 2FA
     if (monto > 50000) {
-      console.log('Monto supera 50000, llamando a servicio 2FA');
+      // Monto requiere verificación 2FA
       this.twofaService.authorizePurchase(this.emailUser, monto, this.nameUser).subscribe({
         next: (resp) => {
-          console.log('Respuesta authorizePurchase:', resp);
+          // Procesando respuesta de autorización
           if (resp.requiere_2fa) {
             this.twofaMotivo = resp.motivo;
             this.twofaEnabled = false;
-            console.log('Requiere 2FA, motivos:', this.twofaMotivo);
+            // 2FA requerido por política de seguridad
             this.twofaService.setup2fa(this.emailUser).subscribe({
               next: (qrResp) => {
-                console.log('QR recibido:', qrResp);
+                // QR code recibido para configuración
                 this.twofaQR = qrResp.qr;
                 this.show2FAModal = true;
               },
@@ -97,7 +98,7 @@ export class CheckoutComponent implements OnInit {
           } else {
             this.twofaEnabled = true;
             sessionStorage.setItem('2fa_active', 'true');
-            console.log('2FA no requerido o ya está configurado');
+            // 2FA no requerido o ya configurado
           }
         },
         error: (err) => {
@@ -114,12 +115,12 @@ export class CheckoutComponent implements OnInit {
       return;
     }
     
-    console.log('Enviando código 2FA para email:', this.emailUser);
+    // Enviando código 2FA para verificación
     this.verifying2FA = true; // Iniciar animación de verificación
     
     this.twofaService.verify2fa(this.emailUser, this.twofaCode).subscribe({
       next: (resp) => {
-        console.log('Respuesta verify2fa:', resp);
+        // Procesando respuesta de verificación 2FA
         if (resp.verified) {
           this.toastr.success('Verificación completada con éxito', '2FA Correcto');
           sessionStorage.setItem('2fa_active', 'true');
@@ -203,11 +204,11 @@ export class CheckoutComponent implements OnInit {
   // Método para procesar el pago con Mercado Pago
   procesarPagoMercadoPago(): void {
     this.isProcessing = true;
-    console.log('Procesando pago con MercadoPago...');
+    // Procesando pago con MercadoPago...
     
     this.mercadoPagoService.crearPreferencia().subscribe({
       next: (response: any) => {
-        console.log('Respuesta completa de MercadoPago:', response);
+        // Procesando respuesta de MercadoPago
         let redirectUrl: string | null = null;
         if (response && response.init_point) {
           redirectUrl = response.init_point;
@@ -230,10 +231,10 @@ export class CheckoutComponent implements OnInit {
                         searchInObj(response, 'url');
         }
         if (!redirectUrl && response.payment_request_id) {
-          console.log('Consultando estado de PaymentRequest:', response.payment_request_id);
+          // PaymentRequest detectado - consultando estado
           this.mercadoPagoService.consultarEstadoPaymentRequest(response.payment_request_id).subscribe({
             next: (estado: any) => {
-              console.log('Respuesta de estado de PaymentRequest:', estado);
+              // Procesando estado de PaymentRequest
               const url = estado.init_point || estado.sandbox_init_point || estado.url;
               if (url) {
                 this.abrirModalMercadoPago(url);
@@ -376,7 +377,7 @@ export class CheckoutComponent implements OnInit {
   onPaymentMethodChange(): void {
     // Resetear el estado si cambia el método de pago
     this.isProcessing = false;
-    console.log('Método de pago cambiado a:', this.paymentMethod);
+    // Método de pago actualizado
   }
 
   // Método para manejar la carga del QR

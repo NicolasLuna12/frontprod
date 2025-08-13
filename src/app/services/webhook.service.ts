@@ -34,8 +34,7 @@ export class WebhookService {
       .set('Content-Type', 'application/json')
       .set('Authorization', `Bearer ${cleanToken}`);
     
-    console.log('Verificando estado del pago:', pagoId);
-    console.log('Token usado para verificación:', cleanToken);
+    // Verificando estado del pago (sin logs sensibles)
     
     // Usamos el endpoint de status general
     return this.http.get<any>(`${this.apiUrl}payment/status/${pagoId}/`, { 

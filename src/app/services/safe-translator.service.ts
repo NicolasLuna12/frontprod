@@ -1,4 +1,5 @@
 import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,10 @@ export class SafeTranslatorService {
    */
   changeLanguage(languageCode: 'en' | 'pt' | 'es'): void {
     if (!this.isValidLanguageCode(languageCode)) {
-      console.error('Código de idioma inválido:', languageCode);
+      // Código de idioma inválido (solo log en desarrollo)
+      if (!environment.production) {
+        if (!environment.production) { console.error(; }
+      }
       return;
     }
 
@@ -26,7 +30,7 @@ export class SafeTranslatorService {
     try {
       localStorage.setItem('selectedLanguage', languageCode);
     } catch (error) {
-      console.error('Error al guardar idioma:', error);
+      if (!environment.production) { console.error(; }
     }
 
     if (languageCode === 'es') {
@@ -62,7 +66,7 @@ export class SafeTranslatorService {
         window.location.reload();
       }
     } catch (error) {
-      console.error('Error al resetear idioma:', error);
+      if (!environment.production) { console.error(; }
     }
   }
 
@@ -84,7 +88,7 @@ export class SafeTranslatorService {
       this.loadGoogleTranslateScript();
       
     } catch (error) {
-      console.error('Error al inicializar Google Translate:', error);
+      if (!environment.production) { console.error(; }
     }
   }
 
@@ -102,7 +106,7 @@ export class SafeTranslatorService {
       document.cookie = cookieValue;
       
     } catch (error) {
-      console.error('Error al establecer cookie:', error);
+      if (!environment.production) { console.error(; }
     }
   }
 
@@ -127,7 +131,7 @@ export class SafeTranslatorService {
         });
       });
     } catch (error) {
-      console.error('Error al limpiar cookies:', error);
+      if (!environment.production) { console.error(; }
     }
   }
 
@@ -141,7 +145,7 @@ export class SafeTranslatorService {
       this.renderer.setStyle(translateDiv, 'display', 'none');
       this.renderer.appendChild(document.body, translateDiv);
     } catch (error) {
-      console.error('Error al crear widget:', error);
+      if (!environment.production) { console.error(; }
     }
   }
 
@@ -165,7 +169,7 @@ export class SafeTranslatorService {
       this.renderer.appendChild(document.body, script);
       
     } catch (error) {
-      console.error('Error al cargar script:', error);
+      if (!environment.production) { console.error(; }
     }
   }
 
@@ -192,11 +196,11 @@ export class SafeTranslatorService {
             }, 1000);
           }
         } catch (error) {
-          console.error('Error en inicialización de Google Translate:', error);
+          if (!environment.production) { console.error(; }
         }
       };
     } catch (error) {
-      console.error('Error al crear función de inicialización:', error);
+      if (!environment.production) { console.error(; }
     }
   }
 
@@ -230,7 +234,7 @@ export class SafeTranslatorService {
       }
       
     } catch (error) {
-      console.error('Error al ocultar elementos:', error);
+      if (!environment.production) { console.error(; }
     }
   }
 
@@ -258,7 +262,7 @@ export class SafeTranslatorService {
       delete (window as any).googleTranslateElementInit;
       
     } catch (error) {
-      console.error('Error al remover widget:', error);
+      if (!environment.production) { console.error(; }
     }
   }
 
@@ -276,7 +280,7 @@ export class SafeTranslatorService {
     try {
       return localStorage.getItem('selectedLanguage');
     } catch (error) {
-      console.error('Error al obtener idioma guardado:', error);
+      if (!environment.production) { console.error(; }
       return null;
     }
   }

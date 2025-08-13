@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, catchError, tap } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class TwofaService {
-  private apiUrl = 'https://back2fa.onrender.com/api/2fa/'; // URL del microservicio 2FA
+  private apiUrl = environment.twoFAApiUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -16,10 +17,9 @@ export class TwofaService {
   }
 
   setup2fa(email: string): Observable<any> {
-    console.log('Enviando solicitud setup2fa para:', email);
+    // Enviando solicitud setup2fa
     const headers = this.getHeaders();
     return this.http.post(this.apiUrl + 'setup/', { email }, { headers }).pipe(
-      tap(resp => console.log('Respuesta setup2fa:', resp)),
       catchError(err => {
         console.error('Error en setup2fa:', err);
         throw err;
@@ -28,10 +28,9 @@ export class TwofaService {
   }
 
   verify2fa(email: string, code: string): Observable<any> {
-    console.log('Enviando solicitud verify2fa para:', email, 'con código:', code);
+    // Enviando solicitud verify2fa
     const headers = this.getHeaders();
     return this.http.post(this.apiUrl + 'verify/', { email, code }, { headers }).pipe(
-      tap(resp => console.log('Respuesta verify2fa:', resp)),
       catchError(err => {
         console.error('Error en verify2fa:', err);
         throw err;
@@ -39,11 +38,10 @@ export class TwofaService {
     );
   }
 
-  authorizePurchase(email: string, monto: number, titular: string, code?: string): Observable<any> {
-    console.log('Enviando solicitud authorizePurchase para:', email, 'monto:', monto, 'titular:', titular);
+  authorizePurchase(email: string, monto: number, titular: string): Observable<any> {
+    // Enviando solicitud authorizePurchase
     const headers = this.getHeaders();
-    return this.http.post(this.apiUrl + 'authorize/', { email, monto, titular, code }, { headers }).pipe(
-      tap(resp => console.log('Respuesta authorizePurchase:', resp)),
+    return this.http.post(this.apiUrl + 'authorize-purchase/', { email, monto, titular }, { headers }).pipe(
       catchError(err => {
         console.error('Error en authorizePurchase:', err);
         throw err;

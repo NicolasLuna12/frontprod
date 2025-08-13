@@ -23,14 +23,14 @@ export class ContactoComponent {
   onEnviar(event: Event): void {
     event.preventDefault;
     if (this.form.valid) {
-      console.log('Formulario válido');
+      // Formulario válido - procesando
     } else {
       this.form.markAllAsTouched();
-      console.log('error en formulario');
+      // Error en validación del formulario
     }
   }
   enviarMensaje() {
-    console.log('enviando ');
+    // Enviando mensaje de contacto
   }
 
   get Nombre()

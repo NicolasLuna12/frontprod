@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -39,7 +40,10 @@ export class SecurityService {
       localStorage.setItem(this.TOKEN_KEY, JSON.stringify(tokenData));
       this.authStatusSubject.next(true);
     } catch (error) {
-      console.error('Error al almacenar token:', error);
+      // Error al almacenar token (solo log en desarrollo)
+      if (!environment.production) {
+        console.error('Error al almacenar token:', error);
+      }
     }
   }
 
@@ -61,7 +65,10 @@ export class SecurityService {
 
       return tokenData.token;
     } catch (error) {
-      console.error('Error al obtener token:', error);
+      // Error al obtener token (solo log en desarrollo)
+      if (!environment.production) {
+        console.error('Error al obtener token:', error);
+      }
       this.removeToken();
       return null;
     }
@@ -83,7 +90,10 @@ export class SecurityService {
       const safeUserData = this.sanitizeUserData(userData);
       localStorage.setItem(this.USER_DATA_KEY, JSON.stringify(safeUserData));
     } catch (error) {
-      console.error('Error al almacenar datos de usuario:', error);
+      // Error al almacenar datos de usuario (solo log en desarrollo)
+      if (!environment.production) {
+        console.error('Error al almacenar datos de usuario:', error);
+      }
     }
   }
 
@@ -95,7 +105,10 @@ export class SecurityService {
       const userDataStr = localStorage.getItem(this.USER_DATA_KEY);
       return userDataStr ? JSON.parse(userDataStr) : null;
     } catch (error) {
-      console.error('Error al obtener datos de usuario:', error);
+      // Error al obtener datos de usuario (solo log en desarrollo)
+      if (!environment.production) {
+        console.error('Error al obtener datos de usuario:', error);
+      }
       return null;
     }
   }
@@ -176,7 +189,10 @@ export class SecurityService {
       const decodedPayload = atob(payload);
       return JSON.parse(decodedPayload);
     } catch (error) {
-      console.error('Error al decodificar payload del token:', error);
+      // Error al decodificar payload del token (solo log en desarrollo)
+      if (!environment.production) {
+        console.error('Error al decodificar payload del token:', error);
+      }
       return null;
     }
   }
