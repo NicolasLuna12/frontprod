@@ -152,7 +152,12 @@ export class TourService {
       this.tourActiveSubject.next(true);
       this.currentStepSubject.next(0);
       // Navegar a la primera página del tour
-      this.router.navigate(['/home']);
+      this.router.navigate(['/home']).then(() => {
+        // Pequeño delay para asegurar que la navegación se complete
+        setTimeout(() => {
+          this.checkCurrentPageStep('/home');
+        }, 500);
+      });
     }
   }
 
@@ -169,9 +174,17 @@ export class TourService {
       const nextStepIndex = currentStep + 1;
       this.currentStepSubject.next(nextStepIndex);
       
+      // Cerrar el modal actual antes de navegar
+      this.showPageModalSubject.next(false);
+      
       // Navegar a la ruta del siguiente paso
       const nextStep = this.tourSteps[nextStepIndex];
-      this.router.navigate([nextStep.route]);
+      this.router.navigate([nextStep.route]).then(() => {
+        // Pequeño delay para asegurar que la navegación se complete
+        setTimeout(() => {
+          this.checkCurrentPageStep(nextStep.route);
+        }, 300);
+      });
     } else {
       this.stopTour();
     }
@@ -183,9 +196,17 @@ export class TourService {
       const prevStepIndex = currentStep - 1;
       this.currentStepSubject.next(prevStepIndex);
       
+      // Cerrar el modal actual antes de navegar
+      this.showPageModalSubject.next(false);
+      
       // Navegar a la ruta del paso anterior
       const prevStep = this.tourSteps[prevStepIndex];
-      this.router.navigate([prevStep.route]);
+      this.router.navigate([prevStep.route]).then(() => {
+        // Pequeño delay para asegurar que la navegación se complete
+        setTimeout(() => {
+          this.checkCurrentPageStep(prevStep.route);
+        }, 300);
+      });
     }
   }
 
@@ -205,25 +226,34 @@ export class TourService {
     if (stepIndex >= 0 && stepIndex < this.tourSteps.length) {
       this.currentStepSubject.next(stepIndex);
       
+      // Cerrar el modal actual antes de navegar
+      this.showPageModalSubject.next(false);
+      
       const step = this.tourSteps[stepIndex];
-      this.router.navigate([step.route]);
+      this.router.navigate([step.route]).then(() => {
+        // Pequeño delay para asegurar que la navegación se complete
+        setTimeout(() => {
+          this.checkCurrentPageStep(step.route);
+        }, 300);
+      });
     }
   }
 
-  // Nuevo método para verificar si la página actual tiene un paso de tour
+  // Método mejorado para verificar si la página actual tiene un paso de tour
   private checkCurrentPageStep(currentUrl: string): void {
     const currentStep = this.tourSteps.find(step => 
       currentUrl === step.route || currentUrl.startsWith(step.route)
     );
     
     if (currentStep && this.tourActiveSubject.value) {
+      console.log('🎯 Mostrando modal para:', currentStep.title);
       // Mostrar el modal específico de esta página
       this.currentPageStepSubject.next(currentStep);
       this.showPageModalSubject.next(true);
       
       // Actualizar el paso actual si corresponde
       const stepIndex = this.tourSteps.findIndex(step => step === currentStep);
-      if (stepIndex !== -1) {
+      if (stepIndex !== -1 && stepIndex !== this.currentStepSubject.value) {
         this.currentStepSubject.next(stepIndex);
       }
     }

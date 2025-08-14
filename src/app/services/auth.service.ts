@@ -73,10 +73,11 @@ export class AuthService {
        
         // Iniciar tour para usuario demo
         if (response.email === 'demo@demo.com') {
+          this.toastr.info("🎯 Iniciando tour guiado de la plataforma...", "Usuario Demo");
           // Usar setTimeout para asegurar que el login se complete antes de iniciar el tour
           setTimeout(() => {
             this.tourService.startTour(response.email);
-          }, 1000);
+          }, 1500);
         }
        
         this.toastr.success("Bienvenida/o "+response.nombre+' '+response.apellido+'!');

@@ -91,11 +91,19 @@
               </li>
               <li *ngIf="estaAutenticado && esDemoUser" class="nav-item text-center">
                 <a
-                  class="btn btn-info m-1"
+                  class="btn m-1"
+                  [class.btn-warning]="!tourActivo"
+                  [class.btn-success]="tourActivo"
                   (click)="iniciarTour()"
-                  title="Iniciar tour guiado"
+                  [title]="tourActivo ? 'Tour activo - Click para reiniciar' : 'Iniciar tour guiado'"
                 >
-                  <i class="bi bi-question-circle me-1"></i> Tour
+                  <i class="bi" 
+                     [class.bi-question-circle]="!tourActivo"
+                     [class.bi-compass]="tourActivo"
+                     [class.spinning]="tourActivo"></i>
+                  <span class="ms-1">
+                    {{ tourActivo ? 'Tour Activo' : 'Tour' }}
+                  </span>
                 </a>
               </li>
               <li *ngIf="estaAutenticado" class="nav-item text-center">

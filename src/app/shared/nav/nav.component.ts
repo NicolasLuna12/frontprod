@@ -18,6 +18,7 @@ export class NavComponent implements OnInit {
   nombreUsuario = '';
   imagenPerfil: string | null = null;
   esDemoUser = false;
+  tourActivo = false;
 
   constructor(
     private authservice: AuthService, 
@@ -38,6 +39,11 @@ export class NavComponent implements OnInit {
     // Suscribirse a los cambios de la URL de la imagen de perfil
     this.authservice.imagenPerfil$.subscribe((url) => {
       this.imagenPerfil = url;
+    });
+
+    // Suscribirse al estado del tour
+    this.tourService.tourActive$.subscribe((activo) => {
+      this.tourActivo = activo;
     });
   }
 
@@ -76,7 +82,13 @@ export class NavComponent implements OnInit {
   iniciarTour() {
     const email = localStorage.getItem('emailUser');
     if (email) {
-      this.tourService.startTour(email);
+      // Primero cerrar cualquier modal existente
+      this.tourService.stopTour();
+      
+      // Pequeño delay antes de iniciar el tour
+      setTimeout(() => {
+        this.tourService.startTour(email);
+      }, 200);
     }
   }
 }
