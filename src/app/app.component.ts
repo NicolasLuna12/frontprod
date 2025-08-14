@@ -45,8 +45,19 @@ export class AppComponent {
     this.router.events.subscribe(() => {
       this.isHome = this.router.url === '/home' || this.router.url === '/';
     });
-    // Lanzar tour si es usuario demo
+
+    // Lanzar tour si es usuario demo al cargar
     this.demoTour.startTourIfDemoUser();
+
+    // Suscribirse a cambios de autenticación para lanzar el tour si el usuario es demo
+    const authService = (window as any).ng?.getInjector?.(AppComponent)?.get?.(require('./services/auth.service').AuthService);
+    if (authService && authService.isAuthenticated) {
+      authService.isAuthenticated().subscribe((autenticado: boolean) => {
+        if (autenticado) {
+          this.demoTour.startTourIfDemoUser();
+        }
+      });
+    }
   }
 
   setVistaUsuario(valor: boolean) {
