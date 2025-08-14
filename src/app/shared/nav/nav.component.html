@@ -92,17 +92,17 @@
               <li *ngIf="estaAutenticado && esDemoUser" class="nav-item text-center">
                 <a
                   class="btn m-1"
-                  [class.btn-warning]="!tourActivo"
+                  [class.btn-danger]="!tourActivo"
                   [class.btn-success]="tourActivo"
                   (click)="iniciarTour()"
-                  [title]="tourActivo ? 'Tour activo - Click para reiniciar' : 'Iniciar tour guiado'"
+                  [title]="tourActivo ? 'Tour activo - Click para desactivar' : 'Tour desactivado - Click para activar'"
                 >
                   <i class="bi" 
-                     [class.bi-question-circle]="!tourActivo"
-                     [class.bi-compass]="tourActivo"
+                     [class.bi-x-circle-fill]="!tourActivo"
+                     [class.bi-check-circle-fill]="tourActivo"
                      [class.spinning]="tourActivo"></i>
                   <span class="ms-1">
-                    {{ tourActivo ? 'Tour Activo' : 'Tour' }}
+                    {{ tourActivo ? 'Tour ON' : 'Tour OFF' }}
                   </span>
                 </a>
               </li>

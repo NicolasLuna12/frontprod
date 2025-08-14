@@ -71,13 +71,9 @@ export class AuthService {
           this.imagenPerfilSubject.next(null);
         }
        
-        // Iniciar tour para usuario demo
+        // Mostrar mensaje de bienvenida
         if (response.email === 'demo@demo.com') {
-          this.toastr.info("🎯 Iniciando tour guiado de la plataforma...", "Usuario Demo");
-          // Usar setTimeout para asegurar que el login se complete antes de iniciar el tour
-          setTimeout(() => {
-            this.tourService.startTour(response.email);
-          }, 1500);
+          this.toastr.info("🎯 Tour activo por defecto. Usa el botón 'Tour' para controlarlo.", "Usuario Demo");
         }
        
         this.toastr.success("Bienvenida/o "+response.nombre+' '+response.apellido+'!');
@@ -88,6 +84,13 @@ export class AuthService {
   }
 
   logout() {
+    // Limpiar estado del tour para usuario demo
+    const email = localStorage.getItem('emailUser');
+    if (email === 'demo@demo.com') {
+      localStorage.removeItem('demoTourActive');
+      localStorage.removeItem('demoTourCurrentStep');
+    }
+    
     // Usar SecurityService para limpiar todos los datos
     this.securityService.clearAuthData();
   }

@@ -145,27 +145,104 @@ export class TourService {
         this.checkCurrentPageStep(event.url);
       }
     });
+    
+    // Verificar si hay un tour activo guardado para usuario demo
+    this.checkAutoStartTour();
+  }
+
+  private checkAutoStartTour(): void {
+    const email = localStorage.getItem('emailUser');
+    if (email === 'demo@demo.com') {
+      const tourActive = localStorage.getItem('demoTourActive');
+      const currentRoute = this.router.url;
+      
+      // Si no existe la preferencia o está activada
+      if (tourActive === null || tourActive === 'true') {
+        this.tourActiveSubject.next(true);
+        
+        // Recuperar el paso actual guardado o empezar desde la página actual
+        const savedStep = localStorage.getItem('demoTourCurrentStep');
+        if (savedStep) {
+          this.currentStepSubject.next(parseInt(savedStep, 10));
+        } else {
+          // Detectar en qué paso debería estar basado en la ruta actual
+          const stepIndex = this.getStepIndexByRoute(currentRoute);
+          this.currentStepSubject.next(stepIndex >= 0 ? stepIndex : 0);
+        }
+        
+        // Mostrar modal de la página actual
+        setTimeout(() => {
+          this.checkCurrentPageStep(currentRoute);
+        }, 500);
+      }
+    }
+  }
+
+  private getStepIndexByRoute(route: string): number {
+    return this.tourSteps.findIndex(step => step.route === route);
+  }
+
+  private saveTourState(): void {
+    const email = localStorage.getItem('emailUser');
+    if (email === 'demo@demo.com') {
+      localStorage.setItem('demoTourActive', this.tourActiveSubject.value.toString());
+      localStorage.setItem('demoTourCurrentStep', this.currentStepSubject.value.toString());
+    }
   }
 
   startTour(userEmail: string): void {
     if (userEmail === 'demo@demo.com') {
       this.tourActiveSubject.next(true);
-      this.currentStepSubject.next(0);
-      // Navegar a la primera página del tour
-      this.router.navigate(['/home']).then(() => {
-        // Pequeño delay para asegurar que la navegación se complete
-        setTimeout(() => {
-          this.checkCurrentPageStep('/home');
-        }, 500);
-      });
+      
+      // Recuperar paso guardado o empezar desde la página actual
+      const savedStep = localStorage.getItem('demoTourCurrentStep');
+      const currentRoute = this.router.url;
+      
+      if (savedStep) {
+        const stepIndex = parseInt(savedStep, 10);
+        this.currentStepSubject.next(stepIndex);
+        const step = this.tourSteps[stepIndex];
+        
+        // Si estamos en la página del paso guardado, mostrar modal
+        if (step && currentRoute === step.route) {
+          setTimeout(() => {
+            this.checkCurrentPageStep(currentRoute);
+          }, 500);
+        } else if (step) {
+          // Si no estamos en la página correcta, navegar ahí
+          this.router.navigate([step.route]).then(() => {
+            setTimeout(() => {
+              this.checkCurrentPageStep(step.route);
+            }, 500);
+          });
+        }
+      } else {
+        // Detectar paso basado en ruta actual o empezar desde home
+        const stepIndex = this.getStepIndexByRoute(currentRoute);
+        if (stepIndex >= 0) {
+          this.currentStepSubject.next(stepIndex);
+          setTimeout(() => {
+            this.checkCurrentPageStep(currentRoute);
+          }, 500);
+        } else {
+          this.currentStepSubject.next(0);
+          this.router.navigate(['/home']).then(() => {
+            setTimeout(() => {
+              this.checkCurrentPageStep('/home');
+            }, 500);
+          });
+        }
+      }
+      
+      this.saveTourState();
     }
   }
 
   stopTour(): void {
     this.tourActiveSubject.next(false);
-    this.currentStepSubject.next(0);
     this.showPageModalSubject.next(false);
     this.currentPageStepSubject.next(null);
+    this.saveTourState();
   }
 
   nextStep(): void {
@@ -185,6 +262,8 @@ export class TourService {
           this.checkCurrentPageStep(nextStep.route);
         }, 300);
       });
+      
+      this.saveTourState();
     } else {
       this.stopTour();
     }
@@ -207,6 +286,8 @@ export class TourService {
           this.checkCurrentPageStep(prevStep.route);
         }, 300);
       });
+      
+      this.saveTourState();
     }
   }
 
@@ -262,6 +343,7 @@ export class TourService {
   // Método para cerrar el modal de página específica
   closePageModal(): void {
     this.showPageModalSubject.next(false);
+    this.saveTourState();
   }
 
   // Método para obtener el paso de la página actual

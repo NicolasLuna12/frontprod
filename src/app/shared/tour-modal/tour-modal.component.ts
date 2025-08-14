@@ -14,8 +14,6 @@ export class TourModalComponent implements OnInit, OnDestroy {
   // Para el modal global (navegación entre páginas)
   isActive = false;
   currentStep: TourStep | null = null;
-  currentStepNumber = 1;
-  totalSteps = 1;
   
   // Para el modal específico de página
   showPageModal = false;
@@ -37,8 +35,6 @@ export class TourModalComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.tourService.currentStep$.subscribe(() => {
         this.currentStep = this.tourService.getCurrentStep();
-        this.currentStepNumber = this.tourService.getCurrentStepNumber();
-        this.totalSteps = this.tourService.getTotalSteps();
       })
     );
 

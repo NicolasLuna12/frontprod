@@ -17,17 +17,6 @@
       </button>
     </div>
     
-    <!-- Progreso elegante -->
-    <div class="progress-section">
-      <div class="progress-info">
-        <span class="progress-text">Sección {{ currentStepNumber }} de {{ totalSteps }}</span>
-        <span class="progress-percentage">{{ (currentStepNumber / totalSteps * 100).toFixed(0) }}%</span>
-      </div>
-      <div class="progress-bar-professional">
-        <div class="progress-fill-professional" [style.width.%]="(currentStepNumber / totalSteps) * 100"></div>
-      </div>
-    </div>
-    
     <!-- Cuerpo con funcionalidades en cards -->
     <div class="tour-body-professional">
       <h3 class="features-title">
@@ -74,25 +63,20 @@
         
         <div class="navigation-buttons">
           <button class="btn-pro btn-outline-pro" 
-                  (click)="previousPageFromModal()" 
-                  [disabled]="currentStepNumber === 1">
+                  (click)="previousPageFromModal()">
             <i class="fas fa-chevron-left me-2"></i>
-            Anterior
+            Página Anterior
           </button>
           
           <button class="btn-pro btn-explore-pro" (click)="closePageModal()">
             <i class="fas fa-search me-2"></i>
-            Explorar
+            Explorar esta Página
           </button>
           
           <button class="btn-pro btn-primary-pro" (click)="nextPageFromModal()">
-            <span *ngIf="currentStepNumber < totalSteps">
-              Siguiente
+            <span>
+              Siguiente Página
               <i class="fas fa-chevron-right ms-2"></i>
-            </span>
-            <span *ngIf="currentStepNumber === totalSteps">
-              Completar
-              <i class="fas fa-trophy ms-2"></i>
             </span>
           </button>
         </div>

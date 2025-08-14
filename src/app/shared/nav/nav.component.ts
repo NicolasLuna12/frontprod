@@ -82,13 +82,15 @@ export class NavComponent implements OnInit {
   iniciarTour() {
     const email = localStorage.getItem('emailUser');
     if (email === 'demo@demo.com') {
-      // Primero cerrar cualquier modal existente
-      this.tourService.stopTour();
-      
-      // Pequeño delay antes de iniciar el tour
-      setTimeout(() => {
+      if (this.tourActivo) {
+        // Si está activo, desactivarlo
+        this.tourService.stopTour();
+        this.toastr.info("Tour desactivado.", "Tour");
+      } else {
+        // Si está desactivado, reactivarlo desde donde se quedó
         this.tourService.startTour(email);
-      }, 200);
+        this.toastr.success("Tour reactivado.", "Tour");
+      }
     } else {
       this.toastr.info("El tour guiado solo está disponible para el usuario demo.", "Función Demo");
     }
