@@ -221,6 +221,14 @@ export class PerfilComponent implements OnInit {
     });
   }
   eliminarCuenta(): void {
+    // Bloquear eliminación para usuario demo
+    if (this.esDemoUser) {
+      this.toastr.warning('🚫 Usuario Demo: La eliminación de cuenta no está disponible en modo demo. En la versión completa podrás eliminar tu cuenta libremente.', 'Función Restringida', {
+        timeOut: 5000
+      });
+      return;
+    }
+
     const userId = localStorage.getItem('idUser');
     if (!userId) {
       this.toastr.error('No se pudo identificar al usuario');

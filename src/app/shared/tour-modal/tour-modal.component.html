@@ -1,73 +1,101 @@
-<!-- Modal específico de página - Se muestra automáticamente al entrar a cada sección durante el tour -->
-<div *ngIf="showPageModal && currentPageStep" class="tour-overlay page-modal">
-  <div class="tour-modal page-tour-modal">
-    <div class="tour-header">
-      <h3 class="tour-title">
-        <i class="fas fa-map-marker-alt me-2"></i>
-        {{ currentPageStep.title }}
-      </h3>
-      <button class="close-btn" (click)="closePageModal()" aria-label="Cerrar modal de página">
+<!-- Modal específico de página - Diseño profesional -->
+<div *ngIf="showPageModal && currentPageStep" class="tour-overlay">
+  <div class="tour-modal-professional">
+    <!-- Header con gradiente premium -->
+    <div class="tour-header-professional">
+      <div class="header-content">
+        <div class="header-icon">
+          <i class="fas fa-compass"></i>
+        </div>
+        <div class="header-text">
+          <h2 class="tour-title-professional">{{ currentPageStep.title }}</h2>
+          <p class="tour-subtitle">{{ currentPageStep.content }}</p>
+        </div>
+      </div>
+      <button class="close-btn-professional" (click)="closePageModal()" aria-label="Cerrar">
         <i class="fas fa-times"></i>
       </button>
     </div>
     
-    <div class="tour-body">
-      <p class="tour-description">{{ currentPageStep.content }}</p>
+    <!-- Progreso elegante -->
+    <div class="progress-section">
+      <div class="progress-info">
+        <span class="progress-text">Sección {{ currentStepNumber }} de {{ totalSteps }}</span>
+        <span class="progress-percentage">{{ (currentStepNumber / totalSteps * 100).toFixed(0) }}%</span>
+      </div>
+      <div class="progress-bar-professional">
+        <div class="progress-fill-professional" [style.width.%]="(currentStepNumber / totalSteps) * 100"></div>
+      </div>
+    </div>
+    
+    <!-- Cuerpo con funcionalidades en cards -->
+    <div class="tour-body-professional">
+      <h3 class="features-title">
+        <i class="fas fa-star me-2"></i>
+        Funcionalidades Disponibles
+      </h3>
       
-      <div class="tour-features">
-        <h4><i class="fas fa-list-ul me-2"></i>¿Qué puedes hacer en esta sección?</h4>
-        <div class="features-grid">
-          <div *ngFor="let feature of currentPageStep.features; let i = index" 
-               class="feature-item"
-               [class.demo-restriction]="feature.includes('NOTA DEMO')"
-               [class.version-complete]="feature.includes('VERSIÓN COMPLETA')">
-            <div class="feature-number">{{ i + 1 }}</div>
-            <div class="feature-content">
-              <i class="fas feature-icon" 
-                 [class.fa-check-circle]="!feature.includes('NOTA DEMO') && !feature.includes('VERSIÓN COMPLETA')"
-                 [class.fa-exclamation-triangle]="feature.includes('NOTA DEMO')"
-                 [class.fa-star]="feature.includes('VERSIÓN COMPLETA')"></i>
-              <span>{{ feature }}</span>
-            </div>
+      <div class="features-container">
+        <div *ngFor="let feature of currentPageStep.features; let i = index" 
+             class="feature-card"
+             [class.demo-feature]="feature.includes('⚠️ DEMO')"
+             [class.premium-feature]="feature.includes('✅ VERSIÓN COMPLETA')">
+          
+          <div class="feature-icon-container">
+            <i class="fas feature-icon-pro" 
+               [class.fa-check]="!feature.includes('⚠️') && !feature.includes('✅')"
+               [class.fa-exclamation-triangle]="feature.includes('⚠️ DEMO')"
+               [class.fa-crown]="feature.includes('✅ VERSIÓN COMPLETA')"></i>
+          </div>
+          
+          <div class="feature-content-pro">
+            <div class="feature-number-pro">{{ i + 1 }}</div>
+            <p class="feature-text">{{ feature }}</p>
+          </div>
+          
+          <div class="feature-status" *ngIf="feature.includes('⚠️') || feature.includes('✅')">
+            <span class="status-badge" 
+                  [class.demo-badge]="feature.includes('⚠️ DEMO')"
+                  [class.premium-badge]="feature.includes('✅ VERSIÓN COMPLETA')">
+              {{ feature.includes('⚠️ DEMO') ? 'DEMO' : 'PREMIUM' }}
+            </span>
           </div>
         </div>
       </div>
     </div>
     
-    <div class="tour-footer">
-      <div class="tour-progress">
-        <span class="step-counter">
-          <i class="fas fa-route me-2"></i>
-          Estás en la sección {{ currentStepNumber }} de {{ totalSteps }}
-        </span>
-        <div class="progress-bar">
-          <div class="progress-fill" [style.width.%]="(currentStepNumber / totalSteps) * 100"></div>
+    <!-- Footer con botones elegantes -->
+    <div class="tour-footer-professional">
+      <div class="footer-buttons">
+        <button class="btn-pro btn-secondary-pro" (click)="skipTourFromModal()">
+          <i class="fas fa-power-off me-2"></i>
+          Salir del Tour
+        </button>
+        
+        <div class="navigation-buttons">
+          <button class="btn-pro btn-outline-pro" 
+                  (click)="previousPageFromModal()" 
+                  [disabled]="currentStepNumber === 1">
+            <i class="fas fa-chevron-left me-2"></i>
+            Anterior
+          </button>
+          
+          <button class="btn-pro btn-explore-pro" (click)="closePageModal()">
+            <i class="fas fa-search me-2"></i>
+            Explorar
+          </button>
+          
+          <button class="btn-pro btn-primary-pro" (click)="nextPageFromModal()">
+            <span *ngIf="currentStepNumber < totalSteps">
+              Siguiente
+              <i class="fas fa-chevron-right ms-2"></i>
+            </span>
+            <span *ngIf="currentStepNumber === totalSteps">
+              Completar
+              <i class="fas fa-trophy ms-2"></i>
+            </span>
+          </button>
         </div>
-      </div>
-      
-      <div class="tour-buttons">
-        <button class="btn btn-secondary" (click)="skipTourFromModal()">
-          <i class="fas fa-times me-2"></i>Terminar Tour
-        </button>
-        
-        <button class="btn btn-outline" 
-                (click)="previousPageFromModal()" 
-                [disabled]="currentStepNumber === 1">
-          <i class="fas fa-arrow-left me-2"></i>Sección Anterior
-        </button>
-        
-        <button class="btn btn-success" (click)="closePageModal()">
-          <i class="fas fa-eye me-2"></i>Explorar Libremente
-        </button>
-        
-        <button class="btn btn-primary" (click)="nextPageFromModal()">
-          <span *ngIf="currentStepNumber < totalSteps">
-            Siguiente Sección <i class="fas fa-arrow-right ms-2"></i>
-          </span>
-          <span *ngIf="currentStepNumber === totalSteps">
-            Finalizar Tour <i class="fas fa-flag-checkered ms-2"></i>
-          </span>
-        </button>
       </div>
     </div>
   </div>

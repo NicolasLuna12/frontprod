@@ -99,9 +99,9 @@ export class TourService {
         'Actualizar dirección de entrega principal',
         'Cambiar foto de perfil',
         'Gestionar configuraciones de privacidad',
-        '⚠️ NOTA DEMO: En la versión demo no puedes cambiar el email',
-        '✅ VERSIÓN COMPLETA: Editar email libremente',
-        'Eliminar cuenta si es necesario',
+        '⚠️ DEMO: Email no editable (disponible en versión completa)',
+        '⚠️ DEMO: No se puede eliminar cuenta (disponible en versión completa)',
+        '✅ VERSIÓN COMPLETA: Editar email y eliminar cuenta libremente',
         'Configurar preferencias de notificaciones'
       ]
     },
