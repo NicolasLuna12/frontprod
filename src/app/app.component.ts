@@ -8,7 +8,6 @@ import { ContactoService } from './services/contacto.service';
 import { LanguageSelectorComponent } from './shared/language-selector/language-selector.component';
 import { ChatBotComponent } from './shared/chat-bot/chat-bot.component';
 import { DemoTourService } from './services/demo-tour.service';
-import { AuthService } from './services/auth.service';
 
 import { JoyrideModule } from 'ngx-joyride';
 
@@ -37,12 +36,7 @@ export class AppComponent {
   esAdmin = false;
   isHome = false;
 
-  constructor(
-    public contactoService: ContactoService,
-    private router: Router,
-    private demoTour: DemoTourService,
-    private authService: AuthService
-  ) {
+  constructor(public contactoService: ContactoService, private router: Router, private demoTour: DemoTourService) {
     const email = localStorage.getItem('emailUser');
     this.estaAutenticado = !!localStorage.getItem('authToken');
     this.esAdmin = email === 'admin@admin.com';
@@ -56,11 +50,14 @@ export class AppComponent {
     this.demoTour.startTourIfDemoUser();
 
     // Suscribirse a cambios de autenticación para lanzar el tour si el usuario es demo
-    this.authService.isAuthenticated().subscribe((autenticado: boolean) => {
-      if (autenticado) {
-        this.demoTour.startTourIfDemoUser();
-      }
-    });
+    const authService = (window as any).ng?.getInjector?.(AppComponent)?.get?.(require('./services/auth.service').AuthService);
+    if (authService && authService.isAuthenticated) {
+      authService.isAuthenticated().subscribe((autenticado: boolean) => {
+        if (autenticado) {
+          this.demoTour.startTourIfDemoUser();
+        }
+      });
+    }
   }
 
   setVistaUsuario(valor: boolean) {
