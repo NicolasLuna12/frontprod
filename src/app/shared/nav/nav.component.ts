@@ -81,7 +81,7 @@ export class NavComponent implements OnInit {
 
   iniciarTour() {
     const email = localStorage.getItem('emailUser');
-    if (email) {
+    if (email === 'demo@demo.com') {
       // Primero cerrar cualquier modal existente
       this.tourService.stopTour();
       
@@ -89,6 +89,8 @@ export class NavComponent implements OnInit {
       setTimeout(() => {
         this.tourService.startTour(email);
       }, 200);
+    } else {
+      this.toastr.info("El tour guiado solo está disponible para el usuario demo.", "Función Demo");
     }
   }
 }
