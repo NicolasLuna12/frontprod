@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./perfil.component.css']
 })
 export class PerfilComponent implements OnInit {
+  esDemo = false;
   perfilForm: FormGroup;
   usuario: any = {};
   cargando = false;
@@ -42,6 +43,8 @@ export class PerfilComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const email = localStorage.getItem('emailUser');
+    this.esDemo = email === 'demo@demo.com';
     this.imagenPerfil = localStorage.getItem('imagenPerfil') || null;
     this.cargando = true;
     // Usar el nuevo endpoint /appUSERS/me/ para obtener los datos actualizados
@@ -55,6 +58,9 @@ export class PerfilComponent implements OnInit {
           telefono: user.telefono || '',
           direccion: user.direccion || ''
         });
+        if (this.esDemo) {
+          this.perfilForm.get('email')?.disable();
+        }
         if (user.imagen_perfil_url) {
           this.imagenPerfil = user.imagen_perfil_url;
           localStorage.setItem('imagenPerfil', user.imagen_perfil_url);
@@ -79,6 +85,9 @@ export class PerfilComponent implements OnInit {
           telefono: telefono,
           direccion: direccion
         });
+        if (this.esDemo) {
+          this.perfilForm.get('email')?.disable();
+        }
         this.cargando = false;
       }
     });
@@ -155,6 +164,25 @@ export class PerfilComponent implements OnInit {
   }
 
   actualizarPerfil(): void {
+    if (this.esDemo) {
+      this.toastr.info('Como usuario demo, solo puedes simular el cambio de email. El resto de los datos sí se actualizan.');
+      // Simular visualmente el cambio de email (no guardar realmente)
+      const datosUsuario = {
+        ...this.perfilForm.getRawValue(),
+        id_usuario: localStorage.getItem('idUser'),
+        imagen_perfil_url: this.imagenPerfil || localStorage.getItem('imagenPerfil') || null,
+        fechaActualizacion: new Date().toLocaleString('es-AR', {
+          day: '2-digit', month: '2-digit', year: 'numeric',
+          hour: '2-digit', minute: '2-digit'
+        }),
+        direccion: this.perfilForm.get('direccion')?.value
+      };
+      // Actualizar solo visualmente el email en el formulario
+      this.usuario = { ...this.usuario, ...datosUsuario };
+      this.usuario.email = 'demo@demo.com';
+      this.perfilForm.patchValue({ email: 'demo@demo.com' });
+      return;
+    }
     if (this.perfilForm.invalid) {
       this.toastr.error('Por favor, complete todos los campos requeridos');
       return;
