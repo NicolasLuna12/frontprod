@@ -7,6 +7,7 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { ContactoService } from './services/contacto.service';
 import { LanguageSelectorComponent } from './shared/language-selector/language-selector.component';
 import { ChatBotComponent } from './shared/chat-bot/chat-bot.component';
+import { TourModalComponent } from './shared/tour-modal/tour-modal.component';
 
 
 @Component({
@@ -19,7 +20,8 @@ import { ChatBotComponent } from './shared/chat-bot/chat-bot.component';
     CommonModule,
     FooterComponent,
     LanguageSelectorComponent,
-    ChatBotComponent
+    ChatBotComponent,
+    TourModalComponent
   ],
 
   templateUrl: './app.component.html',

@@ -89,6 +89,15 @@
                   Registro
                 </a>
               </li>
+              <li *ngIf="estaAutenticado && esDemoUser" class="nav-item text-center">
+                <a
+                  class="btn btn-info m-1"
+                  (click)="iniciarTour()"
+                  title="Iniciar tour guiado"
+                >
+                  <i class="bi bi-question-circle me-1"></i> Tour
+                </a>
+              </li>
               <li *ngIf="estaAutenticado" class="nav-item text-center">
                 <a
                   class="btn btn-outline-light m-1 "

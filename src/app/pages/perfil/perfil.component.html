@@ -69,6 +69,12 @@
                   <div class="text-danger" *ngIf="perfilForm.get('email')?.invalid && perfilForm.get('email')?.touched">
                     Ingrese un email válido
                   </div>
+                  <!-- Mensaje especial para usuario demo -->
+                  <div *ngIf="esDemoUser" class="alert alert-info mt-2 small">
+                    <i class="bi bi-info-circle me-2"></i>
+                    <strong>Usuario Demo:</strong> En la versión demo no puedes cambiar el email, 
+                    pero en la versión completa sí podrás modificarlo libremente.
+                  </div>
                 </div>
                 
                 <div class="mb-3">

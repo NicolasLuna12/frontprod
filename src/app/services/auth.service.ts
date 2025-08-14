@@ -4,6 +4,7 @@ import { Observable, BehaviorSubject, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { SecurityService } from './security.service';
+import { TourService } from './tour.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ export class AuthService {
   constructor(
     private http: HttpClient, 
     private toastr: ToastrService,
-    private securityService: SecurityService
+    private securityService: SecurityService,
+    private tourService: TourService
   ) { }
 
   login(email: string, password: string): Observable<any> {
@@ -67,6 +69,14 @@ export class AuthService {
         } else {
           localStorage.removeItem('imagenPerfil');
           this.imagenPerfilSubject.next(null);
+        }
+       
+        // Iniciar tour para usuario demo
+        if (response.email === 'demo@demo.com') {
+          // Usar setTimeout para asegurar que el login se complete antes de iniciar el tour
+          setTimeout(() => {
+            this.tourService.startTour(response.email);
+          }, 1000);
         }
        
         this.toastr.success("Bienvenida/o "+response.nombre+' '+response.apellido+'!');

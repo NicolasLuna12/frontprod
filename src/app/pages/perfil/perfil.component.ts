@@ -24,7 +24,10 @@ export class PerfilComponent implements OnInit {
   // Variables para la imagen de perfil
   imagenPerfil: string | null = null;
   imagenError: string | null = null;
-  imagenArchivo: File | null = null;    constructor(
+  imagenArchivo: File | null = null;
+  
+  // Variable para usuario demo
+  esDemoUser = false;    constructor(
     private fb: FormBuilder,
     public authService: AuthService,
     private toastr: ToastrService,
@@ -48,6 +51,7 @@ export class PerfilComponent implements OnInit {
     this.authService.getUserProfileMe().subscribe({
       next: (user) => {
         this.usuario = user;
+        this.esDemoUser = user.email === 'demo@demo.com';
         this.perfilForm.patchValue({
           nombre: user.nombre || '',
           apellido: user.apellido || '',
@@ -55,6 +59,12 @@ export class PerfilComponent implements OnInit {
           telefono: user.telefono || '',
           direccion: user.direccion || ''
         });
+        
+        // Deshabilitar email para usuario demo
+        if (this.esDemoUser) {
+          this.perfilForm.get('email')?.disable();
+        }
+        
         if (user.imagen_perfil_url) {
           this.imagenPerfil = user.imagen_perfil_url;
           localStorage.setItem('imagenPerfil', user.imagen_perfil_url);
@@ -70,6 +80,7 @@ export class PerfilComponent implements OnInit {
         const nombre = localStorage.getItem('nameUser') || '';
         const [nombreUsuario, apellidoUsuario] = nombre.split(' ');
         const email = localStorage.getItem('emailUser') || 'usuario@ejemplo.com';
+        this.esDemoUser = email === 'demo@demo.com';
         const direccion = localStorage.getItem('direccion') || '';
         const telefono = localStorage.getItem('telefono') || '123456789';
         this.perfilForm.patchValue({
@@ -79,6 +90,12 @@ export class PerfilComponent implements OnInit {
           telefono: telefono,
           direccion: direccion
         });
+        
+        // Deshabilitar email para usuario demo
+        if (this.esDemoUser) {
+          this.perfilForm.get('email')?.disable();
+        }
+        
         this.cargando = false;
       }
     });

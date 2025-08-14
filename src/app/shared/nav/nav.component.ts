@@ -3,6 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { TourService } from '../../services/tour.service';
 
 @Component({
   selector: 'app-nav',
@@ -16,11 +17,13 @@ export class NavComponent implements OnInit {
   estaAutenticado = false;
   nombreUsuario = '';
   imagenPerfil: string | null = null;
+  esDemoUser = false;
 
   constructor(
     private authservice: AuthService, 
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private tourService: TourService
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +45,8 @@ export class NavComponent implements OnInit {
     // Obtener el nombre del usuario del localStorage
     const nombreCompleto = localStorage.getItem('nameUser');
     const email = localStorage.getItem('emailUser');
+    this.esDemoUser = email === 'demo@demo.com';
+    
     if (nombreCompleto) {
       // Extraer solo el primer nombre
       const primerNombre = nombreCompleto.split(' ')[0];
@@ -68,4 +73,10 @@ export class NavComponent implements OnInit {
     this.router.navigate(['/home']);
   }
 
+  iniciarTour() {
+    const email = localStorage.getItem('emailUser');
+    if (email) {
+      this.tourService.startTour(email);
+    }
+  }
 }
