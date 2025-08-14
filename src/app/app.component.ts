@@ -1,15 +1,3 @@
-  ngOnInit() {
-    // Escuchar cambios en localStorage para emailUser
-    window.addEventListener('storage', (event) => {
-      if (event.key === 'emailUser' && event.newValue === 'demo@demo.com') {
-        this.demoTour.startTourIfDemoUser();
-      }
-    });
-    // Por si ya está logueado al cargar
-    if (localStorage.getItem('emailUser') === 'demo@demo.com') {
-      this.demoTour.startTourIfDemoUser();
-    }
-  }
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, Router } from '@angular/router';
@@ -42,21 +30,7 @@ import { JoyrideModule } from 'ngx-joyride';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-import { OnInit } from '@angular/core';
-
-export class AppComponent implements OnInit {
-  ngOnInit() {
-    // Escuchar cambios en localStorage para emailUser
-    window.addEventListener('storage', (event) => {
-      if (event.key === 'emailUser' && event.newValue === 'demo@demo.com' && this.demoTour) {
-        this.demoTour.startTourIfDemoUser();
-      }
-    });
-    // Por si ya está logueado al cargar
-    if (localStorage.getItem('emailUser') === 'demo@demo.com' && this.demoTour) {
-      this.demoTour.startTourIfDemoUser();
-    }
-  }
+export class AppComponent {
   title = 'ISPC Food';
   vistaUsuario = false;
   estaAutenticado = false;
