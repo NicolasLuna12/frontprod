@@ -58,16 +58,7 @@ export class AppComponent {
     // Suscribirse a cambios de autenticación para lanzar el tour si el usuario es demo
     this.authService.isAuthenticated().subscribe((autenticado: boolean) => {
       if (autenticado) {
-        // Esperar a que el email esté en localStorage y sea demo@demo.com
-        const checkDemo = () => {
-          const email = localStorage.getItem('emailUser');
-          if (email === 'demo@demo.com') {
-            this.demoTour.startTourIfDemoUser();
-          } else {
-            setTimeout(checkDemo, 100);
-          }
-        };
-        checkDemo();
+        this.demoTour.startTourIfDemoUser();
       }
     });
   }
