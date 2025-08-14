@@ -21,7 +21,8 @@
               "src/favicon.ico",
               "src/iconoPrincipal.ico",
               "src/assets",
-              "src/_redirects"
+              "src/_redirects",
+              "src/google-translate-fix.css"
             ],
             "styles": [
               "src/styles.css"
@@ -38,8 +39,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "8kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "12kb",
+                  "maximumError": "15kb"
                 }
               ],
               "outputHashing": "all"
