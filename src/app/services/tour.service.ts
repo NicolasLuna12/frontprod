@@ -194,37 +194,34 @@ export class TourService {
     if (userEmail === 'demo@demo.com') {
       this.tourActiveSubject.next(true);
       
-      // Recuperar paso guardado o empezar desde la página actual
-      const savedStep = localStorage.getItem('demoTourCurrentStep');
+      // SIEMPRE detectar primero dónde está el usuario actualmente
       const currentRoute = this.router.url;
+      const currentStepIndex = this.getStepIndexByRoute(currentRoute);
       
-      if (savedStep) {
-        const stepIndex = parseInt(savedStep, 10);
-        this.currentStepSubject.next(stepIndex);
-        const step = this.tourSteps[stepIndex];
-        
-        // Si estamos en la página del paso guardado, mostrar modal
-        if (step && currentRoute === step.route) {
-          setTimeout(() => {
-            this.checkCurrentPageStep(currentRoute);
-          }, 500);
-        } else if (step) {
-          // Si no estamos en la página correcta, navegar ahí
-          this.router.navigate([step.route]).then(() => {
-            setTimeout(() => {
-              this.checkCurrentPageStep(step.route);
-            }, 500);
-          });
-        }
+      if (currentStepIndex >= 0) {
+        // Si estamos en una página válida del tour, usar esa página
+        this.currentStepSubject.next(currentStepIndex);
+        setTimeout(() => {
+          this.checkCurrentPageStep(currentRoute);
+        }, 500);
       } else {
-        // Detectar paso basado en ruta actual o empezar desde home
-        const stepIndex = this.getStepIndexByRoute(currentRoute);
-        if (stepIndex >= 0) {
+        // Si no estamos en una página del tour, usar el paso guardado o ir a home
+        const savedStep = localStorage.getItem('demoTourCurrentStep');
+        if (savedStep) {
+          const stepIndex = parseInt(savedStep, 10);
           this.currentStepSubject.next(stepIndex);
-          setTimeout(() => {
-            this.checkCurrentPageStep(currentRoute);
-          }, 500);
+          const step = this.tourSteps[stepIndex];
+          
+          // Navegar a la página del paso guardado
+          if (step) {
+            this.router.navigate([step.route]).then(() => {
+              setTimeout(() => {
+                this.checkCurrentPageStep(step.route);
+              }, 500);
+            });
+          }
         } else {
+          // Si no hay paso guardado, empezar desde home
           this.currentStepSubject.next(0);
           this.router.navigate(['/home']).then(() => {
             setTimeout(() => {
