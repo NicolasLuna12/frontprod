@@ -7,9 +7,6 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { ContactoService } from './services/contacto.service';
 import { LanguageSelectorComponent } from './shared/language-selector/language-selector.component';
 import { ChatBotComponent } from './shared/chat-bot/chat-bot.component';
-import { DemoTourService } from './services/demo-tour.service';
-
-import { JoyrideModule } from 'ngx-joyride';
 
 
 @Component({
@@ -23,7 +20,6 @@ import { JoyrideModule } from 'ngx-joyride';
     FooterComponent,
     LanguageSelectorComponent,
     ChatBotComponent
-  ,JoyrideModule
   ],
 
   templateUrl: './app.component.html',
@@ -36,7 +32,7 @@ export class AppComponent {
   esAdmin = false;
   isHome = false;
 
-  constructor(public contactoService: ContactoService, private router: Router, private demoTour: DemoTourService) {
+  constructor(public contactoService: ContactoService, private router: Router) {
     const email = localStorage.getItem('emailUser');
     this.estaAutenticado = !!localStorage.getItem('authToken');
     this.esAdmin = email === 'admin@admin.com';
@@ -45,8 +41,6 @@ export class AppComponent {
     this.router.events.subscribe(() => {
       this.isHome = this.router.url === '/home' || this.router.url === '/';
     });
-    // Lanzar tour si es usuario demo
-    this.demoTour.startTourIfDemoUser();
   }
 
   setVistaUsuario(valor: boolean) {
