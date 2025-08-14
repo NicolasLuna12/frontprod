@@ -262,7 +262,21 @@ export class TourService {
       
       this.saveTourState();
     } else {
-      this.stopTour();
+      // Si estamos en el último paso, volver al primero (hacer ciclo)
+      this.currentStepSubject.next(0);
+      
+      // Cerrar el modal actual antes de navegar
+      this.showPageModalSubject.next(false);
+      
+      // Navegar a la primera página del tour
+      const firstStep = this.tourSteps[0];
+      this.router.navigate([firstStep.route]).then(() => {
+        setTimeout(() => {
+          this.checkCurrentPageStep(firstStep.route);
+        }, 300);
+      });
+      
+      this.saveTourState();
     }
   }
 
@@ -281,6 +295,23 @@ export class TourService {
         // Pequeño delay para asegurar que la navegación se complete
         setTimeout(() => {
           this.checkCurrentPageStep(prevStep.route);
+        }, 300);
+      });
+      
+      this.saveTourState();
+    } else {
+      // Si estamos en el primer paso, ir al último (hacer ciclo hacia atrás)
+      const lastStepIndex = this.tourSteps.length - 1;
+      this.currentStepSubject.next(lastStepIndex);
+      
+      // Cerrar el modal actual antes de navegar
+      this.showPageModalSubject.next(false);
+      
+      // Navegar a la última página del tour
+      const lastStep = this.tourSteps[lastStepIndex];
+      this.router.navigate([lastStep.route]).then(() => {
+        setTimeout(() => {
+          this.checkCurrentPageStep(lastStep.route);
         }, 300);
       });
       
