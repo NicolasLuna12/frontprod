@@ -48,23 +48,12 @@ export class TwofaService {
     );
   }
 
-  authorizePurchase(email: string, monto: number, titular: string, code?: string): Observable<any> {
+  authorizePurchase(email: string, monto: number, titular: string): Observable<any> {
     // Enviando solicitud authorizePurchase
     const headers = this.getHeaders();
     const url = this.apiUrl + 'authorize/';
-    const body: any = { 
-      email, 
-      monto, 
-      titular 
-    };
-    
-    // Agregar código 2FA si se proporciona
-    if (code) {
-      body.code = code;
-    }
-    
-    console.log('TwofaService: Enviando petición authorize a:', url, 'con datos:', body);
-    return this.http.post(url, body, { headers }).pipe(
+    console.log('TwofaService: Enviando petición authorize a:', url);
+    return this.http.post(url, { email, monto, titular }, { headers }).pipe(
       catchError(err => {
         console.error('Error en authorizePurchase:', err);
         throw err;

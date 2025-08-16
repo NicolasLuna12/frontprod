@@ -146,15 +146,7 @@
             </small>
           </div>
         </div>
-        
-        <!-- Debug: Mostrar estado del QR -->
-        <div *ngIf="!twofaQR" class="alert alert-warning">
-          <i class="bi bi-exclamation-triangle"></i> 
-          <strong>Debug:</strong> No se ha recibido el código QR aún. 
-          <br><small>Verificando servicio 2FA...</small>
-        </div>
-        
-        <div *ngIf="twofaQR" class="qr-container">
+          <div *ngIf="twofaQR" class="qr-container">
           <div class="qr-badge">Escanear QR</div>
           <img [src]="twofaQR" alt="QR 2FA" class="qr-image" (load)="onQRLoad()" [ngClass]="{'fade-in': qrLoaded}">
           <p class="text-center mt-2">
