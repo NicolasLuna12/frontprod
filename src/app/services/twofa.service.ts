@@ -10,10 +10,18 @@ export class TwofaService {
   constructor(private http: HttpClient) {}
 
   private getHeaders(): HttpHeaders {
-    return new HttpHeaders({
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     });
+    
+    // Agregar token de autorización si existe
+    if (token) {
+      return headers.set('Authorization', `Bearer ${token}`);
+    }
+    
+    return headers;
   }
 
   setup2fa(email: string): Observable<any> {
@@ -40,12 +48,23 @@ export class TwofaService {
     );
   }
 
-  authorizePurchase(email: string, monto: number, titular: string): Observable<any> {
+  authorizePurchase(email: string, monto: number, titular: string, code?: string): Observable<any> {
     // Enviando solicitud authorizePurchase
     const headers = this.getHeaders();
     const url = this.apiUrl + 'authorize/';
-    console.log('TwofaService: Enviando petición authorize a:', url);
-    return this.http.post(url, { email, monto, titular }, { headers }).pipe(
+    const body: any = { 
+      email, 
+      monto, 
+      titular 
+    };
+    
+    // Agregar código 2FA si se proporciona
+    if (code) {
+      body.code = code;
+    }
+    
+    console.log('TwofaService: Enviando petición authorize a:', url, 'con datos:', body);
+    return this.http.post(url, body, { headers }).pipe(
       catchError(err => {
         console.error('Error en authorizePurchase:', err);
         throw err;

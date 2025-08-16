@@ -121,12 +121,15 @@ export class CheckoutComponent implements OnInit {
     // Enviando código 2FA para verificación
     this.verifying2FA = true; // Iniciar animación de verificación
     
-    this.twofaService.verify2fa(this.emailUser, this.twofaCode).subscribe({
+    // Primero intentar autorizar la compra con el código 2FA
+    const monto = this.pedido.total;
+    this.twofaService.authorizePurchase(this.emailUser, monto, this.nameUser, this.twofaCode).subscribe({
       next: (resp) => {
-        // Procesando respuesta de verificación 2FA
-        if (resp.verified) {
+        console.log('Respuesta de autorización con código:', resp);
+        if (resp.authorized || resp.verified) {
           this.toastr.success('Verificación completada con éxito', '2FA Correcto');
           sessionStorage.setItem('2fa_active', 'true');
+          this.twofaEnabled = true;
           
           // Cerramos el modal con una pequeña demora para mejor experiencia UX
           setTimeout(() => {
@@ -138,12 +141,12 @@ export class CheckoutComponent implements OnInit {
             }
           }, 1000);
         } else {
-          this.verifying2FA = false; // Detener animación de verificación
+          this.verifying2FA = false;
           this.toastr.error('El código introducido no es válido. Inténtalo de nuevo.');
         }
       },
       error: (err) => {
-        this.verifying2FA = false; // Detener animación de verificación en caso de error
+        this.verifying2FA = false;
         console.error('Error en confirmar2FA:', err);
         this.toastr.error('No pudimos verificar tu código. Por favor, inténtalo de nuevo.');
       }
