@@ -1,59 +1,110 @@
 
-<!-- RECORDAR ENLAZAR ESTO EN EL FOOTER -->
+<!-- SECCIÓN EQUIPO PREMIUM CON EFECTOS MODERNOS -->
+<section class="team-premium-section">
+  <!-- Fondo animado con partículas -->
+  <div class="animated-background">
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+  </div>
 
+  <div class="team-container">
+    <!-- Header con efectos -->
+    <div class="team-header">
+      <!-- Eliminamos el badge "Conoce al equipo" -->
+      <h1 class="team-title">
+        <span class="title-gradient">NUESTRO</span> 
+        <span class="title-highlight">EQUIPO</span>
+      </h1>
+      <p class="team-subtitle">
+        Los desarrolladores creativos detrás de ISPC Food
+      </p>
+      <div class="title-divider"></div>
+    </div>
 
-<section class="p-5 page-section bg-light" id="devs">
-  <div class="container">
-      <div class="text-center">
-          <h2 class="section-heading text-uppercase" style="color: black;">Nuestro Equipo</h2>
-      </div>
-
-      <div class="row">
-        @for (profesional of profesionalList; track profesional.id)
-        {
-          <div class="col-md-3 mb-4">
-              <div >
-                  <img class="img-fluid"  [src]="profesional.photo" alt="Responsive image" />
-
-                  <h4 style="color: black;">{{profesional.name}}</h4>
-
-                  <p class="text-muted">{{profesional.perfil}}</p>
-
-                  <a class="btn btn-dark btn-social mx-2" [href]="profesional.githubLink" target="_blank"><i class="fab fa-github"></i></a>
-                  <a class="btn btn-dark btn-social mx-2"[href]="profesional.linkedinLink" target="_blank"><i class="bi bi-linkedin"></i></a>
-                  <!-- <a class="btn btn-dark"  routerLink="/quienes-somos/1">Portfolio</a> -->
-
+    <!-- Grid de desarrolladores -->
+    <div class="developers-grid">
+      @for (profesional of profesionalList; track profesional.id) {
+        <div class="developer-card" [attr.data-index]="profesional.id">
+          <!-- Fondo con efectos glassmorphism -->
+          <div class="card-background"></div>
+          
+          <!-- Imagen con hover effects -->
+          <div class="developer-image-container">
+            <img 
+              [src]="profesional.photo" 
+              [alt]="profesional.name"
+              class="developer-image"
+            />
+            <div class="image-overlay">
+              <div class="overlay-content">
+                <i class="fas fa-code code-icon"></i>
+                <span class="hover-text">Full Stack Developer</span>
               </div>
             </div>
-        }
-        @empty {
-          <p>There are no profesional items.</p>
-        }
-
-          <!-- </div>
-          <div class="col-md-4">
-              <div >
-                  <img class="rounded-circle img-fluid" src="assets\team\person 3.jpg" alt="..." />
-                  <h4>Diana</h4>
-                  <p class="text-muted">Desarrolladora Web</p>
-                  <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-twitter"></i></a>
-                  <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
-                  <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-linkedin-in"></i></a>
-                  <a class="btn btn-dark"  routerLink="/quienes-somos/2">Ver Perfil</a>
-              </div>
           </div>
-          <div class="col-md-4 ">
-              <div >
-                  <img class="rounded-circle img-fluid"  src="assets\team\person 2.jpg" alt="..." />
-                  <h4>Joaquín</h4>
-                  <p class="text-muted">Diseñador Gráfico</p>
-                  <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-twitter"></i></a>
-                  <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
-                  <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-linkedin-in"></i></a>
-                  <a class="btn btn-dark"  routerLink="/quienes-somos/3" >Ver Perfil</a>
-              </div>
-          </div> -->
+
+          <!-- Información del desarrollador -->
+          <div class="developer-info">
+            <h3 class="developer-name">{{ profesional.name }}</h3>
+            <p class="developer-role">{{ profesional.perfil }}</p>
+            
+            <!-- Skills tags -->
+            <div class="skills-tags">
+              <span class="skill-tag">Angular</span>
+              <span class="skill-tag">TypeScript</span>
+              <span class="skill-tag">Node.js</span>
+            </div>
+
+            <!-- Social links con efectos premium -->
+            <div class="social-links">
+              <a 
+                [href]="profesional.githubLink" 
+                target="_blank" 
+                class="social-link github-link"
+                aria-label="GitHub"
+              >
+                <i class="fab fa-github"></i>
+                <span class="link-text">GitHub</span>
+              </a>
+              <a 
+                [href]="profesional.linkedinLink" 
+                target="_blank" 
+                class="social-link linkedin-link"
+                aria-label="LinkedIn"
+              >
+                <i class="fab fa-linkedin"></i>
+                <span class="link-text">LinkedIn</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Efectos decorativos -->
+          <div class="card-glow"></div>
+          <div class="corner-accent"></div>
+        </div>
+      }
+      
+      @empty {
+        <div class="empty-state">
+          <i class="fas fa-users empty-icon"></i>
+          <p class="empty-text">El equipo se está cargando...</p>
+        </div>
+      }
+    </div>
+
+    <!-- Call to action section -->
+    <div class="team-cta">
+      <div class="cta-content">
+        <h3 class="cta-title">¿Quieres unirte al equipo?</h3>
+        <p class="cta-text">Estamos siempre buscando talento apasionado por la tecnología</p>
+        <a href="https://github.com/moispc" target="_blank" class="cta-button">
+          <i class="fas fa-rocket"></i>
+          <span>Contáctanos</span>
+        </a>
       </div>
+    </div>
   </div>
 </section>
 

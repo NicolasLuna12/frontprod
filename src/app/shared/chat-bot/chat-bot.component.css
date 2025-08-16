@@ -1,4 +1,7 @@
-/* Food Bot con negro claro y detalles naranja, casi pegado al borde (bottom: 0) */
+/* ============================================
+   CHAT BOT PREMIUM - EVA
+   ============================================ */
+
 .chatbot-float {
   position: fixed;
   bottom: 0;
@@ -7,21 +10,30 @@
   margin: 0;
   width: 320px;
   max-width: 95vw;
-  background: #232323;
-  border-radius: 18px 18px 0 0;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.22);
+  background: var(--surface-card);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-soft);
+  border-radius: 20px 20px 0 0;
+  box-shadow: var(--shadow-premium);
   z-index: 10010;
   cursor: pointer;
-  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+  font-family: var(--font-secondary);
   opacity: 1;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+.chatbot-float:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-premium-hover);
+}
+
 .chatbot-header {
-  background: #232323;
-  color: #ff9800;
-  border-bottom: 2px solid #ff9800;
-  padding: 14px 20px;
-  border-radius: 18px 18px 0 0;
-  font-weight: bold;
+  background: var(--accent-gradient);
+  color: var(--text-inverse);
+  border-bottom: 2px solid var(--accent-gold);
+  padding: 16px 20px;
+  border-radius: 20px 20px 0 0;
+  font-weight: 700;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -30,132 +42,209 @@
   letter-spacing: 0.5px;
   min-width: 180px;
   min-height: 48px;
-  box-shadow: 0 -2px 8px rgba(0,0,0,0.10);
+  box-shadow: var(--shadow-soft);
+  position: relative;
+  overflow: hidden;
 }
+
+.chatbot-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.8s ease;
+}
+
+.chatbot-header:hover::before {
+  left: 100%;
+}
+
 .close-btn {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.2);
   border: none;
-  color: #ff9800;
-  font-size: 22px;
+  color: var(--text-inverse);
+  font-size: 20px;
   cursor: pointer;
   font-weight: bold;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
 }
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
 .chatbot-body {
-  padding: 18px 16px 12px 16px;
+  padding: 20px 18px 16px 18px;
   max-height: 350px;
   overflow-y: auto;
-  background: #292929;
+  background: var(--surface-elevated);
+  border-radius: 0 0 20px 20px;
 }
+
+.chatbot-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chatbot-body::-webkit-scrollbar-track {
+  background: var(--surface);
+  border-radius: 3px;
+}
+
+.chatbot-body::-webkit-scrollbar-thumb {
+  background: var(--accent-gold);
+  border-radius: 3px;
+}
+
+.chatbot-body::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-600);
+}
+
 .chatbot-messages {
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
+
 .chatbot-messages .user {
   text-align: right;
-  color: #ff9800;
-  margin-bottom: 4px;
+  color: var(--text-inverse);
+  margin-bottom: 6px;
   font-weight: 500;
-  background: #2d2d2d;
-  border-radius: 8px;
-  padding: 4px 10px;
+  background: var(--accent-gradient);
+  border-radius: 12px 12px 4px 12px;
+  padding: 8px 12px;
   display: inline-block;
+  max-width: 80%;
+  word-wrap: break-word;
+  box-shadow: var(--shadow-soft);
 }
+
 .chatbot-messages .bot {
   text-align: left;
-  color: #fff;
+  color: var(--text-primary);
   margin-bottom: 8px;
   font-weight: 400;
-  background: #2d2d2d;
-  border-radius: 8px;
-  padding: 4px 10px;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 12px 12px 12px 4px;
+  padding: 8px 12px;
   display: inline-block;
+  max-width: 80%;
+  word-wrap: break-word;
+  box-shadow: var(--shadow-soft);
 }
-.chatbot-options button, .volver-btn {
+
+.chatbot-options button, 
+.volver-btn {
   display: block;
   width: 100%;
   margin-bottom: 10px;
-  padding: 10px 0;
-  border: none;
-  border-radius: 8px;
-  background: linear-gradient(90deg, #ff9800 60%, #ffb74d 100%);
-  color: #232323;
+  padding: 12px 16px;
+  border: 2px solid var(--accent-gold);
+  border-radius: 12px;
+  background: var(--accent-gradient);
+  color: var(--text-inverse);
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.9rem;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-soft);
+  font-family: var(--font-secondary);
+  position: relative;
+  overflow: hidden;
 }
-.chatbot-options button:hover, .volver-btn:hover {
-  background: #232323;
-  color: #ff9800;
-  border: 1px solid #ff9800;
+
+.chatbot-options button::before, 
+.volver-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s ease;
 }
+
+.chatbot-options button:hover::before, 
+.volver-btn:hover::before {
+  left: 100%;
+}
+
+.chatbot-options button:hover, 
+.volver-btn:hover {
+  background: var(--surface-elevated);
+  color: var(--accent-gold);
+  border-color: var(--accent-gold);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-medium);
+}
+
 .volver-btn {
   margin-top: 12px;
-  background: #fff3e0;
-  color: #ff9800;
+  background: var(--surface);
+  color: var(--accent-gold);
+  border-color: var(--accent-gold);
   font-weight: 500;
 }
+
+.volver-btn:hover {
+  background: var(--accent-gradient);
+  color: var(--text-inverse);
+}
+
 .foodbot-icon {
   width: 28px;
   height: 28px;
   margin-right: 8px;
   vertical-align: middle;
-  border-radius: 6px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.10);
-  background: #fff;
-  border: 2px solid #ff9800;
+  border-radius: 8px;
+  box-shadow: var(--shadow-soft);
+  background: var(--surface);
+  border: 2px solid var(--accent-gold);
+  padding: 2px;
+  transition: all 0.3s ease;
 }
+
+.foodbot-icon:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px var(--accent-gold-glow);
+}
+
 .user-select-none {
   user-select: none;
 }
-@media (max-width: 600px) {
-  .chatbot-float {
-    right: 0;
-    width: 100vw;
-    min-width: 0;
-  }
-  .chatbot-float-welcome {
-    left: 0;
-    right: 0;
-    bottom: 70px;
-    margin: 0 auto;
-    width: max-content;
-  }
-}
-.chatbot-float-welcome {
-  position: absolute;
-  left: auto;
-  right: 110%;
-  bottom: 24px;
-  background: #fff;
-  color: #232323;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.13);
-  padding: 10px 18px;
-  font-size: 1rem;
-  font-weight: 500;
-  margin-right: 18px;
-  white-space: nowrap;
-  z-index: 10011;
-  border: 1.5px solid #ff9800;
-  animation: chatbot-float-in 0.7s;
-}
+
+/* ============================================
+   BURBUJA DE BIENVENIDA
+   ============================================ */
+
 .chatbot-bubble-welcome {
   position: absolute;
   right: 24px;
   bottom: 90px;
-  background: #fff;
-  color: #232323;
+  background: var(--surface-card);
+  color: var(--text-primary);
+  border: 2px solid var(--accent-gold);
   border-radius: 18px 18px 18px 4px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.13);
+  box-shadow: var(--shadow-premium);
   padding: 12px 22px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
   z-index: 10011;
-  border: 1.5px solid #ff9800;
-  animation: chatbot-float-in 0.7s;
+  animation: chatbot-float-in 0.7s ease-out;
   white-space: nowrap;
+  backdrop-filter: blur(10px);
 }
+
 .chatbot-bubble-welcome::after {
   content: '';
   position: absolute;
@@ -165,48 +254,130 @@
   height: 0;
   border-left: 18px solid transparent;
   border-right: 0 solid transparent;
-  border-top: 18px solid #fff;
-  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.08));
+  border-top: 18px solid var(--surface-card);
+  filter: drop-shadow(0 2px 4px var(--shadow-color));
 }
-@media (max-width: 600px) {
-  .chatbot-bubble-welcome {
-    right: 0;
-    left: 0;
-    margin: 0 auto;
-    bottom: 90px;
-    width: max-content;
-  }
-  .chatbot-bubble-welcome::after {
-    right: 20px;
-    left: auto;
-  }
-}
-@keyframes chatbot-float-in {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+
+/* ============================================
+   HEADER INTERNO DEL CHAT
+   ============================================ */
+
 .chatbot-header-inside {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   padding: 8px 12px 0 12px;
 }
+
 .eva-name {
-  font-weight: bold;
-  color: #ff9800;
+  font-weight: 700;
+  color: var(--accent-gold);
   font-size: 1.1rem;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
+  font-family: var(--font-primary);
 }
+
 .julia-name {
   display: none;
 }
+
 .julia-welcome {
-  color: #fff;
-  background: #232323;
-  border-radius: 8px;
-  padding: 6px 12px;
-  font-size: 0.98rem;
-  margin-bottom: 4px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  color: var(--text-secondary);
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+  box-shadow: var(--shadow-soft);
+  line-height: 1.4;
+}
+
+/* ============================================
+   ANIMACIONES
+   ============================================ */
+
+@keyframes chatbot-float-in {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px) scale(0.95); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0) scale(1); 
+  }
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+  .chatbot-float {
+    right: 0;
+    width: 100vw;
+    min-width: 0;
+    border-radius: 16px 16px 0 0;
+  }
+  
+  .chatbot-header {
+    padding: 14px 16px;
+    border-radius: 16px 16px 0 0;
+  }
+  
+  .chatbot-body {
+    padding: 16px;
+    border-radius: 0 0 16px 16px;
+  }
+  
+  .chatbot-bubble-welcome {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    bottom: 90px;
+    width: max-content;
+    max-width: 90vw;
+    white-space: normal;
+    text-align: center;
+  }
+  
+  .chatbot-bubble-welcome::after {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 480px) {
+  .chatbot-float {
+    width: 100vw;
+  }
+  
+  .chatbot-header {
+    font-size: 1rem;
+    padding: 12px 16px;
+  }
+  
+  .chatbot-body {
+    padding: 14px;
+    max-height: 300px;
+  }
+  
+  .chatbot-options button, 
+  .volver-btn {
+    padding: 10px 14px;
+    font-size: 0.85rem;
+  }
+  
+  .foodbot-icon {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .chatbot-bubble-welcome {
+    font-size: 0.85rem;
+    padding: 10px 18px;
+    bottom: 80px;
+  }
 }

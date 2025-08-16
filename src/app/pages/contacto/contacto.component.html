@@ -1,113 +1,135 @@
-<div class="container text-center contacto-container bg-color-primario mt-5 py-5 p-sm-5 rounded rounded-3">
-  <div class="row justify-content-center justify-content-sm-center justify-content-lg-evenly">
-    <div class="col-11 col-sm-10 col-md-6 col-lg-5">
-      <h2 class="titulo-contacto text-color-primario inter text-color-terciario">
-        Contacto
-      </h2>
+<!-- PÁGINA DE CONTACTO CON ESTILO LOGIN -->
+<div class="contact-container">
+  <!-- Fondo animado con elementos flotantes -->
+  <div class="animated-background">
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="hex-pattern"></div>
+    <div class="hex-pattern"></div>
+  </div>
 
-      <p class="pregunta-contacto text-color-terciario m-3 h5">
-        ¿Tenés alguna sugerencia o algún reclamo? Contáctanos hoy mismo.
-      </p>
-<!-- mail -->
-      <p class="mail-contacto text-color-terciario m-3 h5">ispcfood&#64;gmail.com </p>
-<!-- whatsapp -->
-      <p class="tel-contacto m-3 text-success h5">
-        <a target="_blank" class="" rel="noreferrer" href="https://wa.link/rccy82">
-          <i class="bi bi-whatsapp text-success"></i>
-          <span class="text-color-terciario"> +54 9 (351) 746-0026 </span>
-        </a>
-      </p>
+  <div class="contact-content">
+    <!-- Información de contacto -->
+    <div class="contact-info">
+      <h1 class="contact-title">Contáctanos</h1>
+      <p class="contact-subtitle">¿Tenés alguna sugerencia o algún reclamo? Contáctanos hoy mismo.</p>
+      
+      <div class="contact-details">
+        <div class="contact-item">
+          <span class="contact-label">Email</span>
+          <span class="contact-value">ispcfood&#64;gmail.com</span>
+        </div>
+        
+        <div class="contact-item">
+          <span class="contact-label">WhatsApp</span>
+          <a href="https://wa.link/rccy82" target="_blank" class="contact-value whatsapp-link">
+            +54 9 (351) 746-0026
+          </a>
+        </div>
+      </div>
     </div>
 
-    <div class="col-11 col-sm-10 col-md-6 col-lg-5">
-      <form [formGroup]="form" (ngSubmit)="onEnviar($event)" novalidate>
+    <!-- Formulario de contacto -->
+    <div class="contact-card">
+      <div class="contact-header">
+        <h2 class="form-title">Envíanos un mensaje</h2>
+        <p class="form-subtitle">Completa el formulario y te contactaremos pronto</p>
+      </div>
 
-        <div class="form-floating  mb-3 text-dark">
-          <input type="text" formControlName="nombre" class="form-control" />
-          <label for="floatingInput">Nombre</label>
+      <form [formGroup]="form" (ngSubmit)="onEnviar($event)" class="contact-form">
+        <div class="form-group">
+          <input 
+            type="text" 
+            id="nombre"
+            formControlName="nombre" 
+            class="form-input"
+            placeholder=" "
+          >
+          <label for="nombre" class="form-label">Nombre</label>
+          
           @if(Nombre?.errors && Nombre?.touched) {
             @if(Nombre?.hasError('required')) {
-            <p class="text-danger">El nombre es requerido</p>
-            } }
+              <div class="error-message">El nombre es requerido</div>
+            }
+          }
         </div>
 
-        <div class="form-floating mb-3 pruebaemail text-dark">
-          <input type="email" formControlName="email" class="form-control" />
-          <label for="floatingInput">Correo electronico</label>
+        <div class="form-group">
+          <input 
+            type="email" 
+            id="email"
+            formControlName="email" 
+            class="form-input"
+            placeholder=" "
+          >
+          <label for="email" class="form-label">Correo electrónico</label>
+          
           @if (Email?.errors && Email?.touched) {
-            @if (Email?.hasError('required'))
-            {
-            <p class="text-danger">
-            El email es requerido.
-            </p>
+            @if (Email?.hasError('required')) {
+              <div class="error-message">El email es requerido</div>
             }
-            @else if (Email?.hasError('email'))
-            {
-            <p class="text-danger">
-            El formato del email debe ser válido.
-            </p>
+            @else if (Email?.hasError('email')) {
+              <div class="error-message">El formato del email debe ser válido</div>
             }
-            }
+          }
         </div>
 
-        <div class="form-floating mb-3 text-dark">
-          <input type="text" formControlName="asunto" class="form-control" />
-          <label for="floatingInput">Asunto</label>
+        <div class="form-group">
+          <input 
+            type="text" 
+            id="asunto"
+            formControlName="asunto" 
+            class="form-input"
+            placeholder=" "
+          >
+          <label for="asunto" class="form-label">Asunto</label>
+          
           @if(Asunto?.errors && Asunto?.touched) {
             @if(Asunto?.hasError('required')) {
-            <p class="text-danger">El asunto es requerido</p>
-            } }
+              <div class="error-message">El asunto es requerido</div>
+            }
+          }
         </div>
 
-        <div class="form-floating mb-3 text-dark">
-          <textarea class="form-control" formControlName="mensaje" style="height: 100px"></textarea>
-          <label for="floatingTextarea">Mensaje</label>
+        <div class="form-group">
+          <textarea 
+            id="mensaje"
+            formControlName="mensaje" 
+            class="form-input form-textarea"
+            placeholder=" "
+            rows="4"
+          ></textarea>
+          <label for="mensaje" class="form-label">Mensaje</label>
+          
           @if(Mensaje?.errors && Mensaje?.touched) {
             @if(Mensaje?.hasError('required')) {
-            <p class="text-danger">El mensaje es requerido</p>
-            } }
+              <div class="error-message">El mensaje es requerido</div>
+            }
+          }
         </div>
 
-
-        <!-- SEGUNDO SPRINT -->
-        <!-- VER LO DE onclick="toggleModal() Y onsubmit="toggleModal()" -->
-        <div class="d-grid gap-2">
-          <button
-            class="btn btn-secondary btn-lg bg-color-secundario btn-enviar text-color-terciario fw-bold"
-            id="btn-contacto"
-            (click)="enviarMensaje()"
-            type="submit">
-            Enviar mensaje
-          </button>
-        </div>
+        <button 
+          type="submit" 
+          class="submit-btn"
+          [disabled]="form.invalid"
+          (click)="enviarMensaje()"
+        >
+          Enviar mensaje
+        </button>
       </form>
+    </div>
+  </div>
 
-
-
-      <!-- VER LO DE stopEventPropagation(event)  onClick-->
-      <div class="modal-cerveux z-3" onclick="">
-        <div class="card success-message bg-color-primario z-3 container" onclick="">
-          <div class="card-body">
-            <p class="card-title h5">
-              <!-- <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
-                class="bi bi-check-all text-color-secundario" viewBox="0 0 16 16">
-                <path
-                  d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z" />
-              </svg> -->
-            </p>
-            <h6 class="card-subtitle mb-3 text-color-cuaternario">
-              Mensaje enviado
-            </h6>
-            <p class="card-text text-color-cuaternario">
-              Nos estaremos comunicando a la brevedad.
-            </p>
-
-                                        <!-- BOTON -->
-            <button class="btn btn-secondary bg-color-secundario" onclick="toggleModal()">
-              Aceptar
-            </button>
-          </div>
-        </div>
+  <!-- Modal de éxito -->
+  <div class="modal-cerveux" onclick="">
+    <div class="success-modal">
+      <div class="success-content">
+        <h3 class="success-title">¡Mensaje enviado!</h3>
+        <p class="success-text">Nos estaremos comunicando a la brevedad.</p>
+        <button class="success-btn" onclick="toggleModal()">Aceptar</button>
       </div>
     </div>
   </div>

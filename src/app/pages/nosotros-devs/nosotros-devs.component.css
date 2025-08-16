@@ -1,9 +1,331 @@
-.page-section.bg-light {
-  background-color: #e0e0e0 !important; /* Un tono gris más oscuro que el blanco puro */
+/* ============================================
+   SECCIÓN EQUIPO MODERNA Y EQUILIBRADA
+   ============================================ */
+
+/* Contenedor principal limpio */
+.team-premium-section {
+  min-height: 80vh;
+  background: linear-gradient(135deg, #fef7cd 0%, #fbbf24 20%, #f59e0b 80%, #d97706 100%);
+  position: relative;
+  padding: 80px 0;
 }
 
-.img-fluid {
-  border-radius: 8px;
-  margin-bottom: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* Fondo sutil con menos elementos */
+.animated-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0.4;
+}
+
+.floating-shape {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  animation: float 12s ease-in-out infinite;
+}
+
+.floating-shape:nth-child(1) {
+  width: 80px;
+  height: 80px;
+  top: 20%;
+  left: 15%;
+}
+
+.floating-shape:nth-child(2) {
+  width: 120px;
+  height: 120px;
+  top: 60%;
+  right: 20%;
+  animation-delay: 6s;
+}
+
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0); 
+    opacity: 0.2;
+  }
+  50% { 
+    transform: translateY(-20px); 
+    opacity: 0.4;
+  }
+}
+
+/* Contenedor principal */
+.team-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+/* Header simplificado */
+.team-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.section-badge {
+  display: inline-block;
+  background: #f59e0b;
+  color: white;
+  border-radius: 25px;
+  padding: 8px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.team-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #1f2937;
+}
+
+.title-gradient {
+  color: #f59e0b;
+}
+
+.title-highlight {
+  color: #374151;
+}
+
+.team-subtitle {
+  font-size: 1.2rem;
+  color: #6b7280;
+  margin-bottom: 24px;
+}
+
+.title-divider {
+  width: 60px;
+  height: 3px;
+  background: #f59e0b;
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+/* Grid más simple */
+.developers-grid {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 50px;
+  margin-bottom: 60px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+/* Tarjetas limpias */
+.developer-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 40px 32px;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  flex: 0 0 280px;
+  min-height: 400px;
+}
+
+.developer-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  border-color: #f59e0b;
+}
+
+/* Imagen simple */
+.developer-image-container {
+  width: 160px;
+  height: 160px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #f59e0b;
+}
+
+.developer-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.developer-card:hover .developer-image {
+  transform: scale(1.05);
+}
+
+.image-overlay {
+  display: none; /* Quitamos el overlay complejo */
+}
+
+/* Info del desarrollador */
+.developer-info h3 {
+  color: #1f2937;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.developer-role {
+  color: #6b7280;
+  font-size: 1rem;
+  margin-bottom: 30px; /* Más espacio ya que no hay skills */
+}
+
+/* Skills simplificadas - OCULTAS */
+.skills-tags {
+  display: none; /* Ocultamos las tecnologías */
+}
+
+.skill-tag {
+  background: #fef3c7;
+  color: #d97706;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Enlaces sociales limpios */
+.social-links {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f3f4f6;
+  color: #374151;
+  padding: 8px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.social-link:hover {
+  background: #f59e0b;
+  color: white;
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+/* Quitamos efectos complejos */
+.card-background,
+.card-glow,
+.corner-accent {
+  display: none;
+}
+
+/* Estado vacío simple */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #6b7280;
+  padding: 40px 0;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  color: #d1d5db;
+}
+
+/* CTA más sutil - VISIBLE NUEVAMENTE */
+.team-cta {
+  text-align: center;
+  background: white;
+  border-radius: 16px;
+  padding: 40px 32px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.cta-title {
+  color: #1f2937;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.cta-text {
+  color: #6b7280;
+  font-size: 1rem;
+  margin-bottom: 24px;
+}
+
+.cta-button {
+  background: #f59e0b;
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none; /* Para el enlace */
+}
+
+.cta-button:hover {
+  background: #d97706;
+  transform: translateY(-2px);
+  text-decoration: none; /* Para el enlace */
+  color: white; /* Mantener color blanco en hover */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .team-title {
+    font-size: 2.2rem;
+  }
+  
+  .developers-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+  }
+  
+  .developer-card {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 350px;
+  }
+  
+  .team-premium-section {
+    padding: 60px 0;
+  }
+  
+  .team-container {
+    padding: 0 16px;
+  }
+  
+  .floating-shape {
+    display: none; /* Ocultamos en móvil */
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  .developers-grid {
+    justify-content: center;
+    gap: 32px;
+  }
+  
+  .developer-card {
+    flex: 0 0 calc(50% - 16px);
+    max-width: 300px;
+  }
 }

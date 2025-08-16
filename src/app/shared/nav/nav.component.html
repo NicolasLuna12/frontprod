@@ -1,157 +1,210 @@
-<body>
-  <header class="header_basic">
-    <div class="container">
-      <nav class="navbar navbar-dark navbar-expand-md nav_barra">
-        <div class="navbar container container-fluid" data-bs-theme="dark">
-          <a class="navbar-brand d-flex align-items-center" href="index.html">
-            <img
-              src="assets/logo_v2.png"
-              style="max-width: 120px"
-              alt="logo_food"
-            />
-            <a href="https://github.com/moispc/Mobile" target="_blank" class="btn btn-warning ms-3 d-flex align-items-center" style="border-radius: 50px; font-size: 1.1rem; padding: 0.4rem 1.2rem;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="1.3rem" height="1.3rem" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16" style="margin-right: 0.5rem;">
-                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5A1.5 1.5 0 0 0 2.5 14h11a.5.5 0 0 0 1.5-1.5V10.4a.5.5 0 0 1 1 0v2.1A2.5 2.5 0 0 1 13.5 15h-11A2.5 2.5 0 0 1 0 12.5V10.4a.5.5 0 0 1 .5-.5z"/>
-                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-              </svg>
-              ¡Descarga nuestra app!
-            </a>
-          </a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div
-            class="collapse navbar-collapse ms-auto"
-            id="navbarSupportedContent"
-          >
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item text-center ">
-                <a class="nav-link active" aria-current="page" href="index.html">
-                  Inicio
-                </a>
-              </li>
-              <li *ngIf="(!isAdmin() || vistaUsuario)" class="nav-item text-center ">
-                <a class="nav-link" routerLink="/quienes-somos">
-                  ¿Quienes somos?
-                </a>
-              </li>
-              <li *ngIf="(!isAdmin() || vistaUsuario)" class="nav-item text-center ">
-                <a class="nav-link" routerLink="/contacto">
-                  Contacto
-                </a>
-              </li>
-              <li *ngIf="(!isAdmin() || vistaUsuario)" class="nav-item text-center ">
-                <a class="nav-link" routerLink="/carta"> Carta </a>
-              </li>
-              <li *ngIf="estaAutenticado && (!isAdmin() || vistaUsuario)" class="nav-item text-center ">
-                <a class="nav-link" routerLink="/dashboard">
-                  Dashboard
-                </a>
-              </li>
-              <li *ngIf="estaAutenticado && isAdmin() && !vistaUsuario" class="nav-item text-center ">
-                <a class="nav-link" routerLink="/admin-productos">
-                  Gestión
-                </a>
-              </li>
-              <!-- Elemento para Mi Perfil (sin menú desplegable) -->
-              <li *ngIf="estaAutenticado" class="nav-item text-center">
-                <a class="nav-link d-flex align-items-center" routerLink="/perfil">
-                  <div class="nav-profile-img-container me-2">
-                    <img *ngIf="imagenPerfil" [src]="imagenPerfil" class="nav-profile-img" alt="Foto de perfil">
-                    <i *ngIf="!imagenPerfil" class="bi bi-person-circle"></i>
-                  </div>
-                  {{ nombreUsuario }}
-                </a>
-              </li>
-              <li *ngIf="!estaAutenticado" class="nav-item text-center">
-                <a
-                  class="btn btn-outline-light m-1 "
-                  id="nav-login"
-                  routerLink="/login"
-                >
-                  Login
-                </a>
-              </li>
-              <li *ngIf="!estaAutenticado" class="nav-item text-center">
-                <a
-                  class="btn btn-outline-light m-1 "
-                  id="nav-registro"
-                  routerLink="/registro"
-                >
-                  Registro
-                </a>
-              </li>
-              <li *ngIf="estaAutenticado && esDemoUser" class="nav-item text-center">
-                <a
-                  class="btn m-1"
-                  [class.btn-danger]="!tourActivo"
-                  [class.btn-success]="tourActivo"
-                  (click)="iniciarTour()"
-                  [title]="tourActivo ? 'Tour activo - Click para desactivar' : 'Tour desactivado - Click para activar'"
-                >
-                  <i class="bi" 
-                     [class.bi-x-circle-fill]="!tourActivo"
-                     [class.bi-check-circle-fill]="tourActivo"
-                     [class.spinning]="tourActivo"></i>
-                  <span class="ms-1">
-                    {{ tourActivo ? 'Tour ON' : 'Tour OFF' }}
-                  </span>
-                </a>
-              </li>
-              <li *ngIf="estaAutenticado" class="nav-item text-center">
-                <a
-                  class="btn btn-outline-light m-1 "
-                  id="nav-logout" (click)="logout()"
-                >
-                  Log Out
-                </a>
-              </li>
-            </ul>
+<header class="header-premium">
+  <nav class="navbar-premium">
+    <div class="nav-container">
+      <!-- Brand Section -->
+      <div class="brand-container">
+        <a class="brand-link" routerLink="/">
+          <div class="logo-wrapper">
+            <img src="assets/logo_v2.png" alt="ISPC Food" class="brand-logo"/>
+            <div class="logo-glow"></div>
           </div>
+          <span class="brand-text">ISPC Food</span>
+        </a>
+        
+        <!-- Download App Button -->
+        <a href="https://github.com/moispc/Mobile" target="_blank" 
+           class="download-btn">
+          <div class="btn-content">
+            <i class="fas fa-download download-icon"></i>
+            <span>¡Descarga nuestra app!</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button class="mobile-menu-btn" 
+              type="button" 
+              (click)="toggleMobileMenu()"
+              [attr.aria-expanded]="mobileMenuOpen">
+        <div class="hamburger-lines">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
-      </nav>
+      </button>
+
+      <!-- Navigation Menu -->
+      <div class="nav-menu" 
+           [class.show]="mobileMenuOpen">
+        <ul class="nav-list">
+          <li class="nav-item stagger-animation">
+            <a class="nav-link" routerLink="/">
+              <i class="fas fa-home nav-icon"></i>
+              <span>Inicio</span>
+            </a>
+          </li>
+          
+          <li *ngIf="(!isAdmin() || vistaUsuario)" class="nav-item stagger-animation">
+            <a class="nav-link" routerLink="/quienes-somos">
+              <i class="fas fa-users nav-icon"></i>
+              <span>¿Quienes somos?</span>
+            </a>
+          </li>
+          
+          <li *ngIf="(!isAdmin() || vistaUsuario)" class="nav-item stagger-animation">
+            <a class="nav-link" routerLink="/contacto">
+              <i class="fas fa-phone nav-icon"></i>
+              <span>Contacto</span>
+            </a>
+          </li>
+          
+          <li *ngIf="(!isAdmin() || vistaUsuario)" class="nav-item stagger-animation">
+            <a class="nav-link" routerLink="/carta">
+              <i class="fas fa-utensils nav-icon"></i>
+              <span>Carta</span>
+            </a>
+          </li>
+          
+          <li *ngIf="estaAutenticado && (!isAdmin() || vistaUsuario)" class="nav-item stagger-animation">
+            <a class="nav-link" routerLink="/dashboard">
+              <i class="fas fa-chart-bar nav-icon"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          
+          <li *ngIf="estaAutenticado && isAdmin() && !vistaUsuario" class="nav-item stagger-animation">
+            <a class="nav-link" routerLink="/admin-productos">
+              <i class="fas fa-cogs nav-icon"></i>
+              <span>Gestión</span>
+            </a>
+          </li>
+          
+          <!-- Profile Section -->
+          <li *ngIf="estaAutenticado" class="nav-item profile-item stagger-animation">
+            <a class="nav-link profile-link" routerLink="/perfil">
+              <div class="profile-container">
+                <div class="profile-avatar">
+                  <img *ngIf="imagenPerfil" [src]="imagenPerfil" 
+                       class="profile-img" alt="Foto de perfil">
+                  <div *ngIf="!imagenPerfil" class="profile-placeholder">
+                    {{ (nombreUsuario || 'U').charAt(0).toUpperCase() }}
+                  </div>
+                </div>
+                <span class="profile-name">Mi Perfil</span>
+              </div>
+            </a>
+          </li>
+          
+          <!-- Auth Buttons -->
+          <li *ngIf="!estaAutenticado" class="nav-item auth-item stagger-animation">
+            <a class="nav-link auth-btn login-btn" routerLink="/login">
+              <i class="fas fa-sign-in-alt nav-icon"></i>
+              <span>Iniciar Sesión</span>
+            </a>
+          </li>
+          
+          <li *ngIf="!estaAutenticado" class="nav-item auth-item stagger-animation">
+            <a class="nav-link auth-btn register-btn" routerLink="/registro">
+              <i class="fas fa-user-plus nav-icon"></i>
+              <span>Registro</span>
+            </a>
+          </li>
+          
+          <!-- Tour Button -->
+          <li *ngIf="estaAutenticado && esDemoUser" class="nav-item stagger-animation">
+            <button class="tour-btn" 
+                    (click)="iniciarTour()"
+                    [class.tour-active]="tourActivo">
+              <i class="fas fa-question-circle tour-icon" 
+                 [class.spinning]="tourActivo"></i>
+              <span>{{ tourActivo ? 'Tour ON' : 'Tour OFF' }}</span>
+            </button>
+          </li>
+          
+          <!-- Logout Button -->
+          <li *ngIf="estaAutenticado" class="nav-item stagger-animation">
+            <button class="logout-btn" (click)="logout()">
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Salir</span>
+            </button>
+          </li>
+          
+          <!-- Navigation Tools -->
+          <li class="nav-item nav-tools stagger-animation">
+            <!-- Backdrop para dropdowns -->
+            <div class="dropdown-backdrop" 
+                 [class.show]="showLanguageSelector || showThemeSelector"
+                 (click)="showLanguageSelector = false; showThemeSelector = false"></div>
+            
+            <!-- Language Selector -->
+            <div class="nav-tool-item">
+              <button class="nav-tool-btn language-toggle-btn" 
+                      (click)="toggleLanguageSelector()"
+                      [class.active]="showLanguageSelector"
+                      title="Cambiar Idioma">
+                <i class="fas fa-globe language-globe-icon"></i>
+                <img [src]="getCurrentLanguageFlag()" 
+                     [alt]="getCurrentLanguageName() + ' flag'"
+                     class="language-flag-mini">
+              </button>
+              
+              <!-- Language Dropdown -->
+              <div class="language-dropdown" [class.show]="showLanguageSelector">
+                <button *ngFor="let lang of translatorService.availableLanguages"
+                        class="language-option" 
+                        [class.active]="currentLanguage === lang.code"
+                        (click)="selectLanguage(lang.code)">
+                  <img [src]="lang.flag" [alt]="lang.name + ' flag'" class="language-flag">
+                  <span class="language-name">{{ lang.name }}</span>
+                  <i *ngIf="currentLanguage === lang.code" class="fas fa-check"></i>
+                </button>
+              </div>
+            </div>
+            
+            <!-- Theme Selector -->
+            <div class="nav-tool-item">
+              <button class="nav-tool-btn theme-toggle-btn" 
+                      (click)="toggleThemeSelector()"
+                      [class.active]="showThemeSelector"
+                      title="Cambiar Tema">
+                <i class="fas fa-palette"></i>
+              </button>
+              
+              <!-- Theme Dropdown -->
+              <div class="theme-dropdown" [class.show]="showThemeSelector">
+                <button class="theme-option" 
+                        [class.active]="currentTheme === 'light'"
+                        (click)="setTheme('light')">
+                  <i class="fas fa-sun"></i>
+                  <span>Claro</span>
+                </button>
+                <button class="theme-option" 
+                        [class.active]="currentTheme === 'dark'"
+                        (click)="setTheme('dark')">
+                  <i class="fas fa-moon"></i>
+                  <span>Oscuro</span>
+                </button>
+                <button class="theme-option" 
+                        [class.active]="currentTheme === 'auto'"
+                        (click)="setTheme('auto')">
+                  <i class="fas fa-clock"></i>
+                  <span>Auto</span>
+                </button>
+              </div>
+            </div>
+            
+            <!-- WhatsApp Button -->
+            <div class="nav-tool-item">
+              <a [href]="getWhatsAppUrl()" 
+                 target="_blank" 
+                 class="nav-tool-btn whatsapp-btn"
+                 title="Contactar por WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
-  </header>
-</body>
-
-
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li *ngIf="!estaAutenticado" class="nav-item">
-          <a class="nav-link" routerLink="/home"  aria-current="page">HOME</a>
-        </li>
-        <li  class="nav-item">
-          <a class="nav-link" aria-current="page">CONTACTO</a>
-        </li>
-        <li  class="nav-item">
-          <a class="nav-link" routerLink="/carta" aria-current="page">CARTA</a>
-        </li>
-        <li  class="nav-item">
-          <a class="nav-link" routerLink="/dashboard" aria-current="page">DASHBOARD</a>
-        </li>
-        <li  class="nav-item">
-          <a class="nav-link" routerLink="/pagar" aria-current="page">PAGAR</a>
-        </li>
-        <li *ngIf="!estaAutenticado" class="nav-item">
-          <a class="nav-link" aria-current="page">LOGIN</a>
-        </li>
-        <li *ngIf="!estaAutenticado" class="nav-item">
-          <a class="nav-link"  aria-current="page">REGISTRO</a>
-        </li>
-        <li *ngIf="estaAutenticado" class="nav-item">
-          <a class="nav-link"  aria-current="page">CERRAR SESIÓN</a>
-        </li>
-      </ul>
-    </div>
-
-<!-- <ng-template #viewHome>
-
-</ng-template> -->
+  </nav>
+</header>

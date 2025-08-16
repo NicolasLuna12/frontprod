@@ -1,9 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { TourService } from '../../services/tour.service';
+import { ThemeService, Theme } from '../../services/theme.service';
+import { ContactoService } from '../../services/contacto.service';
+import { TranslatorService } from '../../services/translator.service';
 
 @Component({
   selector: 'app-nav',
@@ -19,12 +22,24 @@ export class NavComponent implements OnInit {
   imagenPerfil: string | null = null;
   esDemoUser = false;
   tourActivo = false;
+  mobileMenuOpen = false;
+  
+  // Theme properties
+  showThemeSelector = false;
+  currentTheme: Theme = 'auto';
+  
+  // Language properties
+  showLanguageSelector = false;
+  currentLanguage = 'es';
 
   constructor(
     private authservice: AuthService, 
     private toastr: ToastrService,
     private router: Router,
-    private tourService: TourService
+    private tourService: TourService,
+    private themeService: ThemeService,
+    private contactoService: ContactoService,
+    public translatorService: TranslatorService
   ) {}
 
   ngOnInit(): void {
@@ -44,6 +59,14 @@ export class NavComponent implements OnInit {
     // Suscribirse al estado del tour
     this.tourService.tourActive$.subscribe((activo) => {
       this.tourActivo = activo;
+    });
+    
+    // Suscribirse al tema actual
+    this.currentTheme = this.themeService.getCurrentTheme();
+    
+    // Suscribirse a los cambios de idioma
+    this.translatorService.language.subscribe(lang => {
+      this.currentLanguage = lang;
     });
   }
 
@@ -93,6 +116,62 @@ export class NavComponent implements OnInit {
       }
     } else {
       this.toastr.info("El tour guiado solo está disponible para el usuario demo.", "Función Demo");
+    }
+  }
+
+  toggleMobileMenu() {
+    this.mobileMenuOpen = !this.mobileMenuOpen;
+  }
+
+  closeMobileMenu() {
+    this.mobileMenuOpen = false;
+  }
+  
+  // Theme methods
+  toggleThemeSelector() {
+    this.showThemeSelector = !this.showThemeSelector;
+    this.showLanguageSelector = false; // Close language selector
+  }
+
+  setTheme(theme: Theme) {
+    this.themeService.setTheme(theme);
+    this.currentTheme = theme;
+    this.showThemeSelector = false;
+  }
+
+  // WhatsApp method
+  getWhatsAppUrl(): string {
+    return this.contactoService.getUrlWhatsApp('Hola, necesito ayuda con mi pedido');
+  }
+
+  // Language methods
+  toggleLanguageSelector() {
+    this.showLanguageSelector = !this.showLanguageSelector;
+    this.showThemeSelector = false; // Close theme selector
+  }
+
+  selectLanguage(languageCode: string) {
+    this.translatorService.changeLanguage(languageCode);
+    this.currentLanguage = languageCode;
+    this.showLanguageSelector = false;
+  }
+
+  getCurrentLanguageFlag(): string {
+    const lang = this.translatorService.availableLanguages.find(l => l.code === this.currentLanguage);
+    return lang ? lang.flag : 'assets/flags/es-circle.svg';
+  }
+
+  getCurrentLanguageName(): string {
+    const lang = this.translatorService.availableLanguages.find(l => l.code === this.currentLanguage);
+    return lang ? lang.name : 'Español';
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.nav-tool-item')) {
+      this.showThemeSelector = false;
+      this.showLanguageSelector = false;
     }
   }
 }

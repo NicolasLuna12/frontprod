@@ -1,0 +1,494 @@
+/* ============================================
+   UTILIDADES PREMIUM ADICIONALES
+   ============================================ */
+
+/* Efectos de glassmorphism adicionales */
+.glass-card {
+  background: var(--surface-glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass);
+  border-radius: 20px;
+  box-shadow: var(--shadow-glass);
+}
+
+.glass-button {
+  background: var(--surface-glass);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--accent-gold);
+  border-radius: 12px;
+  padding: 8px 16px;
+  color: var(--text-primary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-button:hover {
+  background: var(--accent-gradient);
+  color: var(--text-inverse);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-premium);
+}
+
+/* Espaciado premium */
+.premium-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.premium-section {
+  padding: 80px 0;
+}
+
+.premium-card-grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* Tipografía premium adicional */
+.display-premium {
+  font-family: var(--font-primary);
+  font-weight: 800;
+  background: var(--accent-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.2;
+}
+
+.text-premium {
+  font-family: var(--font-secondary);
+  font-weight: 600;
+  color: var(--accent-gold);
+}
+
+.text-elegant {
+  font-family: var(--font-primary);
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+.text-highlight {
+  background: var(--accent-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+}
+
+/* Botones de acción flotantes */
+.fab-premium {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--accent-gradient);
+  border: none;
+  box-shadow: var(--shadow-premium);
+  color: var(--text-inverse);
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+}
+
+.fab-premium:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+}
+
+/* Indicadores de estado premium */
+.status-online {
+  position: relative;
+}
+
+.status-online::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 12px;
+  height: 12px;
+  background: #10b981;
+  border: 2px solid var(--surface-card);
+  border-radius: 50%;
+  animation: pulse-green 2s infinite;
+}
+
+.status-away::after {
+  background: #f59e0b;
+  animation: pulse-yellow 2s infinite;
+}
+
+.status-offline::after {
+  background: #6b7280;
+}
+
+@keyframes pulse-green {
+  0%, 100% { 
+    opacity: 1; 
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.7; 
+    transform: scale(1.1);
+  }
+}
+
+@keyframes pulse-yellow {
+  0%, 100% { 
+    opacity: 1; 
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.7; 
+    transform: scale(1.1);
+  }
+}
+
+/* Cards especiales */
+.card-premium {
+  background: var(--surface-glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass);
+  border-radius: 20px;
+  padding: 24px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent-gradient);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card-premium:hover::before {
+  opacity: 1;
+}
+
+.card-premium:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-premium);
+  border-color: var(--accent-gold);
+}
+
+/* Lista premium */
+.list-premium {
+  list-style: none;
+  padding: 0;
+}
+
+.list-premium li {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-soft);
+  transition: all 0.3s ease;
+}
+
+.list-premium li:last-child {
+  border-bottom: none;
+}
+
+.list-premium li:hover {
+  padding-left: 8px;
+  color: var(--accent-gold);
+}
+
+.list-premium li::before {
+  content: '→';
+  color: var(--accent-gold);
+  font-weight: bold;
+  margin-right: 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.list-premium li:hover::before {
+  opacity: 1;
+}
+
+/* Divisores premium */
+.divider-premium {
+  height: 1px;
+  background: var(--accent-gradient);
+  margin: 40px 0;
+  position: relative;
+}
+
+.divider-premium::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 6px;
+  background: var(--accent-gradient);
+  border-radius: 3px;
+}
+
+/* Efectos de imagen premium */
+.image-premium {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.image-premium:hover {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-premium);
+}
+
+.image-premium img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.image-premium:hover img {
+  transform: scale(1.05);
+}
+
+/* Tooltips premium */
+.tooltip-premium {
+  position: relative;
+  cursor: help;
+}
+
+.tooltip-premium::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--surface-elevated);
+  color: var(--text-primary);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--border-soft);
+  z-index: 1000;
+}
+
+.tooltip-premium::before {
+  content: '';
+  position: absolute;
+  bottom: 116%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--surface-elevated);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.tooltip-premium:hover::after,
+.tooltip-premium:hover::before {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Acordeón premium */
+.accordion-premium .accordion-item {
+  background: var(--surface-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+
+.accordion-premium .accordion-button {
+  background: var(--surface-elevated);
+  color: var(--text-primary);
+  border: none;
+  padding: 16px 20px;
+  font-weight: 600;
+  font-family: var(--font-secondary);
+}
+
+.accordion-premium .accordion-button:not(.collapsed) {
+  background: var(--accent-gradient);
+  color: var(--text-inverse);
+}
+
+.accordion-premium .accordion-body {
+  background: var(--surface-card);
+  color: var(--text-primary);
+  padding: 20px;
+}
+
+/* Efectos de scroll */
+.scroll-premium {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-gold) var(--surface-elevated);
+}
+
+.scroll-premium::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scroll-premium::-webkit-scrollbar-track {
+  background: var(--surface-elevated);
+  border-radius: 4px;
+}
+
+.scroll-premium::-webkit-scrollbar-thumb {
+  background: var(--accent-gradient);
+  border-radius: 4px;
+}
+
+.scroll-premium::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, var(--gold-600), var(--gold-700));
+}
+
+/* Utilidades responsive premium */
+@media (max-width: 768px) {
+  .premium-container {
+    padding: 0 16px;
+  }
+  
+  .premium-section {
+    padding: 40px 0;
+  }
+  
+  .premium-card-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .fab-premium {
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+  
+  .card-premium {
+    padding: 16px;
+  }
+}
+
+/* Estados de carga premium */
+.loading-premium {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border-soft);
+  border-radius: 50%;
+  border-top-color: var(--accent-gold);
+  animation: spin 1s ease-in-out infinite;
+}
+
+.loading-premium-large {
+  width: 40px;
+  height: 40px;
+  border-width: 3px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Efectos de hover para enlaces */
+.link-premium {
+  color: var(--accent-gold);
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.link-premium::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent-gradient);
+  transition: width 0.3s ease;
+}
+
+.link-premium:hover {
+  color: var(--gold-600);
+}
+
+.link-premium:hover::after {
+  width: 100%;
+}
+
+/* Tags premium */
+.tag-premium {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--accent-gradient);
+  color: var(--text-inverse);
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: var(--font-secondary);
+  margin: 2px;
+  transition: all 0.3s ease;
+}
+
+.tag-premium:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px var(--accent-gold-glow);
+}
+
+/* Separador con icono */
+.separator-premium {
+  display: flex;
+  align-items: center;
+  margin: 32px 0;
+  color: var(--text-muted);
+}
+
+.separator-premium::before,
+.separator-premium::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-soft);
+}
+
+.separator-premium::before {
+  margin-right: 16px;
+}
+
+.separator-premium::after {
+  margin-left: 16px;
+}
+
+/* Gradientes de fondo premium */
+.bg-premium-gradient {
+  background: var(--surface-gradient);
+}
+
+.bg-accent-gradient {
+  background: var(--accent-gradient);
+  color: var(--text-inverse);
+}
+
+.bg-glass {
+  background: var(--surface-glass);
+  backdrop-filter: blur(20px);
+}

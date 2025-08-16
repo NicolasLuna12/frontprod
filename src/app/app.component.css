@@ -1,65 +1,113 @@
+/* ============================================
+   COMPONENTE PRINCIPAL PREMIUM
+   ============================================ */
+
 .btn-switch-vista {
   position: fixed;
-  top: 40px;
+  top: 120px; /* Posicionado debajo de la navbar */
   right: 32px;
   z-index: 1050;
-  background: linear-gradient(90deg, #1976d2 60%, #00bfae 100%);
-  color: #fff;
+  background: var(--accent-gradient);
+  color: var(--text-inverse);
   border: none;
-  border-radius: 2rem;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
-  padding: 0.5rem 1.4rem 0.5rem 1.1rem;
-  font-size: 1.08rem;
+  border-radius: 16px;
+  box-shadow: var(--shadow-premium);
+  padding: 12px 20px;
+  font-size: 0.9rem;
   font-weight: 600;
+  font-family: var(--font-secondary);
   display: flex;
   align-items: center;
-  gap: 0.7rem;
-  transition: background 0.2s, box-shadow 0.2s, color 0.2s;
+  gap: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
 }
 
-/* Estilos para el botón flotante de WhatsApp */
+.btn-switch-vista::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.6s ease;
+}
+
+.btn-switch-vista:hover::before {
+  left: 100%;
+}
+
+.btn-switch-vista:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-premium-hover);
+}
+
+.btn-switch-vista .icono {
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+}
+
+.btn-switch-vista.vista-usuario {
+  background: linear-gradient(135deg, var(--gold-400), var(--gold-600));
+  color: var(--text-inverse);
+}
+
+/* ============================================
+   WHATSAPP BUTTON PREMIUM
+   ============================================ */
+
 .whatsapp-float {
   position: fixed;
-  width: 60px;
-  height: 60px;
-  bottom: 120px; /* Subido para dejar espacio al chatbot */
-  right: 30px;
-  background-color: #25d366;
+  width: 56px;
+  height: 56px;
+  bottom: 140px;
+  right: 24px;
+  background: linear-gradient(135deg, #25d366, #128C7E);
   color: #FFF;
-  border-radius: 50px;
+  border-radius: 50%;
   text-align: center;
-  font-size: 28px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  font-size: 24px;
+  box-shadow: var(--shadow-premium);
   z-index: 1050;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
 }
 
 .whatsapp-float:hover {
-  background-color: #128C7E;
+  background: linear-gradient(135deg, #128C7E, #0d7a6b);
   color: #fff;
   transform: scale(1.1);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+  box-shadow: var(--shadow-premium-hover);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .whatsapp-tooltip {
   position: absolute;
   right: 70px;
-  background-color: #333;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 14px;
+  background: var(--surface-card);
+  color: var(--text-primary);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s;
+  transition: opacity 0.3s ease;
   white-space: nowrap;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--border-soft);
+  font-family: var(--font-secondary);
 }
 
-/* Estilo específico para el tooltip cuando está en la home (a la izquierda) */
 .whatsapp-float-home .whatsapp-tooltip {
   right: auto;
   left: 70px;
@@ -69,120 +117,76 @@
   opacity: 1;
 }
 
-.btn-switch-vista .icono {
-  font-size: 1.3rem;
-  display: flex;
-  align-items: center;
-}
-.btn-switch-vista.vista-usuario {
-  background: linear-gradient(90deg, #00bfae 60%, #1976d2 100%);
-  color: #fff;
-}
-.btn-switch-vista:hover {
-  background: #125ea2;
-  color: #fff;
-  box-shadow: 0 6px 24px rgba(25,118,210,0.18);
-}
-@media (max-width: 600px) {
-  .btn-switch-vista {
-    top: 10px;
-    right: 5px;
-    font-size: 0.92rem;
-    padding: 0.3rem 0.7rem 0.3rem 0.6rem;
-  }
-  .container {
-    padding: 1rem 0.2rem 1.5rem 0.2rem;
-    max-width: 100vw;
-    border-radius: 0;
-    margin-top: 1.2rem;
-  }
-  h2 {
-    font-size: 1.2rem;
-    margin-bottom: 1.2rem;
-  }
-  .navbar-brand img {
-    max-width: 80px !important;
-  }
-  .navbar-nav .nav-item {
-    font-size: 0.98rem;
-    margin-bottom: 0.2rem;
-  }
-  .table {
-    font-size: 0.92rem;
-    border-radius: 0;
-  }
-  .table th, .table td {
-    padding: 0.3rem 0.2rem;
-  }
-  .nav-profile-img-container {
-    width: 24px;
-    height: 24px;
-  }
-  .nav-profile-img {
-    width: 100%;
-    height: 100%;
-  }
-  .btn-icon {
-    width: 2rem;
-    height: 2rem;
-    font-size: 1.1rem;
-  }
-  .modal-content {
-    padding: 0.5rem;
-  }
-  .modal-dialog {
-    margin: 0.5rem;
-  }
-  .form-control, .form-select, textarea.form-control {
-    font-size: 0.98rem;
-    padding: 0.4rem 0.7rem;
-  }
-  .btn-success, .btn-outline-primary, .btn-outline-secondary, .btn-danger, .btn-primary {
-    font-size: 0.98rem;
-    padding: 0.5rem 1.1rem;
-  }
-}
-
-/* Estilos para ocultar elementos de Google Translate */
-.goog-te-banner-frame,
-.goog-te-menu-frame,
-.skiptranslate {
-  display: none !important;
-}
-
-body {
-  top: 0 !important;
-}
-
-.goog-te-gadget {
-  font-size: 0 !important;
-}
-
-.goog-te-gadget span {
-  display: none !important;
-}
-
-.goog-te-gadget div {
-  display: inline !important;
-}
-
-.goog-tooltip {
-  display: none !important;
-}
-
-.goog-tooltip:hover {
-  display: none !important;
-}
-
-.goog-text-highlight {
-  background-color: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
 .whatsapp-float-home {
-  bottom: 120px !important; /* Más abajo pero aún arriba del traductor */
-  left: 30px !important; /* Posicionarlo a la izquierda en la home */
-  right: auto !important; /* Anular la posición derecha del estilo base */
-  transition: bottom 0.3s, left 0.3s;
+  bottom: 140px !important;
+  left: 24px !important;
+  right: auto !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN PREMIUM
+   ============================================ */
+
+@media (max-width: 768px) {
+  .btn-switch-vista {
+    top: 20px;
+    right: 16px;
+    font-size: 0.8rem;
+    padding: 10px 16px;
+    border-radius: 12px;
+  }
+  
+  .whatsapp-float {
+    width: 50px;
+    height: 50px;
+    bottom: 120px;
+    right: 16px;
+    font-size: 20px;
+  }
+  
+  .whatsapp-float-home {
+    bottom: 120px !important;
+    left: 16px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn-switch-vista {
+    top: 16px;
+    right: 12px;
+    padding: 8px 12px;
+    font-size: 0.75rem;
+  }
+  
+  .btn-switch-vista {
+    top: 100px; /* Ajustar para tablets */
+  }
+  
+  .btn-switch-vista .texto {
+    display: none;
+  }
+  
+  .whatsapp-float {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+    bottom: 100px;
+    right: 12px;
+  }
+  
+  .whatsapp-float-home {
+    bottom: 100px !important;
+    left: 12px !important;
+  }
+}
+
+/* Ajustes adicionales para móviles */
+@media (max-width: 480px) {
+  .btn-switch-vista {
+    top: 90px; /* Ajustar para móviles */
+    right: 16px;
+    padding: 10px 16px;
+    font-size: 0.8rem;
+  }
 }

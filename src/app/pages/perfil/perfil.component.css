@@ -1,3 +1,9 @@
+/* Padding para compensar navbar fija */
+:host {
+  display: block;
+  padding-top: 40px;
+}
+
 .card {
   border-radius: 10px;
   overflow: hidden;

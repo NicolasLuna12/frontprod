@@ -42,14 +42,6 @@ export class NosotrosDevsComponent {
       githubLink: 'https://github.com/NicolasLuna12',
       linkedinLink:"https://www.linkedin.com/in/nicolas-luna-632612106/",
     },
-    {
-      id: 4,
-      name: 'Lucas Gelpi',
-      perfil: 'Desarrollador web',
-      photo: 'assets/devs/lucas.webp',
-      githubLink: 'https://github.com/lucasGelpi',
-      linkedinLink:"https://www.linkedin.com/in/lucas-gelpi/",
-    },
   ];
 
 }

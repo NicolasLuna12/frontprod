@@ -18,7 +18,6 @@
 
     <form [formGroup]="form" (ngSubmit)="onEnviar($event)" class="registro-form">
 
-      <!-- Primera fila: Nombre y Apellido -->
       <div class="form-group">
         <input 
           type="text" 
@@ -55,7 +54,6 @@
         }
       </div>
 
-      <!-- Segunda fila: Teléfono y Email -->
       <div class="form-group">
         <input 
           type="tel" 
@@ -101,26 +99,16 @@
         }
       </div>
 
-      <!-- Tercera fila: Contraseñas completo ancho -->
-      <div class="form-group full-width">
-        <div class="password-input-container">
-          <input 
-            [type]="showPassword ? 'text' : 'password'" 
-            id="password"
-            formControlName="password" 
-            class="form-input"
-            placeholder=" "
-            autocomplete="new-password"
-          >
-          <label for="password" class="form-label">Contraseña</label>
-          <button 
-            type="button" 
-            class="password-toggle" 
-            (click)="togglePasswordVisibility()"
-            [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'">
-            <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-          </button>
-        </div>
+      <div class="form-group">
+        <input 
+          type="password" 
+          id="password"
+          formControlName="password" 
+          class="form-input"
+          placeholder=" "
+          autocomplete="new-password"
+        >
+        <label for="password" class="form-label">Contraseña</label>
         
         @if (Password?.errors && Password?.touched) {
           @if (Password?.hasError('required')) {
@@ -132,25 +120,16 @@
         }
       </div>
 
-      <div class="form-group full-width">
-        <div class="password-input-container">
-          <input 
-            [type]="showConfirmPassword ? 'text' : 'password'" 
-            id="checkPassword"
-            formControlName="checkPassword" 
-            class="form-input"
-            placeholder=" "
-            autocomplete="new-password"
-          >
-          <label for="checkPassword" class="form-label">Confirmar contraseña</label>
-          <button 
-            type="button" 
-            class="password-toggle" 
-            (click)="toggleConfirmPasswordVisibility()"
-            [attr.aria-label]="showConfirmPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'">
-            <i [class]="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-          </button>
-        </div>
+      <div class="form-group">
+        <input 
+          type="password" 
+          id="checkPassword"
+          formControlName="checkPassword" 
+          class="form-input"
+          placeholder=" "
+          autocomplete="new-password"
+        >
+        <label for="checkPassword" class="form-label">Confirmar contraseña</label>
         
         @if (CheckPassword?.errors && CheckPassword?.touched) {
           @if (CheckPassword?.hasError('required')) {

@@ -1,0 +1,417 @@
+/* ============================================
+   COMPONENTES PREMIUM ADICIONALES
+   ============================================ */
+
+/* Botones de Bootstrap Override */
+.btn-primary {
+  background: var(--accent-gradient) !important;
+  border: none !important;
+  color: var(--text-inverse) !important;
+  border-radius: 12px !important;
+  padding: 10px 20px !important;
+  font-weight: 600;
+  font-family: var(--font-secondary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-soft);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background: linear-gradient(135deg, var(--gold-500), var(--gold-700)) !important;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-premium);
+  color: var(--text-inverse) !important;
+}
+
+.btn-secondary {
+  background: var(--surface-elevated) !important;
+  border: 2px solid var(--border-medium) !important;
+  color: var(--text-primary) !important;
+  border-radius: 12px !important;
+  padding: 8px 18px !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--surface) !important;
+  border-color: var(--accent-gold) !important;
+  color: var(--accent-gold) !important;
+  transform: translateY(-1px);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+  border: none !important;
+  color: white !important;
+  border-radius: 12px !important;
+  padding: 10px 20px !important;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-success:hover {
+  background: linear-gradient(135deg, #059669, #047857) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+  color: white !important;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+  border: none !important;
+  color: white !important;
+  border-radius: 12px !important;
+  padding: 10px 20px !important;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+  background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+  color: white !important;
+}
+
+.btn-warning {
+  background: var(--accent-gradient) !important;
+  border: none !important;
+  color: var(--text-inverse) !important;
+  border-radius: 12px !important;
+  padding: 10px 20px !important;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-warning:hover {
+  background: linear-gradient(135deg, var(--gold-500), var(--gold-700)) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--accent-gold-glow);
+  color: var(--text-inverse) !important;
+}
+
+/* Formularios Premium */
+.form-control {
+  background: var(--surface-elevated) !important;
+  border: 2px solid var(--border-soft) !important;
+  border-radius: 12px !important;
+  padding: 12px 16px !important;
+  color: var(--text-primary) !important;
+  font-family: var(--font-secondary);
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  background: var(--surface) !important;
+  border-color: var(--accent-gold) !important;
+  box-shadow: 0 0 0 3px var(--accent-gold-soft) !important;
+  color: var(--text-primary) !important;
+}
+
+.form-control::placeholder {
+  color: var(--text-muted) !important;
+}
+
+.form-select {
+  background: var(--surface-elevated) !important;
+  border: 2px solid var(--border-soft) !important;
+  border-radius: 12px !important;
+  padding: 12px 16px !important;
+  color: var(--text-primary) !important;
+  font-family: var(--font-secondary);
+}
+
+.form-select:focus {
+  border-color: var(--accent-gold) !important;
+  box-shadow: 0 0 0 3px var(--accent-gold-soft) !important;
+}
+
+.form-label {
+  color: var(--text-primary) !important;
+  font-weight: 600;
+  font-family: var(--font-secondary);
+  margin-bottom: 8px;
+}
+
+/* Cards Premium */
+.card {
+  background: var(--surface-card) !important;
+  border: 1px solid var(--border-soft) !important;
+  border-radius: 16px !important;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-premium);
+  border-color: var(--accent-gold);
+}
+
+.card-header {
+  background: var(--surface-elevated) !important;
+  border-bottom: 1px solid var(--border-soft) !important;
+  border-radius: 16px 16px 0 0 !important;
+  padding: 20px;
+  color: var(--text-primary);
+  font-family: var(--font-primary);
+  font-weight: 600;
+}
+
+.card-body {
+  background: var(--surface-card) !important;
+  color: var(--text-primary);
+  padding: 20px;
+}
+
+.card-footer {
+  background: var(--surface-elevated) !important;
+  border-top: 1px solid var(--border-soft) !important;
+  border-radius: 0 0 16px 16px !important;
+  padding: 16px 20px;
+}
+
+/* Tablas Premium */
+.table {
+  background: var(--surface-card) !important;
+  color: var(--text-primary) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.table th {
+  background: var(--accent-gradient) !important;
+  color: var(--text-inverse) !important;
+  border: none !important;
+  padding: 16px !important;
+  font-weight: 600;
+  font-family: var(--font-secondary);
+}
+
+.table td {
+  background: var(--surface-card) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-soft) !important;
+  padding: 12px 16px !important;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background: var(--surface-elevated) !important;
+}
+
+.table-hover tbody tr:hover {
+  background: var(--hover-soft) !important;
+}
+
+/* Alertas Premium */
+.alert {
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 16px 20px !important;
+  font-family: var(--font-secondary);
+  box-shadow: var(--shadow-soft);
+}
+
+.alert-success {
+  background: rgba(16, 185, 129, 0.1) !important;
+  color: #059669 !important;
+  border-left: 4px solid #10b981 !important;
+}
+
+.alert-danger {
+  background: rgba(239, 68, 68, 0.1) !important;
+  color: #dc2626 !important;
+  border-left: 4px solid #ef4444 !important;
+}
+
+.alert-warning {
+  background: var(--accent-gold-soft) !important;
+  color: var(--gold-700) !important;
+  border-left: 4px solid var(--accent-gold) !important;
+}
+
+.alert-info {
+  background: rgba(59, 130, 246, 0.1) !important;
+  color: #2563eb !important;
+  border-left: 4px solid #3b82f6 !important;
+}
+
+/* Modales Premium */
+.modal-content {
+  background: var(--surface-card) !important;
+  border: 1px solid var(--border-soft) !important;
+  border-radius: 20px !important;
+  box-shadow: var(--shadow-premium);
+  backdrop-filter: blur(20px);
+}
+
+.modal-header {
+  background: var(--surface-elevated) !important;
+  border-bottom: 1px solid var(--border-soft) !important;
+  border-radius: 20px 20px 0 0 !important;
+  padding: 24px;
+}
+
+.modal-title {
+  color: var(--text-primary) !important;
+  font-family: var(--font-primary);
+  font-weight: 700;
+}
+
+.modal-body {
+  background: var(--surface-card) !important;
+  color: var(--text-primary);
+  padding: 24px;
+}
+
+.modal-footer {
+  background: var(--surface-elevated) !important;
+  border-top: 1px solid var(--border-soft) !important;
+  border-radius: 0 0 20px 20px !important;
+  padding: 20px 24px;
+}
+
+.btn-close {
+  background: var(--surface-elevated);
+  border-radius: 50%;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.btn-close:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Badges Premium */
+.badge {
+  border-radius: 12px !important;
+  padding: 6px 12px !important;
+  font-weight: 600;
+  font-family: var(--font-secondary);
+  font-size: 0.8rem;
+}
+
+.badge.bg-primary {
+  background: var(--accent-gradient) !important;
+  color: var(--text-inverse) !important;
+}
+
+.badge.bg-success {
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+  color: white !important;
+}
+
+.badge.bg-danger {
+  background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+  color: white !important;
+}
+
+.badge.bg-warning {
+  background: var(--accent-gradient) !important;
+  color: var(--text-inverse) !important;
+}
+
+/* Spinners y Loading Premium */
+.spinner-border {
+  color: var(--accent-gold) !important;
+}
+
+.spinner-grow {
+  color: var(--accent-gold) !important;
+}
+
+/* Progress bars Premium */
+.progress {
+  background: var(--surface-elevated) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.progress-bar {
+  background: var(--accent-gradient) !important;
+  transition: width 0.6s ease;
+}
+
+/* Dropdowns Premium */
+.dropdown-menu {
+  background: var(--surface-card) !important;
+  border: 1px solid var(--border-soft) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--shadow-premium);
+  backdrop-filter: blur(20px);
+  padding: 8px !important;
+}
+
+.dropdown-item {
+  color: var(--text-primary) !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  font-family: var(--font-secondary);
+  transition: all 0.3s ease;
+  margin: 2px 0;
+}
+
+.dropdown-item:hover {
+  background: var(--accent-gradient) !important;
+  color: var(--text-inverse) !important;
+}
+
+.dropdown-item:active {
+  background: var(--accent-gradient) !important;
+  color: var(--text-inverse) !important;
+}
+
+.dropdown-divider {
+  border-color: var(--border-soft) !important;
+}
+
+/* Navegación de pestañas */
+.nav-tabs {
+  border-bottom: 2px solid var(--border-soft) !important;
+}
+
+.nav-tabs .nav-link {
+  color: var(--text-secondary) !important;
+  border: none !important;
+  border-radius: 12px 12px 0 0 !important;
+  padding: 12px 20px !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.nav-tabs .nav-link:hover {
+  background: var(--hover-soft) !important;
+  color: var(--text-primary) !important;
+}
+
+.nav-tabs .nav-link.active {
+  background: var(--accent-gradient) !important;
+  color: var(--text-inverse) !important;
+  border-bottom: 2px solid var(--accent-gold) !important;
+}
+
+/* Breadcrumbs Premium */
+.breadcrumb {
+  background: var(--surface-elevated) !important;
+  border-radius: 12px !important;
+  padding: 12px 16px !important;
+  margin-bottom: 20px;
+}
+
+.breadcrumb-item {
+  color: var(--text-secondary) !important;
+}
+
+.breadcrumb-item.active {
+  color: var(--text-primary) !important;
+  font-weight: 600;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  color: var(--text-muted) !important;
+}

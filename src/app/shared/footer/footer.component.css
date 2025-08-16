@@ -1,27 +1,113 @@
 
-footer{
-  padding-top: 20px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
+/* ============================================
+   FOOTER PREMIUM
+   ============================================ */
+
+footer {
+  padding: 32px 0;
+  margin-top: 40px;
   text-align: center;
-  font-family: 'Roboto', sans-serif;
-  background-color:#00acb561;
-}
-.nav-item {
-  display: inline-block;
-  margin-right: 10px;
-}
-.btn {
-  color: white;
-  width: 110px;
+  font-family: var(--font-secondary);
+  background: var(--surface-elevated);
+  border-top: 1px solid var(--border-soft);
+  color: var(--text-secondary);
+  position: relative;
+  overflow: hidden;
 }
 
-.text_copy{
-color:var(--color-primario) ;
-font-weight: 300;
+footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent-gradient);
+}
+
+.nav-item {
+  display: inline-block;
+  margin: 0 8px;
+}
+
+.btn {
+  color: var(--text-inverse) !important;
+  background: var(--accent-gradient) !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 10px 20px !important;
+  font-weight: 600;
+  font-family: var(--font-secondary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow-soft);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-premium);
+  color: var(--text-inverse) !important;
+}
+
+.text_copy {
+  color: var(--text-primary);
+  font-weight: 400;
+  font-size: 0.9rem;
+  margin-top: 16px;
+  opacity: 0.8;
 }
 
 #lista {
-font-size: 2rem;
+  font-size: 1.8rem;
+  color: var(--accent-gold);
+  margin-bottom: 16px;
+  font-family: var(--font-primary);
+  font-weight: 700;
+}
+
+/* Enlaces de redes sociales */
+footer a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+footer a:hover {
+  color: var(--accent-gold);
+  background: var(--hover-soft);
+  transform: translateY(-1px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  footer {
+    padding: 24px 16px;
+    margin-top: 24px;
+  }
+  
+  .nav-item {
+    display: block;
+    margin: 8px 0;
+  }
+  
+  .btn {
+    margin: 4px;
+    min-width: 120px;
+    justify-content: center;
+  }
+  
+  #lista {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+  }
+  
+  .text_copy {
+    font-size: 0.85rem;
+    margin-top: 12px;
+  }
 }

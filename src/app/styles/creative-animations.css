@@ -1,0 +1,477 @@
+/* ============================================
+   ANIMACIONES CREATIVAS PREMIUM
+   ============================================ */
+
+/* Efecto de partículas flotantes */
+.particles-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  background: var(--accent-gold);
+  border-radius: 50%;
+  opacity: 0.1;
+  animation: float 6s ease-in-out infinite;
+}
+
+.particle:nth-child(1) {
+  width: 4px;
+  height: 4px;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.particle:nth-child(2) {
+  width: 6px;
+  height: 6px;
+  left: 20%;
+  animation-delay: 1s;
+}
+
+.particle:nth-child(3) {
+  width: 3px;
+  height: 3px;
+  left: 30%;
+  animation-delay: 2s;
+}
+
+.particle:nth-child(4) {
+  width: 5px;
+  height: 5px;
+  left: 40%;
+  animation-delay: 3s;
+}
+
+.particle:nth-child(5) {
+  width: 4px;
+  height: 4px;
+  left: 50%;
+  animation-delay: 4s;
+}
+
+.particle:nth-child(6) {
+  width: 7px;
+  height: 7px;
+  left: 60%;
+  animation-delay: 5s;
+}
+
+.particle:nth-child(7) {
+  width: 3px;
+  height: 3px;
+  left: 70%;
+  animation-delay: 6s;
+}
+
+.particle:nth-child(8) {
+  width: 5px;
+  height: 5px;
+  left: 80%;
+  animation-delay: 2.5s;
+}
+
+.particle:nth-child(9) {
+  width: 4px;
+  height: 4px;
+  left: 90%;
+  animation-delay: 4.5s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.3;
+    transform: translateY(50vh) rotate(180deg);
+  }
+  90% {
+    opacity: 0.1;
+  }
+}
+
+/* Efectos de hover avanzados para cards */
+.card-3d {
+  perspective: 1000px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-3d-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  background: var(--surface-glass);
+  border-radius: 20px;
+  padding: 24px;
+}
+
+.card-3d:hover .card-3d-inner {
+  transform: rotateY(5deg) rotateX(5deg) scale(1.02);
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    0 0 40px var(--accent-gold-glow);
+}
+
+/* Botones con efectos de ondas */
+.btn-wave {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--accent-gradient);
+  border: none;
+  color: var(--text-inverse);
+  padding: 12px 24px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-wave::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-wave:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn-wave:active {
+  transform: scale(0.95);
+}
+
+/* Texto con efecto de escritura */
+.typewriter {
+  overflow: hidden;
+  border-right: 3px solid var(--accent-gold);
+  white-space: nowrap;
+  margin: 0 auto;
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: var(--accent-gold) }
+}
+
+/* Efecto de morfismo líquido */
+.liquid-blob {
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  background: var(--accent-gradient);
+  animation: blob 8s ease-in-out infinite;
+  position: relative;
+  opacity: 0.1;
+}
+
+@keyframes blob {
+  0% {
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    transform: rotate(0deg);
+  }
+  25% {
+    border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%;
+    transform: rotate(90deg);
+  }
+  50% {
+    border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%;
+    transform: rotate(180deg);
+  }
+  75% {
+    border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%;
+    transform: rotate(270deg);
+  }
+  100% {
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    transform: rotate(360deg);
+  }
+}
+
+/* Efectos de parallax en scroll */
+.parallax-element {
+  transition: transform 0.1s ease-out;
+}
+
+/* Loader creativo */
+.premium-loader {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.premium-loader div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--accent-gold);
+  animation: loader 1.2s linear infinite;
+}
+
+.premium-loader div:nth-child(1) {
+  left: 8px;
+  animation-delay: 0s;
+}
+
+.premium-loader div:nth-child(2) {
+  left: 8px;
+  animation-delay: -0.11s;
+}
+
+.premium-loader div:nth-child(3) {
+  left: 32px;
+  animation-delay: -0.22s;
+}
+
+.premium-loader div:nth-child(4) {
+  left: 56px;
+  animation-delay: -0.33s;
+}
+
+@keyframes loader {
+  0% {
+    top: 8px;
+    height: 64px;
+  }
+  50%, 100% {
+    top: 24px;
+    height: 32px;
+  }
+}
+
+/* Efectos de neomorfismo */
+.neomorphic {
+  background: var(--surface-primary);
+  border-radius: 20px;
+  box-shadow: 
+    20px 20px 60px var(--shadow-dark),
+    -20px -20px 60px var(--shadow-light);
+  border: 1px solid var(--border-soft);
+  transition: all 0.3s ease;
+}
+
+.neomorphic:hover {
+  box-shadow: 
+    inset 10px 10px 20px var(--shadow-dark),
+    inset -10px -10px 20px var(--shadow-light);
+}
+
+/* Efectos de gradiente animado */
+.gradient-animation {
+  background: linear-gradient(-45deg, var(--gold-300), var(--gold-500), var(--gold-700), var(--gold-900));
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Efectos de entrada escalonada */
+.stagger-animation {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: stagger-in 0.6s ease forwards;
+}
+
+.stagger-animation:nth-child(1) { animation-delay: 0.1s; }
+.stagger-animation:nth-child(2) { animation-delay: 0.2s; }
+.stagger-animation:nth-child(3) { animation-delay: 0.3s; }
+.stagger-animation:nth-child(4) { animation-delay: 0.4s; }
+.stagger-animation:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes stagger-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Efectos de texto brillante */
+.glow-text {
+  color: var(--accent-gold);
+  text-shadow: 
+    0 0 5px var(--accent-gold),
+    0 0 10px var(--accent-gold),
+    0 0 15px var(--accent-gold),
+    0 0 20px var(--accent-gold);
+  animation: glow-pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow-pulse {
+  from {
+    text-shadow: 
+      0 0 5px var(--accent-gold),
+      0 0 10px var(--accent-gold),
+      0 0 15px var(--accent-gold),
+      0 0 20px var(--accent-gold);
+  }
+  to {
+    text-shadow: 
+      0 0 2px var(--accent-gold),
+      0 0 5px var(--accent-gold),
+      0 0 8px var(--accent-gold),
+      0 0 12px var(--accent-gold);
+  }
+}
+
+/* Efectos de cristal fracturado */
+.crystal-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.crystal-effect::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+  transform: rotate(45deg);
+  transition: all 0.6s ease;
+  opacity: 0;
+}
+
+.crystal-effect:hover::before {
+  animation: crystal-shine 1.5s ease-in-out;
+}
+
+@keyframes crystal-shine {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+/* Efectos de flotación suave */
+.floating {
+  animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Efecto de zoom en scroll */
+.zoom-on-scroll {
+  transition: transform 0.3s ease;
+}
+
+.zoom-on-scroll.in-view {
+  transform: scale(1.05);
+}
+
+/* Efectos de borde animado */
+.animated-border {
+  position: relative;
+  background: var(--surface-card);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.animated-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 16px;
+  padding: 2px;
+  background: var(--accent-gradient);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  animation: border-rotation 3s linear infinite;
+}
+
+@keyframes border-rotation {
+  0% {
+    background: linear-gradient(0deg, var(--gold-500), var(--gold-700));
+  }
+  25% {
+    background: linear-gradient(90deg, var(--gold-500), var(--gold-700));
+  }
+  50% {
+    background: linear-gradient(180deg, var(--gold-500), var(--gold-700));
+  }
+  75% {
+    background: linear-gradient(270deg, var(--gold-500), var(--gold-700));
+  }
+  100% {
+    background: linear-gradient(360deg, var(--gold-500), var(--gold-700));
+  }
+}
+
+/* Responsividad para animaciones */
+@media (prefers-reduced-motion: reduce) {
+  .particles-container,
+  .floating,
+  .gradient-animation,
+  .typewriter,
+  .liquid-blob {
+    animation: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .card-3d:hover .card-3d-inner {
+    transform: scale(1.02);
+  }
+  
+  .neomorphic {
+    box-shadow: 
+      10px 10px 30px var(--shadow-dark),
+      -10px -10px 30px var(--shadow-light);
+  }
+}

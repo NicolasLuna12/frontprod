@@ -22,6 +22,9 @@ export class RegistroComponent implements OnInit {
   usuario: Usuario = new Usuario();
   form: FormGroup;
   emailExistente: boolean = false;
+  showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
+  
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
@@ -91,5 +94,13 @@ export class RegistroComponent implements OnInit {
   }
   get CheckPassword() {
     return this.form.get('checkPassword');
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
   }
 }

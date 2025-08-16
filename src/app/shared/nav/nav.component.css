@@ -1,96 +1,1086 @@
-/* Estilos para la imagen de perfil en la barra de navegación */
-.nav-profile-img-container {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #343a40;
-  border: 2px solid #495057;
+/* ============================================
+   NAVEGACIÓN PREMIUM CREATIVA - COMPLETA
+   ============================================ */
+
+.header-premium {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  backdrop-filter: blur(20px);
+  background: var(--surface-glass);
+  border-bottom: 1px solid var(--border-glass);
+  box-shadow: var(--shadow-glass);
 }
 
-.nav-profile-img {
+.navbar-premium {
+  padding: 16px 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-container {
+  max-width: 1600px; /* Aumentamos el ancho máximo */
+  margin: 0 auto;
+  padding: 0 32px; /* Más padding horizontal */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px; /* Añadimos gap para mejor espaciado */
+}
+
+/* Brand Section */
+.brand-container {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.logo-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.brand-logo {
+  max-width: 120px;
+  height: auto;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 10px var(--accent-gold-glow));
+}
+
+.logo-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--accent-gradient);
+  opacity: 0;
+  border-radius: 50%;
+  filter: blur(20px);
+  transition: opacity 0.3s ease;
+}
+
+.brand-link:hover .logo-glow {
+  opacity: 0.3;
+}
+
+.brand-link:hover .brand-logo {
+  transform: scale(1.05);
+}
+
+.brand-text {
+  font-family: var(--font-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: var(--accent-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Download Button */
+.download-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 50px;
+  background: var(--accent-gradient);
+  border: none;
+  color: var(--text-inverse);
+  padding: 12px 24px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 2;
+  position: relative;
+}
+
+.download-icon {
+  transition: transform 0.3s ease;
+}
+
+.download-btn:hover .download-icon {
+  transform: translateY(-2px);
+  animation: bounce-icon 0.6s ease;
+}
+
+@keyframes bounce-icon {
+  0%, 100% { transform: translateY(-2px); }
+  50% { transform: translateY(-6px); }
+}
+
+/* Mobile Menu Button */
+.mobile-menu-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 12px;
+  background: var(--surface-elevated);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hamburger-lines {
+  position: relative;
+  width: 24px;
+  height: 18px;
+}
+
+.hamburger-lines span {
+  display: block;
+  position: absolute;
+  height: 3px;
+  width: 100%;
+  background: var(--accent-gold);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.hamburger-lines span:nth-child(1) { top: 0; }
+.hamburger-lines span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+.hamburger-lines span:nth-child(3) { bottom: 0; }
+
+/* Navigation Menu */
+.nav-menu {
+  margin-left: auto;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Reducimos el gap para juntar más los botones */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: nowrap; /* Evitar que se envuelvan los elementos */
+  white-space: nowrap; /* Evitar salto de línea en texto */
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text-primary);
+  font-weight: 500;
+  font-family: var(--font-secondary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap; /* Evitar salto de línea en texto */
+  min-width: fit-content; /* Asegurar ancho mínimo */
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--accent-gradient);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.nav-link:hover::before {
+  opacity: 0.1;
+}
+
+.nav-link:hover {
+  color: var(--accent-gold);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft);
+}
+
+.nav-icon {
+  font-size: 1.1rem;
+}
+
+/* Profile Section */
+.profile-item .profile-link {
+  padding: 8px 12px;
+}
+
+.profile-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-avatar {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--accent-gold);
+}
+
+.profile-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* Estilo para el icono por defecto */
-.nav-profile-img-container i {
-  font-size: 1.2rem;
-  color: #fff;
+.profile-placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--accent-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-inverse);
+  font-weight: bold;
+  font-size: 1.1rem;
 }
 
-/* Efecto hover para el menú desplegable */
-.dropdown-toggle {
+.profile-name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Auth Buttons */
+.auth-item {
+  margin-left: 4px; /* Reducimos el margen entre elementos de auth */
+}
+
+.auth-btn {
+  padding: 12px 24px; /* Padding más compacto */
+  border-radius: 14px; /* Bordes ligeramente menos redondeados */
+  text-decoration: none;
+  font-weight: 600; /* Peso de fuente más suave */
+  font-size: 14px; /* Texto más pequeño */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; /* Menos espacio entre ícono y texto */
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  min-width: 120px; /* Ancho mínimo menor */
+  justify-content: center;
+  text-transform: none; /* Quitar mayúsculas */
+  letter-spacing: 0.2px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08); /* Sombra más sutil */
+}
+
+/* Login button - estilo outline con colores directos */
+.login-btn {
+  background: rgba(251, 191, 36, 0.05) !important;
+  color: #f59e0b !important;
+  border: 2px solid #f59e0b !important;
+  box-shadow: 0 4px 20px rgba(251, 191, 36, 0.15) !important;
+}
+
+.login-btn:hover {
+  background: #f59e0b !important;
+  color: #ffffff !important;
+  transform: translateY(-3px) scale(1.02) !important;
+  box-shadow: 0 12px 35px rgba(251, 191, 36, 0.4) !important;
+  border-color: #f59e0b !important;
+}
+
+/* Específicamente para el botón de login, sobrescribir cualquier estilo de nav-link */
+.nav-link.login-btn {
+  background: rgba(251, 191, 36, 0.05) !important;
+  color: #f59e0b !important;
+  border: 2px solid #f59e0b !important;
+  border-radius: 14px !important;
+  padding: 12px 24px !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+}
+
+.nav-link.login-btn:hover {
+  background: #f59e0b !important;
+  color: #ffffff !important;
+  transform: translateY(-3px) scale(1.02) !important;
+  text-decoration: none !important;
+}
+
+/* Register button - estilo filled con colores directos */
+.register-btn {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+  color: #ffffff !important;
+  border: 2px solid transparent !important;
+  box-shadow: 0 4px 20px rgba(251, 191, 36, 0.25) !important;
+  position: relative;
+  margin-left: 4px;
+}
+
+.register-btn:hover {
+  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+  color: #ffffff !important;
+  transform: translateY(-2px) scale(1.02) !important;
+  box-shadow: 0 8px 30px rgba(251, 191, 36, 0.4) !important;
+  filter: brightness(1.1);
+  border-color: transparent !important;
+}
+
+.register-btn:active {
+  transform: translateY(-1px) scale(1.01) !important;
+}
+
+/* Específicamente para el botón de registro, sobrescribir cualquier estilo de nav-link */
+.nav-link.register-btn {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+  color: #ffffff !important;
+  border-radius: 14px !important;
+  padding: 12px 24px !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+  border: none !important;
+}
+
+.nav-link.register-btn:hover {
+  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+  color: #ffffff !important;
+  transform: translateY(-2px) scale(1.02) !important;
+  text-decoration: none !important;
+}
+
+.register-btn:hover {
+  background: var(--accent-gradient) !important;
+  color: var(--text-inverse) !important;
+  transform: translateY(-2px) scale(1.02) !important;
+  box-shadow: 0 8px 30px rgba(var(--accent-rgb), 0.4) !important;
+  filter: brightness(1.1);
+  border-color: transparent !important;
+}
+
+.register-btn:active {
+  transform: translateY(-1px) scale(1.01) !important;
+}
+
+/* Específicamente para el botón de registro, sobrescribir cualquier estilo de nav-link */
+.nav-link.register-btn {
+  background: var(--accent-gradient) !important;
+  color: var(--text-inverse) !important;
+  border-radius: 14px !important;
+  padding: 12px 24px !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+}
+
+/* Asegurar que los iconos se vean bien en los botones de auth */
+.auth-btn .nav-icon {
+  font-size: 14px !important;
+  margin-right: 6px !important;
+  color: inherit !important;
+}
+
+.auth-btn span {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: inherit !important;
+}
+
+/* Efectos de pulso suaves para llamar la atención */
+.auth-btn {
+  animation: gentle-pulse 4s ease-in-out infinite;
+}
+
+@keyframes gentle-pulse {
+  0%, 100% { 
+    box-shadow: 0 4px 20px rgba(var(--accent-rgb), 0.15);
+  }
+  50% { 
+    box-shadow: 0 5px 22px rgba(var(--accent-rgb), 0.2);
+  }
+}
+
+.register-btn {
+  animation: register-pulse 4s ease-in-out infinite;
+}
+
+@keyframes register-pulse {
+  0%, 100% { 
+    box-shadow: 0 4px 20px rgba(var(--accent-rgb), 0.25);
+  }
+  50% { 
+    box-shadow: 0 5px 22px rgba(var(--accent-rgb), 0.3);
+  }
+}
+
+/* Detener animaciones en hover */
+.auth-btn:hover {
+  animation: none;
+}
+
+/* Tour Button */
+.tour-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 12px;
+  background: var(--surface-elevated);
+  color: var(--text-primary);
+  font-weight: 500;
+  cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.dropdown-toggle:hover .nav-profile-img-container {
-  border-color: #ffffff;
-  transform: scale(1.05);
+.tour-btn.tour-active {
+  background: var(--accent-gradient);
+  color: var(--text-inverse);
 }
 
-/* Alineación vertical para el contenido del dropdown */
-.dropdown-toggle.d-flex {
-  gap: 8px;
+.tour-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft);
 }
 
-/* Media queries para mejorar la navbar y la imagen de perfil en mobile */
-@media (max-width: 600px) {
-  .navbar-brand img {
-    max-width: 80px !important;
-  }
-  .navbar-nav {
-    width: 100%;
-    text-align: center;
-  }
-  .navbar-nav .nav-item {
-    width: 100%;
-    margin-bottom: 0.2rem;
-  }
-  .nav-profile-img-container {
-    width: 24px;
-    height: 24px;
-  }
-  .nav-profile-img {
-    width: 100%;
-    height: 100%;
-  }
-  .dropdown-toggle.d-flex {
-    gap: 4px;
-  }
-}
-
-/* Animación para el indicador de tour activo */
-.spinning {
+.tour-icon .spinning {
   animation: spin 2s linear infinite;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
-/* Estilos adicionales para el botón de tour */
-.btn-success {
+/* Logout Button */
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+/* Navigation Tools Section */
+.nav-tools {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Más espacio entre herramientas */
+  margin-left: 20px;
+  flex-wrap: nowrap; /* Evitar que se envuelvan */
+  flex-shrink: 0; /* No permitir que se encoja */
+  position: relative; /* Para el contexto de posicionamiento */
+}
+
+.nav-tool-item {
   position: relative;
-  overflow: hidden;
+  z-index: 1000; /* Base z-index */
 }
 
-.btn-success::before {
-  content: '';
+/* Cuando un dropdown está activo, aumentar su z-index */
+.nav-tool-item:has(.theme-dropdown.show),
+.nav-tool-item:has(.language-dropdown.show) {
+  z-index: 1050;
+}
+
+.nav-tool-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  background: var(--surface-elevated);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  position: relative;
+}
+
+.nav-tool-btn:hover {
+  background: var(--surface-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft);
+}
+
+.nav-tool-btn.active {
+  background: var(--accent-gradient);
+  color: var(--text-inverse);
+}
+
+/* Theme Selector Styles */
+.theme-toggle-btn {
+  font-size: 1.1rem;
+}
+
+.theme-dropdown {
   position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-  transition: left 1.5s;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 120px;
+  background: rgba(var(--surface-rgb), 0.95); /* Menos transparente */
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Borde más visible */
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25); /* Sombra más fuerte */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 1100;
 }
 
-.btn-success:hover::before {
-  left: 100%;
+.theme-dropdown.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
+
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  font-weight: 500; /* Texto más bold */
+}
+
+.theme-option:first-child {
+  border-radius: 12px 12px 0 0;
+}
+
+.theme-option:last-child {
+  border-radius: 0 0 12px 12px;
+}
+
+.theme-option:hover {
+  background: rgba(var(--accent-rgb), 0.1); /* Hover más visible */
+  color: var(--accent-primary);
+}
+
+.theme-option.active {
+  background: var(--accent-gradient);
+  color: var(--text-inverse);
+  font-weight: 600;
+}
+
+/* Language Selector Styles */
+.language-toggle-btn .current-flag {
+  width: 24px;
+  height: 18px;
+  border-radius: 3px;
+  object-fit: cover;
+}
+
+.language-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 160px;
+  background: var(--surface-glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass);
+  border-radius: 12px;
+  box-shadow: var(--shadow-premium);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.language-dropdown.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.language-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.language-option:last-child {
+  border-bottom: none;
+  border-radius: 0 0 12px 12px;
+}
+
+.language-option:first-child {
+  border-radius: 12px 12px 0 0;
+}
+
+.language-option:hover {
+  background: var(--surface-hover);
+}
+
+.language-option.active {
+  background: var(--accent-gradient);
+  color: var(--text-inverse);
+}
+
+.language-flag {
+  width: 24px;
+  height: 18px;
+  border-radius: 3px;
+  object-fit: cover;
+}
+
+.language-name {
+  flex: 1;
+  font-size: 0.9rem;
+}
+
+/* Language Selector Styles */
+.language-toggle-btn {
+  font-size: 1.1rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.language-globe-icon {
+  font-size: 1.2rem;
+  color: var(--text-primary);
+}
+
+.language-flag-mini {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 14px;
+  height: 10px;
+  border-radius: 2px;
+  object-fit: cover;
+  border: 1px solid var(--surface-elevated);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.language-toggle-btn:hover .language-globe-icon {
+  color: var(--accent-primary);
+  transform: scale(1.1);
+}
+
+.language-toggle-btn.active .language-globe-icon {
+  color: var(--text-inverse);
+}
+
+.language-flag-icon {
+  width: 24px;
+  height: 18px;
+  border-radius: 3px;
+  object-fit: cover;
+}
+
+.language-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 160px;
+  background: rgba(var(--surface-rgb), 0.95); /* Menos transparente */
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Borde más visible */
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25); /* Sombra más fuerte */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 1100;
+}
+
+.language-dropdown.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.language-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  white-space: nowrap; /* Evitar salto de línea */
+  font-weight: 500; /* Texto más bold */
+}
+
+.language-option:first-child {
+  border-radius: 12px 12px 0 0;
+}
+
+.language-option:last-child {
+  border-radius: 0 0 12px 12px;
+}
+
+.language-option:hover {
+  background: rgba(var(--accent-rgb), 0.1); /* Hover más visible */
+  color: var(--accent-primary);
+}
+
+.language-option.active {
+  background: var(--accent-gradient);
+  color: var(--text-inverse);
+  font-weight: 600;
+}
+
+.language-flag {
+  width: 20px;
+  height: 15px;
+  border-radius: 2px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.language-option .language-name {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.language-option .fas.fa-check {
+  font-size: 0.8rem;
+  margin-left: auto;
+}
+
+/* Backdrop para dropdowns */
+.dropdown-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  background: transparent;
+  display: none;
+}
+
+.dropdown-backdrop.show {
+  display: block;
+}
+
+/* Mejor separación de dropdowns */
+.theme-dropdown,
+.language-dropdown {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.whatsapp-btn {
+  background: linear-gradient(135deg, #25d366, #128c7e) !important;
+  color: white !important;
+  font-size: 1.2rem;
+}
+
+.whatsapp-btn:hover {
+  background: linear-gradient(135deg, #128c7e, #0f6b5c) !important;
+  color: white !important;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+}
+
+/* Responsive Design */
+/* Para pantallas grandes, asegurar que todo se mantenga en línea */
+@media (min-width: 1200px) {
+  .nav-container {
+    max-width: 1800px;
+    padding: 0 40px;
+    gap: 30px; /* Más espacio entre elementos */
+  }
+  
+  .nav-list {
+    gap: 20px; /* Más espacio entre elementos de navegación */
+  }
+  
+  .nav-tools {
+    gap: 16px;
+    margin-left: 32px;
+  }
+  
+  .auth-btn {
+    padding: 12px 20px;
+    min-width: 120px;
+    font-size: 14px;
+  }
+  
+  .login-btn,
+  .register-btn {
+    gap: 8px;
+  }
+  
+  /* Evitar apilamiento de texto en idiomas largos */
+  .nav-link span,
+  .language-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* Posicionamiento específico para evitar superposición */
+  .nav-tool-item:nth-child(1) .language-dropdown {
+    right: -10px; /* Selector de idiomas más hacia la derecha */
+  }
+  
+  .nav-tool-item:nth-child(2) .theme-dropdown {
+    right: 10px; /* Selector de temas más hacia la izquierda */
+  }
+}
+
+/* Para pantallas medianas, optimizar espaciado */
+@media (max-width: 1199px) and (min-width: 993px) {
+  .nav-container {
+    max-width: 1200px;
+    padding: 0 24px;
+    gap: 20px;
+  }
+  
+  .nav-list {
+    gap: 14px;
+  }
+  
+  .nav-tools {
+    gap: 12px;
+    margin-left: 20px;
+  }
+  
+  .nav-link {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+  
+  .nav-link span {
+    white-space: nowrap;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .auth-btn {
+    padding: 10px 16px;
+    font-size: 13px;
+    min-width: 100px;
+  }
+  
+  .login-btn,
+  .register-btn {
+    gap: 6px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .download-btn span {
+    display: none;
+  }
+  
+  .download-btn {
+    padding: 12px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+  }
+  
+  /* Compactar más el texto para evitar apilamiento */
+  .nav-link {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+  
+  .nav-link span {
+    white-space: nowrap;
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .nav-tools {
+    gap: 8px;
+    margin-left: 16px;
+  }
+  
+  .auth-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+    min-width: 80px;
+    gap: 4px;
+  }
+  
+  .login-btn,
+  .register-btn {
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: flex;
+  }
+  
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin: 16px;
+    border-radius: 16px;
+    backdrop-filter: blur(20px);
+    background: var(--surface-glass);
+    box-shadow: var(--shadow-premium);
+  }
+  
+  .nav-menu.show {
+    display: block;
+  }
+  
+  .nav-list {
+    flex-direction: column;
+    padding: 16px;
+    gap: 4px;
+  }
+  
+  .nav-link {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  .brand-container {
+    gap: 16px;
+  }
+  
+  .brand-text {
+    display: none;
+  }
+  
+  .nav-container {
+    padding: 0 16px;
+  }
+  
+  /* Mobile styles for nav tools */
+  .nav-tools {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    margin-left: 0;
+    margin-top: 12px;
+  }
+  
+  .nav-tool-item {
+    width: 100%;
+  }
+  
+  .nav-tool-btn {
+    width: 100%;
+    height: 48px;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.9rem;
+  }
+  
+  /* Ajustes para el ícono de idioma en móvil */
+  .language-globe-icon {
+    font-size: 1rem;
+  }
+  
+  .language-flag-mini {
+    width: 10px;
+    height: 7px;
+    bottom: -1px;
+    right: -1px;
+  }
+  
+  .theme-dropdown,
+  .language-dropdown {
+    position: static;
+    width: 100%;
+    margin-top: 8px;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .theme-dropdown:not(.show),
+  .language-dropdown:not(.show) {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .download-btn {
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+  }
+  
+  .brand-logo {
+    max-width: 100px;
+  }
+  
+  .nav-container {
+    padding: 0 12px;
+  }
+}
+
+/* Stagger Animation for Nav Items */
+.nav-item.stagger-animation:nth-child(1) { animation-delay: 0.1s; }
+.nav-item.stagger-animation:nth-child(2) { animation-delay: 0.15s; }
+.nav-item.stagger-animation:nth-child(3) { animation-delay: 0.2s; }
+.nav-item.stagger-animation:nth-child(4) { animation-delay: 0.25s; }
+.nav-item.stagger-animation:nth-child(5) { animation-delay: 0.3s; }
+.nav-item.stagger-animation:nth-child(6) { animation-delay: 0.35s; }
+.nav-item.stagger-animation:nth-child(7) { animation-delay: 0.4s; }
+.nav-item.stagger-animation:nth-child(8) { animation-delay: 0.45s; }

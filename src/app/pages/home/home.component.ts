@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
+import { Router } from '@angular/router';
 import { CarritoComponent } from '../carrito/carrito.component';
+import { ParticlesBackgroundComponent } from '../../shared/particles-background/particles-background.component';
 
 
 const fetchComentarios = async () => {
@@ -10,14 +12,14 @@ const fetchComentarios = async () => {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, NgFor],
+  imports: [CommonModule, NgFor, ParticlesBackgroundComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
   comentarios:any[]=[];
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
 
@@ -26,6 +28,10 @@ export class HomeComponent implements OnInit {
       // console.log(this.comentarios);
     });
     
+  }
+
+  irALaCarta() {
+    this.router.navigate(['/carta']);
   }
   
 }

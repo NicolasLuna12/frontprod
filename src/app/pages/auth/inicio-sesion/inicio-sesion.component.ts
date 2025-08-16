@@ -17,6 +17,8 @@ import { ToastrService } from 'ngx-toastr';
 export class InicioSesionComponent {
   form!: FormGroup;
   errorMensaje: string="";
+  showPassword: boolean = false;
+  
   constructor(private formBuilder: FormBuilder,
     private router: Router,
     private authService: AuthService,
@@ -65,5 +67,9 @@ export class InicioSesionComponent {
     } else {
       this.form.markAllAsTouched();
     }
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 }

@@ -1,288 +1,150 @@
 import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { DirectTranslationService } from './direct-translation.service';
-import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TranslatorService {
   private renderer: Renderer2;
-  private script: HTMLScriptElement | null = null;
-  private currentLanguage = new BehaviorSubject<string>('es'); // Idioma por defecto: español
+  private currentLanguage = new BehaviorSubject<string>('es');
+  
   // Lista de idiomas soportados
   public availableLanguages = [
     { code: 'es', name: 'Español', flag: 'assets/flags/es-circle.svg' },
     { code: 'en', name: 'English', flag: 'assets/flags/en-circle.svg' },
     { code: 'pt', name: 'Português', flag: 'assets/flags/pt-circle.svg' }
   ];
-  constructor(
-    rendererFactory: RendererFactory2,
-    private directTranslationService: DirectTranslationService
-  ) {
+
+  constructor(rendererFactory: RendererFactory2) {
     this.renderer = rendererFactory.createRenderer(null, null);
-    // Verificar si hay un idioma guardado previamente
-    this.checkSavedLanguage();
-  }
-
-  // Comprobar si hay un idioma guardado previamente
-  private checkSavedLanguage(): void {
-    const savedLanguage = localStorage.getItem('selectedLanguage');
-    // Leer la cookie actual de Google Translate
-    const googtrans = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('googtrans='));
-    const cookieLang = googtrans ? googtrans.split('/')[2] : 'es';
-
-    // Solo cambiar si el idioma guardado es distinto al de la cookie
-    if (
-      savedLanguage &&
-      savedLanguage !== 'es' &&
-      savedLanguage !== cookieLang
-    ) {
-      this.changeLanguage(savedLanguage);
-    }
+    
+    // Inicializar después de que el DOM esté listo
+    setTimeout(() => {
+      this.initializeTranslator();
+    }, 1000);
   }
 
   // Obtener el idioma currente
   get language() {
     return this.currentLanguage.asObservable();
   }
-  // Cambiar el idioma
-  changeLanguage(languageCode: string): void {
-    // Si seleccionamos español, simplemente eliminamos el widget y recargamos la página
-    if (languageCode === 'es') {
-      this.removeTranslateWidget();
-      localStorage.removeItem('selectedLanguage');
-      window.location.reload();
+
+  // Inicializar el traductor
+  private initializeTranslator(): void {
+    console.log('🚀 Inicializando servicio de traducción...');
+    
+    const savedLanguage = localStorage.getItem('selectedLanguage');
+    console.log('💾 Idioma guardado en localStorage:', savedLanguage);
+    
+    if (savedLanguage && savedLanguage !== 'es') {
+      console.log('🔄 Restaurando idioma guardado:', savedLanguage);
+      this.currentLanguage.next(savedLanguage);
+      this.setSimpleTranslateCookie(savedLanguage);
+    } else {
+      console.log('🇪🇸 Usando idioma español (por defecto)');
+    }
+    
+    // Cargar script básico de Google Translate
+    this.loadBasicGoogleTranslate();
+  }
+
+  // Cargar script básico de Google Translate
+  private loadBasicGoogleTranslate(): void {
+    console.log('📜 Cargando script básico de Google Translate...');
+    
+    // Verificar si ya existe el script
+    if (document.querySelector('script[src*="translate.google.com"]')) {
+      console.log('⚠️ Script de Google Translate ya existe');
       return;
     }
 
-    // Leer la cookie actual de Google Translate
-    const googtrans = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('googtrans='));
-    const cookieLang = googtrans ? googtrans.split('/')[2] : 'es';
-
-    // Si el idioma es distinto al de la cookie, setear y recargar
-    if (languageCode !== cookieLang) {
-      localStorage.setItem('selectedLanguage', languageCode);
-      this.setTranslateCookie(languageCode);
-      window.location.reload();
-      return;
+    // Crear elemento para el widget (oculto)
+    if (!document.getElementById('google_translate_element')) {
+      const translateDiv = document.createElement('div');
+      translateDiv.id = 'google_translate_element';
+      translateDiv.style.display = 'none';
+      document.body.appendChild(translateDiv);
     }
 
-    // Si ya está en el idioma correcto, solo actualiza el observable (opcional)
-    this.currentLanguage.next(languageCode);
-    
-    // Almacenar el idioma seleccionado en localStorage
-    localStorage.setItem('selectedLanguage', languageCode);
-    
-    // Método directo para establecer la cookie que activa la traducción
-    this.setTranslateCookie(languageCode);
-    
-    // Inicializar el widget
-    this.initTranslateWidget(languageCode);
-    
-    // Método alternativo: usar el iframe de traducción directamente
-    this.useDirectTranslation(languageCode);
-    
-    // Utilizar el servicio de traducción directa como backup (sólo configuración de cookies)
-    this.directTranslationService.translateDirectly(languageCode);
-  }
-  
-  // Método adicional para establecer la cookie de traducción directamente
-  private setTranslateCookie(lang: string): void {
-    // Establecer las cookies para Google Translate con flags de seguridad
-    const isSecure = window.location.protocol === 'https:';
-    const secureFlag = isSecure ? '; Secure' : '';
-    const sameSiteFlag = '; SameSite=Lax';
-    
-    document.cookie = `googtrans=/es/${lang}; path=/${sameSiteFlag}${secureFlag}`;
-    document.cookie = `googtrans=/es/${lang}; domain=.${window.location.host}; path=/${sameSiteFlag}${secureFlag}`;
-    document.cookie = `googtrans=/es/${lang}; domain=${window.location.host}; path=/${sameSiteFlag}${secureFlag}`;
-  }
-  
-  // Método que usa un iframe para traducción directa
-  private useDirectTranslation(lang: string): void {
-    // Solo para inglés y portugués
-    if (lang !== 'en' && lang !== 'pt') return;
-    
-    try {
-      // Intentar traducir usando la API de Google Translate directamente
-      const gtUrl = `https://translate.google.com/translate?&anno=2&u=${encodeURIComponent(window.location.href)}&hl=${lang}&sl=es&tl=${lang}`;
-      
-      // Crear un iframe oculto para realizar la traducción
-      const iframe = document.createElement('iframe');
-      iframe.style.display = 'none';
-      iframe.src = gtUrl;
-      
-      // Agregar el iframe al DOM
-      document.body.appendChild(iframe);
-      
-      // Remover después de 2 segundos
-      setTimeout(() => {
-        iframe.remove();
-      }, 2000);
-    } catch (e) {
-      // Error al intentar traducción directa (solo log en desarrollo)
-      if (!environment.production) {
-        console.error('Error al intentar traducción directa:', e);
-      }
-    }
-  }
-  // Inicializar el widget de traducción de Google
-  private initTranslateWidget(lang: string): void {
-    // Eliminar cualquier script previo
-    this.removeTranslateWidget();
-    
-    // Establecer cookie directamente (esto es crucial para la traducción)
-    const isSecure = window.location.protocol === 'https:';
-    const secureFlag = isSecure ? '; Secure' : '';
-    const sameSiteFlag = '; SameSite=Lax';
-    document.cookie = `googtrans=/es/${lang}; path=/${sameSiteFlag}${secureFlag}`;
-    
-    // Crear elemento div para el widget de Google Translate (invisible)
-    const translateDiv = this.renderer.createElement('div');
-    this.renderer.setAttribute(translateDiv, 'id', 'google_translate_element');
-    this.renderer.setStyle(translateDiv, 'display', 'none');
-    this.renderer.appendChild(document.body, translateDiv);
-
-    // Almacenar el idioma seleccionado en localStorage
-    localStorage.setItem('selectedLanguage', lang);
-
-    // Crear el script de Google Translate
-    const script = this.renderer.createElement('script') as HTMLScriptElement;
-    script.type = 'text/javascript';
-    script.innerHTML = `
-      function googleTranslateElementInit() {
-        new google.translate.TranslateElement({
+    // Función global simple para Google Translate
+    (window as any).googleTranslateElementInit = () => {
+      console.log('🎯 Inicializando Google Translate Widget básico...');
+      try {
+        new (window as any).google.translate.TranslateElement({
           pageLanguage: 'es',
           includedLanguages: 'en,pt',
-          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-          autoDisplay: true,
-          gaTrack: false
-        }, 'google_translate_element');          // Función para ocultar los elementos de Google Translate
-        const hideTranslateElements = () => {
-          // Ocultar elementos visuales
-          const elements = ['.goog-te-banner-frame', '.skiptranslate', '.goog-te-gadget-icon'];
-          elements.forEach(selector => {
-            const els = document.querySelectorAll(selector);
-            els.forEach(el => {
-              if (el instanceof HTMLElement) {
-                el.style.display = 'none';
-              }
-            });
-          });
-          
-          // Forzar el cambio de idioma de manera manual
-          const iframe = document.querySelector('iframe.goog-te-menu-frame') as HTMLIFrameElement;
-          if (iframe) {
-            const innerDoc = iframe.contentDocument || iframe.contentWindow?.document;
-            if (innerDoc) {
-              // Buscar y hacer clic en el elemento del idioma deseado
-              setTimeout(() => {
-                const items = innerDoc.querySelectorAll('.goog-te-menu2-item');
-                items.forEach((item: any) => {
-                  if (item.innerText.includes('${lang === 'en' ? 'English' : 'Português'}')) {
-                    item.click();
-                  }
-                });
-              }, 300);
-            }
-          }
-          
-          // Eliminar el desplazamiento de página que añade Google Translate
-          document.body.style.top = '0px';
-          document.documentElement.style.height = 'auto';
-        };
-          // Ejecutar varias veces para asegurar que se aplica
-        setTimeout(hideTranslateElements, 500);
-        setTimeout(hideTranslateElements, 1000);
-        setTimeout(hideTranslateElements, 2000);
-        
-        // Método de contingencia para garantizar la traducción
-        setTimeout(() => {
-          // Método alternativo: forzar traducción con método doGoogleLanguageTranslator
-          if(window.location && window.location.href) {
-            const currentUrl = window.location.href;
-            const langParam = '${lang}';
-            if (langParam === 'en' || langParam === 'pt') {
-              // Aplicar traducción
-              const translateApiUrl = 'https://translate.google.com/translate?hl=' + 
-                langParam + '&sl=es&tl=' + langParam + 
-                '&u=' + encodeURIComponent(currentUrl);
-              
-              // Crear un iframe invisible para realizar la traducción
-              const hiddenFrame = document.createElement('iframe');
-              hiddenFrame.style.display = 'none';
-              hiddenFrame.src = translateApiUrl;
-              document.body.appendChild(hiddenFrame);
-              
-              // Eliminar el iframe después de un tiempo
-              setTimeout(() => hiddenFrame.remove(), 5000);
-            }
-          }
-        }, 2500);
+          layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE,
+          autoDisplay: false,
+          multilanguagePage: true
+        }, 'google_translate_element');
+        console.log('✅ Widget de Google Translate inicializado');
+      } catch (error) {
+        console.error('❌ Error inicializando widget:', error);
       }
-    `;
-    this.renderer.appendChild(document.body, script);
-    this.script = script;
+    };
 
-    // Usar un enfoque directo de traducción
-    const directTranslateScript = this.renderer.createElement('script') as HTMLScriptElement;
-    directTranslateScript.type = 'text/javascript';
-    directTranslateScript.innerHTML = `
-      // Método adicional para asegurar traducción
-      function translatePage() {
-        document.cookie = 'googtrans=/es/${lang}';
-      }
-      translatePage();
-    `;
-    this.renderer.appendChild(document.body, directTranslateScript);
-
-    // Cargar el script de Google Translate API de manera asíncrona
-    const translatorScript = this.renderer.createElement('script') as HTMLScriptElement;
-    translatorScript.async = true;
-    this.renderer.setAttribute(translatorScript, 'src', 
-      'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit');
-    this.renderer.appendChild(document.body, translatorScript);
+    // Cargar el script
+    const script = document.createElement('script');
+    script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    script.async = true;
+    script.onload = () => console.log('✅ Script de Google Translate cargado');
+    script.onerror = () => console.error('❌ Error cargando script de Google Translate');
+    document.head.appendChild(script);
   }
-  // Eliminar el widget de traducción
-  private removeTranslateWidget(): void {
-    // Eliminar elementos de Google Translate
-    const elements = [
-      '.goog-te-banner-frame',
-      '.goog-te-menu-frame',
-      '#goog-gt-',
-      '#google_translate_element',
-      '.skiptranslate',
-      '.VIpgJd-ZVi9od-aZ2wEe-wOHMyf',
-      '.VIpgJd-ZVi9od-aZ2wEe',
-      'iframe.goog-te-menu-frame'
-    ];
 
-    elements.forEach(selector => {
-      const elements = document.querySelectorAll(selector);
-      elements.forEach(el => el.remove());
-    });
+  // Cambiar el idioma
+  changeLanguage(languageCode: string): void {
+    console.log('🌐 Intentando cambiar idioma a:', languageCode);
+    
+    // Si seleccionamos español, volver al idioma base
+    if (languageCode === 'es') {
+      console.log('🇪🇸 Cambiando a español (idioma base)');
+      localStorage.removeItem('selectedLanguage');
+      this.clearTranslateCookies();
+      this.currentLanguage.next('es');
+      window.location.reload();
+      return;
+    }
 
-    // Eliminar cookies de Google Translate (enfoque exhaustivo)
-    const domains = [
-      '/', 
-      window.location.hostname, 
-      '.' + window.location.hostname, 
-      window.location.host, 
-      '.' + window.location.host
-    ];
+    // Validar que el idioma esté soportado
+    if (!['en', 'pt'].includes(languageCode)) {
+      console.error('❌ Idioma no soportado:', languageCode);
+      return;
+    }
+
+    console.log('✅ Idioma válido, configurando traducción...');
     
-    const paths = ['/', '/.*'];
+    // Actualizar el idioma actual y guardarlo
+    this.currentLanguage.next(languageCode);
+    localStorage.setItem('selectedLanguage', languageCode);
     
-    domains.forEach(domain => {
-      paths.forEach(path => {
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=' + path + ';';
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=' + path + '; domain=' + domain + ';';
-      });
-    });
+    // Establecer cookie de traducción de manera simple
+    this.setSimpleTranslateCookie(languageCode);
+    
+    // Recargar para aplicar la traducción
+    setTimeout(() => {
+      console.log('🔄 Recargando página para aplicar traducción...');
+      window.location.reload();
+    }, 300);
+  }
+
+  // Método simplificado para establecer cookies
+  private setSimpleTranslateCookie(lang: string): void {
+    console.log('🍪 Estableciendo cookie simple para:', lang);
+    
+    // Limpiar cookies existentes
+    this.clearTranslateCookies();
+    
+    // Establecer la nueva cookie
+    const cookieValue = `/es/${lang}`;
+    document.cookie = `googtrans=${cookieValue}; path=/; max-age=86400`;
+    
+    console.log('✅ Cookie establecida:', `googtrans=${cookieValue}`);
+  }
+
+  // Limpiar cookies de traducción
+  private clearTranslateCookies(): void {
+    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname + ';';
   }
 }

@@ -1,4 +1,11 @@
 <app-carrito></app-carrito>
+
+<!-- Selector de Tema Premium - Oculto por defecto, controlado desde navbar -->
+<app-theme-selector style="display: none;"></app-theme-selector>
+
+<!-- Selector de idioma - Oculto, ahora está en la navbar -->
+<app-language-selector style="display: none;"></app-language-selector>
+
 <button *ngIf="estaAutenticado && esAdmin" class="btn-switch-vista" [class.vista-usuario]="vistaUsuario" (click)="setVistaUsuario(!vistaUsuario)">
   <span class="icono">
     <i class="bi" [ngClass]="vistaUsuario ? 'bi-person-fill' : 'bi-shield-lock-fill'"></i>
@@ -12,20 +19,8 @@
 <!-- Chatbot flotante en el filo abajo a la derecha -->
 <app-chat-bot></app-chat-bot>
 
-<!-- Botón flotante de WhatsApp -->
-<a [href]="contactoService.getUrlWhatsApp('Hola, necesito ayuda con mi pedido')" 
-   class="whatsapp-float"
-   [ngClass]="{'whatsapp-float-home': isHome}"
-   target="_blank" 
-   rel="noopener noreferrer">
-  <i class="bi bi-whatsapp"></i>
-  <span class="whatsapp-tooltip">Chatea con nosotros</span>
-</a>
-
-<!-- Selector de idioma -->
-<app-language-selector></app-language-selector>
-
 <!-- Tour modal -->
 <app-tour-modal></app-tour-modal>
 
-
+<!-- Google Translate Element (hidden) -->
+<div id="google_translate_element" style="display: none;"></div>
