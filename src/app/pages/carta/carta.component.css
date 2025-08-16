@@ -1,27 +1,100 @@
-/* CARTA CON DISEÑO RELAJADO Y SIMPLE */
+/* CARTA CON DISEÑO PROFESIONAL Y ATRACTIVO */
 .carta-container {
   min-height: 100vh;
   padding: 2rem 1rem;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 119, 48, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.2) 0%, transparent 50%),
+    linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+  background-attachment: fixed;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* HEADER SIMPLE */
+.carta-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" patternUnits="userSpaceOnUse" width="100" height="100"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/><feColorMatrix in="colorNoise" type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.03"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grain)"/></svg>');
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.carta-container::after {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: float 20s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(2deg); }
+}
+
+/* HEADER PROFESIONAL */
 .carta-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 2;
+  padding: 2rem 0;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  margin: 0 auto 3rem auto;
+  max-width: 600px;
 }
 
 .carta-title {
-  font-size: 2.5rem;
-  font-weight: 600;
-  color: #2c3e50;
-  margin-bottom: 0.5rem;
+  font-size: 3rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.8rem;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  letter-spacing: -1px;
+  position: relative;
+}
+
+.carta-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
 }
 
 .carta-subtitle {
-  font-size: 1.1rem;
-  color: #7f8c8d;
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.9);
   margin-bottom: 0;
+  font-weight: 500;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.5px;
 }
 
 /* CARRITO SIMPLE */
@@ -79,60 +152,117 @@
   100% { transform: scale(1); }
 }
 
-/* FILTROS SIMPLES */
+/* FILTROS PROFESIONALES */
 .filtros-container {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
   flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 3rem;
 }
 
 .filtro-btn {
-  background: white;
-  border: 2px solid #bdc3c7;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 25px;
-  padding: 10px 20px;
-  color: #2c3e50;
-  font-weight: 500;
+  padding: 12px 24px;
+  color: #2d3748;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  min-width: 100px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 120px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.filtro-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.5s;
+}
+
+.filtro-btn:hover::before {
+  left: 100%;
 }
 
 .filtro-btn:hover {
-  border-color: #3498db;
-  color: #3498db;
-  transform: translateY(-2px);
+  border-color: rgba(102, 126, 234, 0.6);
+  color: #667eea;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
 }
 
 .filtro-btn.active {
-  background: #3498db;
-  border-color: #3498db;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-color: rgba(255, 255, 255, 0.5);
   color: white;
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+  transform: translateY(-2px);
 }
 
-/* GRID DE PRODUCTOS SIMPLE */
+/* GRID DE PRODUCTOS PROFESIONAL */
 .productos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-  max-width: 1200px;
-  margin: 0 auto 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto 3rem;
+  position: relative;
+  z-index: 2;
+  padding: 0 1rem;
 }
 
 .producto-card {
-  background: white;
-  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  border: 1px solid #ecf0f1;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(20px);
+  position: relative;
+}
+
+.producto-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.producto-card:hover::before {
+  opacity: 1;
 }
 
 .producto-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.15);
+  border-color: rgba(102, 126, 234, 0.3);
 }
 
 .producto-imagen-container {
@@ -305,38 +435,56 @@
   font-size: 1.1rem;
 }
 
-/* PAGINACIÓN SIMPLE */
+/* PAGINACIÓN PROFESIONAL */
 .paginacion-container {
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
+  margin-top: 3rem;
+  position: relative;
+  z-index: 2;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 3rem;
 }
 
 ::ng-deep .paginacion-simple .pagination-previous,
 ::ng-deep .paginacion-simple .pagination-next,
 ::ng-deep .paginacion-simple .pagination-page {
-  background: white;
-  border: 2px solid #bdc3c7;
-  border-radius: 8px;
-  padding: 8px 12px;
-  margin: 0 3px;
-  color: #2c3e50;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  padding: 10px 16px;
+  margin: 0 5px;
+  color: #2d3748;
   text-decoration: none;
-  transition: all 0.3s ease;
-  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 ::ng-deep .paginacion-simple .pagination-previous:hover,
 ::ng-deep .paginacion-simple .pagination-next:hover,
 ::ng-deep .paginacion-simple .pagination-page:hover {
-  border-color: #3498db;
-  color: #3498db;
+  border-color: rgba(102, 126, 234, 0.6);
+  color: #667eea;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
 }
 
 ::ng-deep .paginacion-simple .current {
-  background: #3498db !important;
-  border-color: #3498db !important;
+  background: linear-gradient(135deg, #667eea, #764ba2) !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
   color: white !important;
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4) !important;
+  transform: translateY(-2px);
 }
 
 /* RESPONSIVE */
