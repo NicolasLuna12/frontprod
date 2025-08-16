@@ -19,7 +19,9 @@ export class TwofaService {
   setup2fa(email: string): Observable<any> {
     // Enviando solicitud setup2fa
     const headers = this.getHeaders();
-    return this.http.post(this.apiUrl + 'setup/', { email }, { headers }).pipe(
+    const url = this.apiUrl + 'setup/';
+    console.log('TwofaService: Enviando petición a:', url);
+    return this.http.post(url, { email }, { headers }).pipe(
       catchError(err => {
         console.error('Error en setup2fa:', err);
         throw err;
@@ -41,7 +43,9 @@ export class TwofaService {
   authorizePurchase(email: string, monto: number, titular: string): Observable<any> {
     // Enviando solicitud authorizePurchase
     const headers = this.getHeaders();
-    return this.http.post(this.apiUrl + 'authorize-purchase/', { email, monto, titular }, { headers }).pipe(
+    const url = this.apiUrl + 'authorize-purchase/';
+    console.log('TwofaService: Enviando petición authorize-purchase a:', url);
+    return this.http.post(url, { email, monto, titular }, { headers }).pipe(
       catchError(err => {
         console.error('Error en authorizePurchase:', err);
         throw err;

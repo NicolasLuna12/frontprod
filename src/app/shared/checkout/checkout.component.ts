@@ -84,11 +84,14 @@ export class CheckoutComponent implements OnInit {
             this.twofaMotivo = resp.motivo;
             this.twofaEnabled = false;
             // 2FA requerido por política de seguridad
+            console.log('2FA requerido, obteniendo QR...', this.emailUser);
             this.twofaService.setup2fa(this.emailUser).subscribe({
               next: (qrResp) => {
+                console.log('Respuesta QR recibida:', qrResp);
                 // QR code recibido para configuración
                 this.twofaQR = qrResp.qr;
                 this.show2FAModal = true;
+                console.log('QR asignado:', this.twofaQR);
               },
               error: (err) => {
                 console.error('Error al obtener QR:', err);

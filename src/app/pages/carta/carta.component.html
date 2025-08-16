@@ -7,7 +7,7 @@
   </div>
 
   <!-- Botón carrito simple -->
-  @if(estaLogueado() && mostrarCarrito && !carritoAbierto) {
+  <div *ngIf="estaLogueado() && mostrarCarrito && !carritoAbierto">
     <button
       class="btn-carrito-simple"
       aria-label="mostrar carrito de compras"
@@ -16,7 +16,7 @@
       <i class="fa fa-shopping-cart" aria-hidden="true"></i>
       <span class="carrito-count" *ngIf="cantidadTotalCarrito > 0">{{cantidadTotalCarrito}}</span>
     </button>
-  }
+  </div>
 
   <!-- Filtros simples -->
   <div class="filtros-container">
@@ -51,47 +51,44 @@
   </div>
   <!-- Grid de productos simple -->
   <div class="productos-grid">
-    @for(product of productosFiltrados | paginate : { itemsPerPage: 6, currentPage: p }; track product.id_producto) {
-      <div class="producto-card">
-        <div class="producto-imagen-container">
-          <img 
-            [src]="product.imageURL || 'assets/carta/hamburguesa.webp'" 
-            [alt]="product.nombre_producto" 
-            class="producto-imagen"
-            [ngClass]="{'empanada-pollo': product.nombre_producto === 'Empanadas de Pollo'}"
-            (click)="cargarModal(product)"
-            (error)="onImageError($event)"
-          />
-          <div class="precio-tag">${{product.precio | number:'1.0-0'}}</div>
-          @if(product.stock > 0) {
-            <div class="stock-disponible">Disponible</div>
-          } @else {
-            <div class="stock-agotado">Sin Stock</div>
-          }
-        </div>
-        
-        <div class="producto-info">
-          <h3 class="producto-nombre">{{product.nombre_producto}}</h3>
-          <p class="producto-descripcion">{{product.descripcion}}</p>
-          
-          @if(product.stock > 0) {
-            <button 
-              class="btn-agregar"
-              (click)="cargarModal(product)"
-            >
-              Agregar al carrito
-            </button>
-          } @else {
-            <button 
-              class="btn-agregar disabled"
-              disabled
-            >
-              Sin stock
-            </button>
-          }
-        </div>
+    <div *ngFor="let product of productosFiltrados | paginate : { itemsPerPage: 6, currentPage: p }; trackBy: trackByProductId" class="producto-card">
+      <div class="producto-imagen-container">
+        <img 
+          [src]="product.imageURL || 'assets/carta/hamburguesa.webp'" 
+          [alt]="product.nombre_producto" 
+          class="producto-imagen"
+          [ngClass]="{'empanada-pollo': product.nombre_producto === 'Empanadas de Pollo'}"
+          (click)="cargarModal(product)"
+          (error)="onImageError($event)"
+        />
+        <div class="precio-tag">${{product.precio | number:'1.0-0'}}</div>
+        <div *ngIf="product.stock > 0; else noStock" class="stock-disponible">Disponible</div>
+        <ng-template #noStock>
+          <div class="stock-agotado">Sin Stock</div>
+        </ng-template>
       </div>
-    }
+      
+      <div class="producto-info">
+        <h3 class="producto-nombre">{{product.nombre_producto}}</h3>
+        <p class="producto-descripcion">{{product.descripcion}}</p>
+        
+        <button 
+          *ngIf="product.stock > 0; else noStockBtn"
+          class="btn-agregar"
+          (click)="cargarModal(product)"
+        >
+          Agregar al carrito
+        </button>
+        <ng-template #noStockBtn>
+          <button 
+            class="btn-agregar disabled"
+            disabled
+          >
+            Sin stock
+          </button>
+        </ng-template>
+      </div>
+    </div>
   </div>
 
   <!-- Paginación simple -->

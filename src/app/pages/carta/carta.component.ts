@@ -33,8 +33,10 @@ export class CartaComponent implements OnInit {
   idUser: number = 0;
   filtroCategoria: string = 'todas';
   mostrarCarrito: boolean = true;
-  carritoAbierto: boolean = false;
-  cantidadTotalCarrito: number = 0;
+  
+  // Propiedades para el carrito - PÚBLICO
+  public carritoAbierto: boolean = false;
+  public cantidadTotalCarrito: number = 0;
 
   constructor(
     private productService: ProductsService,
@@ -197,6 +199,16 @@ export class CartaComponent implements OnInit {
     }
   }
 
+  /**
+   * Función de seguimiento para optimizar el rendimiento de ngFor
+   * @param index Índice del elemento
+   * @param product Producto actual
+   * @returns ID único del producto
+   */
+  trackByProductId(index: number, product: Producto): number {
+    return product.id_producto;
+  }
+
   get productosFiltrados(): Producto[] {
     if (this.filtroCategoria === 'todas') return this.productos;
     if (this.filtroCategoria === 'empanadas') return this.productos.filter(p => p.id_categoria === 1);
@@ -205,7 +217,11 @@ export class CartaComponent implements OnInit {
     return this.productos;
   }
 
-  onImageError(event: Event) {
+  /**
+   * Maneja errores de carga de imágenes y muestra una imagen por defecto
+   * @param event Evento de error de imagen
+   */
+  onImageError(event: Event): void {
     const target = event.target as HTMLImageElement;
     target.src = 'assets/carta/hamburguesa.webp';
   }
