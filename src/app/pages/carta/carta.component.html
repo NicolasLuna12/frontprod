@@ -7,7 +7,7 @@
   </div>
 
   <!-- Botón carrito simple -->
-  @if(estaLogueado() && mostrarCarrito) {
+  @if(estaLogueado() && mostrarCarrito && !carritoAbierto) {
     <button
       class="btn-carrito-simple"
       aria-label="mostrar carrito de compras"

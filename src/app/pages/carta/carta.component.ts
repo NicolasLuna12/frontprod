@@ -33,6 +33,7 @@ export class CartaComponent implements OnInit {
   idUser: number = 0;
   filtroCategoria: string = 'todas';
   mostrarCarrito: boolean = true;
+  carritoAbierto: boolean = false;
 
   constructor(
     private productService: ProductsService,
@@ -65,6 +66,11 @@ export class CartaComponent implements OnInit {
       error: (error) => {
         if (error.status === 0) this.router.navigate(['serverError']);
       },
+    });
+
+    // Suscribirse al estado del carrito
+    this.carritoService.carritoVisible$.subscribe(visible => {
+      this.carritoAbierto = visible;
     });
   }
 
