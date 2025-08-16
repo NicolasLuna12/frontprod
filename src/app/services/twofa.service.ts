@@ -10,39 +10,18 @@ export class TwofaService {
   constructor(private http: HttpClient) {}
 
   private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('authToken');
-    console.log('Token encontrado:', token ? 'SÍ' : 'NO');
-    console.log('Token (primeros 20 chars):', token ? token.substring(0, 20) + '...' : 'null');
-    
-    const headers = new HttpHeaders({
+    return new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     });
-    
-    // Agregar token de autorización si existe
-    if (token) {
-      const headersWithAuth = headers.set('Authorization', `Bearer ${token}`);
-      console.log('Headers con Authorization:', headersWithAuth.get('Authorization') ? 'SÍ' : 'NO');
-      return headersWithAuth;
-    }
-    
-    console.log('Headers sin Authorization (no hay token)');
-    return headers;
   }
 
   setup2fa(email: string): Observable<any> {
     // Enviando solicitud setup2fa
     const headers = this.getHeaders();
-    const url = this.apiUrl + 'setup/';
-    console.log('TwofaService: Enviando petición a:', url);
-    console.log('TwofaService: Con email:', email);
-    console.log('TwofaService: Headers:', headers);
-    
-    return this.http.post(url, { email }, { headers }).pipe(
+    return this.http.post(this.apiUrl + 'setup/', { email }, { headers }).pipe(
       catchError(err => {
         console.error('Error en setup2fa:', err);
-        console.error('Status:', err.status);
-        console.error('Message:', err.message);
         throw err;
       })
     );
@@ -62,9 +41,7 @@ export class TwofaService {
   authorizePurchase(email: string, monto: number, titular: string): Observable<any> {
     // Enviando solicitud authorizePurchase
     const headers = this.getHeaders();
-    const url = this.apiUrl + 'authorize/';
-    console.log('TwofaService: Enviando petición authorize a:', url);
-    return this.http.post(url, { email, monto, titular }, { headers }).pipe(
+    return this.http.post(this.apiUrl + 'authorize-purchase/', { email, monto, titular }, { headers }).pipe(
       catchError(err => {
         console.error('Error en authorizePurchase:', err);
         throw err;

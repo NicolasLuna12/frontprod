@@ -76,34 +76,36 @@ export class CheckoutComponent implements OnInit {
     // Verificando si monto requiere 2FA
     // Solo considerar el monto para 2FA
     if (monto > 50000) {
-      // Monto requiere verificación 2FA - ir directo a setup
-      this.twofaMotivo = ['monto'];
-      this.twofaEnabled = false;
-      console.log('2FA requerido por monto alto, obteniendo QR...', this.emailUser);
-      
-      this.twofaService.setup2fa(this.emailUser).subscribe({
-        next: (qrResp) => {
-          console.log('Respuesta QR recibida:', qrResp);
-          console.log('Tipo de respuesta:', typeof qrResp);
-          console.log('Propiedades de la respuesta:', Object.keys(qrResp));
-          
-          // QR code recibido para configuración
-          this.twofaQR = qrResp.qr;
-          this.show2FAModal = true;
-          console.log('QR asignado:', this.twofaQR);
-          console.log('Modal abierto:', this.show2FAModal);
+      // Monto requiere verificación 2FA
+      this.twofaService.authorizePurchase(this.emailUser, monto, this.nameUser).subscribe({
+        next: (resp) => {
+          // Procesando respuesta de autorización
+          if (resp.requiere_2fa) {
+            this.twofaMotivo = resp.motivo;
+            this.twofaEnabled = false;
+            // 2FA requerido por política de seguridad
+            this.twofaService.setup2fa(this.emailUser).subscribe({
+              next: (qrResp) => {
+                // QR code recibido para configuración
+                this.twofaQR = qrResp.qr;
+                this.show2FAModal = true;
+              },
+              error: (err) => {
+                console.error('Error al obtener QR:', err);
+                this.toastr.error('Error al configurar 2FA. Por favor, intenta de nuevo.');
+              }
+            });
+          } else {
+            this.twofaEnabled = true;
+            sessionStorage.setItem('2fa_active', 'true');
+            // 2FA no requerido o ya configurado
+          }
         },
         error: (err) => {
-          console.error('Error al obtener QR:', err);
-          console.error('Status del error:', err.status);
-          console.error('Detalle del error:', err.error);
-          this.toastr.error('Error al configurar 2FA. Por favor, intenta de nuevo.');
+          console.error('Error en verificar2FA:', err);
+          this.toastr.error('Error al verificar 2FA. Por favor, intenta de nuevo.');
         }
       });
-    } else {
-      this.twofaEnabled = true;
-      sessionStorage.setItem('2fa_active', 'true');
-      // 2FA no requerido por monto bajo
     }
   }
   confirmar2FA() {

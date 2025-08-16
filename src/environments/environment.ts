@@ -1,6 +1,9 @@
 // Environment configuration - Development
 // Los valores reales se configuran mediante file replacement en angular.json
 
+// Environment configuration - Development
+// Los valores reales se configuran mediante file replacement en angular.json
+
 export const environment = {
   production: false,
   
