@@ -168,4 +168,9 @@ export class CartaComponent implements OnInit {
     if (this.filtroCategoria === 'hamburguesas') return this.productos.filter(p => p.id_categoria === 3);
     return this.productos;
   }
+
+  onImageError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = 'assets/carta/hamburguesa.webp';
+  }
 }

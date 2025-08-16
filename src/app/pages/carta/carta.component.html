@@ -55,15 +55,14 @@
       <div class="producto-card">
         <div class="producto-imagen-container">
           <img 
-            [src]="product.imageURL" 
+            [src]="product.imageURL || 'assets/carta/hamburguesa.webp'" 
             [alt]="product.nombre_producto" 
             class="producto-imagen"
             [ngClass]="{'empanada-pollo': product.nombre_producto === 'Empanadas de Pollo'}"
-            data-bs-target="#modalImagen"
-            data-bs-toggle="modal"
             (click)="cargarModal(product)"
+            (error)="onImageError($event)"
           />
-          <div class="precio-tag">${{product.precio}}</div>
+          <div class="precio-tag">${{product.precio | number:'1.0-0'}}</div>
           @if(product.stock > 0) {
             <div class="stock-disponible">Disponible</div>
           } @else {
@@ -130,13 +129,14 @@
           <div class="modal-imagen-container">
             <img
               class="modal-imagen"
-              [src]="producto.imageURL"
+              [src]="producto.imageURL || 'assets/carta/hamburguesa.webp'"
               [alt]="producto.nombre_producto"
+              (error)="onImageError($event)"
             />
           </div>
           
           <div class="modal-precio">
-            Precio: ${{producto.precio}}
+            Precio: ${{producto.precio | number:'1.0-0'}}
           </div>
 
           <div class="cantidad-container">
@@ -168,7 +168,7 @@
           </div>
 
           <div class="subtotal-container">
-            <strong>Subtotal: ${{subtotal}}</strong>
+            <strong>Subtotal: ${{subtotal | number:'1.0-0'}}</strong>
           </div>
         </div>
         
