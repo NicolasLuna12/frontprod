@@ -14,7 +14,7 @@
       (click)="toggleCarrito()"
     >
       <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-      <span class="carrito-count">3</span>
+      <span class="carrito-count" *ngIf="cantidadTotalCarrito > 0">{{cantidadTotalCarrito}}</span>
     </button>
   }
 

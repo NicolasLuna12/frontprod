@@ -50,6 +50,7 @@ export class PerfilComponent implements OnInit {
     // Usar el nuevo endpoint /appUSERS/me/ para obtener los datos actualizados
     this.authService.getUserProfileMe().subscribe({
       next: (user) => {
+        console.log('Datos del usuario desde la API:', user);
         this.usuario = user;
         this.esDemoUser = user.email === 'demo@demo.com';
         this.perfilForm.patchValue({
@@ -255,6 +256,7 @@ export class PerfilComponent implements OnInit {
     this.refrescando = true;
     this.authService.getUserProfileMe().subscribe({
       next: (user) => {
+        console.log('Datos del usuario en refresh:', user);
         this.usuario = user;
         this.perfilForm.patchValue({
           nombre: user.nombre || '',

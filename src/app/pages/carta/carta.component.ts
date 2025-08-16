@@ -34,6 +34,7 @@ export class CartaComponent implements OnInit {
   filtroCategoria: string = 'todas';
   mostrarCarrito: boolean = true;
   carritoAbierto: boolean = false;
+  cantidadTotalCarrito: number = 0;
 
   constructor(
     private productService: ProductsService,
@@ -72,6 +73,14 @@ export class CartaComponent implements OnInit {
     this.carritoService.carritoVisible$.subscribe(visible => {
       this.carritoAbierto = visible;
     });
+
+    // Suscribirse a las actualizaciones del carrito para obtener la cantidad
+    this.carritoService.actualizarCarrito$.subscribe(() => {
+      this.obtenerCantidadCarrito();
+    });
+
+    // Cargar la cantidad inicial del carrito
+    this.obtenerCantidadCarrito();
   }
 
   cargarModal(producto: Producto) {
@@ -165,6 +174,27 @@ export class CartaComponent implements OnInit {
   cerrarCarrito() {
     // Método para cerrar el carrito si es necesario
     this.carritoService.toggleCarrito();
+  }
+
+  obtenerCantidadCarrito(): void {
+    if (this.estaLogueado()) {
+      this.carritoService.obtenerCarrito().subscribe({
+        next: (response) => {
+          if (response && response.carrito) {
+            this.cantidadTotalCarrito = response.carrito.reduce((total: number, item: any) => {
+              return total + (item.cantidad || 0);
+            }, 0);
+          } else {
+            this.cantidadTotalCarrito = 0;
+          }
+        },
+        error: () => {
+          this.cantidadTotalCarrito = 0;
+        }
+      });
+    } else {
+      this.cantidadTotalCarrito = 0;
+    }
   }
 
   get productosFiltrados(): Producto[] {

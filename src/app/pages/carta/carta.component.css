@@ -43,8 +43,6 @@
 
 @keyframes floatSubtle {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-10px) rotate(1deg); }
-}
   50% { transform: translateY(-20px) rotate(2deg); }
 }
 
@@ -1390,4 +1388,172 @@
 
 .image-container:hover .mask {
   opacity: 1;
+}
+
+/* ================================
+   TEMA DARK - DISEÑO ESPECÍFICO
+   ================================ */
+
+:host-context(.theme-dark) .carta-container {
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(17, 24, 39, 0.8) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(31, 41, 55, 0.8) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(55, 65, 81, 0.6) 0%, transparent 50%),
+    linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+  background-attachment: fixed;
+}
+
+:host-context(.theme-dark) .carta-container::before {
+  background: 
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain-dark" patternUnits="userSpaceOnUse" width="100" height="100"><filter id="noiseFilterDark"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/><feColorMatrix in="colorNoise" type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilterDark)" opacity="0.15"/></pattern></defs><rect width="100%" fill="url(%23grain-dark)"/></svg>');
+  opacity: 1;
+}
+
+:host-context(.theme-dark) .carta-container::after {
+  background: 
+    radial-gradient(circle, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+/* Header en tema dark */
+:host-context(.theme-dark) .carta-header {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(71, 85, 105, 0.3);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+:host-context(.theme-dark) .carta-title {
+  background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e0 50%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+:host-context(.theme-dark) .carta-title::after {
+  background: linear-gradient(90deg, #64748b, #94a3b8);
+  box-shadow: 0 2px 12px rgba(100, 116, 139, 0.4);
+}
+
+:host-context(.theme-dark) .carta-subtitle {
+  color: #cbd5e0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Filtros en tema dark */
+:host-context(.theme-dark) .filtros-container {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(71, 85, 105, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+:host-context(.theme-dark) .filtro-btn {
+  background: rgba(30, 41, 55, 0.8);
+  color: #cbd5e0;
+  border: 1px solid rgba(71, 85, 105, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+:host-context(.theme-dark) .filtro-btn:hover {
+  background: rgba(51, 65, 81, 0.9);
+  color: #e2e8f0;
+  border-color: rgba(100, 116, 139, 0.6);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+:host-context(.theme-dark) .filtro-btn.active {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  color: #f1f5f9;
+  border-color: #64748b;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* Cards de productos en tema dark */
+:host-context(.theme-dark) .product-card {
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(71, 85, 105, 0.4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+:host-context(.theme-dark) .product-card:hover {
+  background: rgba(30, 41, 55, 0.95);
+  border-color: rgba(100, 116, 139, 0.6);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+}
+
+:host-context(.theme-dark) .card-body h5 {
+  color: #e2e8f0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+:host-context(.theme-dark) .card-text {
+  color: #cbd5e0;
+}
+
+:host-context(.theme-dark) .price {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  color: #f1f5f9;
+  border: 1px solid rgba(100, 116, 139, 0.4);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Botones en tema dark */
+:host-context(.theme-dark) .btn-primary {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  border-color: #475569;
+  color: #f1f5f9;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+:host-context(.theme-dark) .btn-primary:hover {
+  background: linear-gradient(135deg, #334155 0%, #475569 100%);
+  border-color: #64748b;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+/* Paginación en tema dark */
+:host-context(.theme-dark) .pagination-container {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(71, 85, 105, 0.3);
+}
+
+:host-context(.theme-dark) .pagination .page-link {
+  background: rgba(30, 41, 55, 0.8);
+  border-color: rgba(71, 85, 105, 0.4);
+  color: #cbd5e0;
+}
+
+:host-context(.theme-dark) .pagination .page-link:hover {
+  background: rgba(51, 65, 81, 0.9);
+  border-color: rgba(100, 116, 139, 0.6);
+  color: #e2e8f0;
+}
+
+:host-context(.theme-dark) .pagination .page-item.active .page-link {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  border-color: #64748b;
+  color: #f1f5f9;
+}
+
+/* Carrito button en tema dark */
+:host-context(.theme-dark) .btn-carrito-simple {
+  background: rgba(15, 23, 42, 0.95);
+  border: 2px solid rgba(100, 116, 139, 0.6);
+  color: #e2e8f0;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+:host-context(.theme-dark) .btn-carrito-simple:hover {
+  background: rgba(30, 41, 55, 0.98);
+  border-color: #94a3b8;
+  color: #f1f5f9;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+}
+
+:host-context(.theme-dark) .carrito-count {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  color: #fef2f2;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
 }
