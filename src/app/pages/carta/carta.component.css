@@ -27,44 +27,56 @@
 /* CARRITO SIMPLE */
 .btn-carrito-simple {
   position: fixed;
-  bottom: 30px;
+  bottom: 120px;
   right: 30px;
-  width: 55px;
-  height: 55px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   border: none;
-  background: #3498db;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
-  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 10020;
   display: flex;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .btn-carrito-simple:hover {
-  background: #2980b9;
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+  transform: translateY(-4px) scale(1.1);
+  box-shadow: 0 12px 40px rgba(102, 126, 234, 0.5);
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 .carrito-count {
   position: absolute;
-  top: -5px;
-  right: -5px;
-  background: #e74c3c;
+  top: -8px;
+  right: -8px;
+  background: linear-gradient(135deg, #e53e3e, #c53030);
   color: white;
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  font-size: 0.7rem;
+  width: 24px;
+  height: 24px;
+  font-size: 0.75rem;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
+  border: 2px solid white;
+  box-shadow: 0 4px 12px rgba(229, 62, 62, 0.4);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
 /* FILTROS SIMPLES */
