@@ -41,7 +41,7 @@ export class TwofaService {
   authorizePurchase(email: string, monto: number, titular: string): Observable<any> {
     // Enviando solicitud authorizePurchase
     const headers = this.getHeaders();
-    return this.http.post(this.apiUrl + 'authorize-purchase/', { email, monto, titular }, { headers }).pipe(
+    return this.http.post(this.apiUrl + 'authorize/', { email, monto, titular }, { headers }).pipe(
       catchError(err => {
         console.error('Error en authorizePurchase:', err);
         throw err;
