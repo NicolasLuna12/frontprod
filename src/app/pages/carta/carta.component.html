@@ -88,7 +88,7 @@
   </div>
 
   <!-- Paginación simple -->
-  <div class="paginacion-container">
+  <div class="paginacion-container" *ngIf="productosFiltrados.length > 6">
     <pagination-controls
       (pageChange)="p = $event"
       [autoHide]="true"

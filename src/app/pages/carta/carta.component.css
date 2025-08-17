@@ -516,19 +516,17 @@
 .paginacion-container {
   display: flex;
   justify-content: center;
-  margin-top: 3rem;
+  margin-top: 0;
   position: relative;
   z-index: 2;
-  padding: 1.5rem;
-  background: rgba(248, 250, 252, 0.6);
-  backdrop-filter: blur(20px);
-  border-radius: 20px;
-  border: 1px solid rgba(226, 232, 240, 0.4);
-  box-shadow: 0 8px 32px rgba(45, 55, 72, 0.08);
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 3rem;
 }
 
 ::ng-deep .paginacion-simple .pagination-previous,
