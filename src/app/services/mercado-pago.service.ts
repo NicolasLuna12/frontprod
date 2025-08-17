@@ -54,29 +54,14 @@ export class MercadoPagoService {
       };
     });
     
-    // Preparar payload para la solicitud
-    const email = pedido.email || localStorage.getItem('emailUser') || 'usuario@ejemplo.com';
-    
-    const payload = {
-      user_token: cleanToken,
-      email: email,
-      items: items,
-      payer: {
-        name: pedido.nombreCliente.split(' ')[0] || 'Cliente',
-        surname: pedido.nombreCliente.split(' ')[1] || 'Anónimo',
-        email: email,
-        address: {
-          street_name: pedido.direccion || 'Dirección no especificada'
-        }
-      },
-      back_urls: {
-        success: environment.apiBaseUrl + 'payment/success/',
-        failure: window.location.origin + '/checkout',
-        pending: window.location.origin + '/exito'
-      },
-      auto_return: 'approved',
-      external_reference: pedido.idPedido.toString() || Date.now().toString()
+    // Preparar payload según lo que espera el backend
+    const email = pedido.email || localStorage.getItem('emailUser') || undefined;
+    const payload: any = {
+      user_token: cleanToken
     };
+    if (email) {
+      payload.email = email;
+    }
     
     // Configurar headers para la solicitud
     const headers = new HttpHeaders()
