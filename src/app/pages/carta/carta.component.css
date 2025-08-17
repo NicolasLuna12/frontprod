@@ -1,7 +1,165 @@
+/* MODAL MODERNO Y LIMPIO */
+.modal-header-modern {
+  background: transparent;
+  border-bottom: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.5rem 0.5rem 1.5rem;
+}
+.modal-title-modern {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+.modal-producto-nombre {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.3rem;
+  color: #fff;
+}
+.modal-body-modern {
+  background: transparent;
+  padding: 0 2rem 2rem 2rem;
+}
+.modal-imagen-container-modern {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.modal-imagen-modern {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  background: #fff;
+}
+.modal-precio-modern {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #27ae60;
+  margin-bottom: 1.2rem;
+  text-align: center;
+}
+.modal-precio-label {
+  color: #b2becd;
+  font-weight: 500;
+}
+.modal-precio-valor {
+  color: #27ae60;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+.cantidad-container-modern {
+  background: rgba(255,255,255,0.07);
+  border-radius: 14px;
+  padding: 1.2rem 0.5rem;
+  margin-bottom: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.cantidad-label-modern {
+  color: #b2becd;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.7rem;
+}
+.cantidad-controles-modern {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.btn-cantidad-modern {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  color: #fff;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.18);
+  transition: background 0.2s, transform 0.2s;
+}
+.btn-cantidad-modern:hover {
+  background: linear-gradient(135deg, #5a67d8, #6b46c1);
+  transform: scale(1.12);
+}
+.cantidad-input-modern {
+  width: 60px;
+  padding: 10px 0;
+  text-align: center;
+  border: 2px solid #667eea;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  background: #fff;
+  color: #2d3748;
+  box-shadow: 0 1px 4px rgba(102, 126, 234, 0.08);
+}
+.subtotal-container-modern {
+  text-align: center;
+  padding: 1rem 0;
+  background: #f8fafc;
+  border-radius: 10px;
+  color: #2c3e50;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+.subtotal-label-modern {
+  color: #b2becd;
+  font-weight: 500;
+}
+.subtotal-valor-modern {
+  color: #27ae60;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+.modal-footer-modern {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  background: transparent;
+  border-top: none;
+  padding: 1.5rem 2rem 2rem 2rem;
+}
+.btn-cancelar-modern {
+  background: #23272f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.btn-cancelar-modern:hover {
+  background: #3a3f4b;
+}
+.btn-agregar-modern {
+  background: linear-gradient(90deg, #ffb347, #ffcc33);
+  color: #23272f;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.7rem;
+  font-size: 1rem;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(255, 204, 51, 0.12);
+  transition: background 0.2s, color 0.2s;
+}
+.btn-agregar-modern:hover {
+  background: linear-gradient(90deg, #ffcc33, #ffb347);
+  color: #111;
+}
 /* CARTA CON DISEÑO ELEGANTE Y COHERENTE */
 .carta-container {
   min-height: 100vh;
-  padding: 2rem 1rem;
+  padding: 2rem 1rem 0 1rem;
   background: 
     radial-gradient(circle at 20% 80%, rgba(45, 55, 72, 0.05) 0%, transparent 50%),
     radial-gradient(circle at 80% 20%, rgba(74, 85, 104, 0.05) 0%, transparent 50%),

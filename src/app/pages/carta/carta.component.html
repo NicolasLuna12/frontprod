@@ -109,42 +109,42 @@
   >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">{{producto.nombre_producto}}</h5>
+        <div class="modal-header modal-header-modern">
+          <div class="modal-title-modern">
+            <span class="modal-producto-nombre">{{producto.nombre_producto}}</span>
+          </div>
           <button
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"
-            aria-label="Close"
+            aria-label="Cerrar"
           ></button>
         </div>
-        <div class="modal-body">
-          <div class="modal-imagen-container">
+        <div class="modal-body modal-body-modern">
+          <div class="modal-imagen-container-modern">
             <img
-              class="modal-imagen"
+              class="modal-imagen-modern"
               [src]="producto.imageURL || 'assets/carta/hamburguesa.webp'"
               [alt]="producto.nombre_producto"
-              (error)="onImageError($event)"
+              (error)="$event.target.src = 'assets/carta/hamburguesa.webp'"
             />
           </div>
-          
-          <div class="modal-precio">
-            Precio: ${{producto.precio | number:'1.0-0'}}
+          <div class="modal-precio-modern">
+            <span class="modal-precio-label">Precio:</span> <span class="modal-precio-valor">${{producto.precio | number:'1.0-0'}}</span>
           </div>
-
-          <div class="cantidad-container">
-            <label class="cantidad-label">Cantidad:</label>
-            <div class="cantidad-controles">
+          <div class="cantidad-container-modern">
+            <span class="cantidad-label-modern">Cantidad</span>
+            <div class="cantidad-controles-modern">
               <button 
                 type="button" 
-                class="btn-cantidad"
+                class="btn-cantidad-modern"
                 (click)="decrementarCantidadModal()"
               >
-                -
+                <i class="fa fa-minus"></i>
               </button>
               <input
                 type="number"
-                class="cantidad-input"
+                class="cantidad-input-modern"
                 [(ngModel)]="cantidadIngresada"
                 (input)="calcularSubtotal()"
                 min="1"
@@ -152,30 +152,28 @@
               />
               <button 
                 type="button" 
-                class="btn-cantidad"
+                class="btn-cantidad-modern"
                 (click)="incrementarCantidadModal()"
               >
-                +
+                <i class="fa fa-plus"></i>
               </button>
             </div>
           </div>
-
-          <div class="subtotal-container">
-            <strong>Subtotal: ${{subtotal | number:'1.0-0'}}</strong>
+          <div class="subtotal-container-modern">
+            <span class="subtotal-label-modern">Subtotal:</span> <span class="subtotal-valor-modern">${{subtotal | number:'1.0-0'}}</span>
           </div>
         </div>
-        
-        <div class="modal-footer">
+        <div class="modal-footer modal-footer-modern">
           <button 
             type="button" 
-            class="btn btn-secondary" 
+            class="btn-cancelar-modern" 
             data-bs-dismiss="modal"
           >
             Cancelar
           </button>
           <button
             type="button"
-            class="btn btn-primary"
+            class="btn-agregar-modern"
             (click)="addProducto()"
           >
             Añadir al carrito

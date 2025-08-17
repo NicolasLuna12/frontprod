@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TourModalComponent } from '../../shared/tour-modal/tour-modal.component';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule, DatePipe } from '@angular/common';
 import { Pedido } from '../../model/pedido.model';
@@ -9,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-exito',
   standalone: true,
-  imports: [CommonModule, RouterModule, DatePipe],
+  imports: [CommonModule, RouterModule, DatePipe, TourModalComponent],
   templateUrl: './exito.component.html',
   styleUrl: './exito.component.css',
 })
