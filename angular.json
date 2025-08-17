@@ -22,7 +22,7 @@
               "src/iconoPrincipal.ico",
               "src/assets",
               "src/_redirects",
-              "src/google-translate-fix.css"
+              "src/assets/css/google-translate-fix.css"
             ],
             "styles": [
               "src/styles.css"
