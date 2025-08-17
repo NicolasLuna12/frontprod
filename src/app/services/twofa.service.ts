@@ -17,7 +17,6 @@ export class TwofaService {
   }
 
   setup2fa(email: string): Observable<any> {
-    // Enviando solicitud setup2fa
     const headers = this.getHeaders();
     return this.http.post(this.apiUrl + 'setup/', { email }, { headers }).pipe(
       catchError(err => {
