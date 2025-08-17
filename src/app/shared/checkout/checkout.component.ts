@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { PedidosService } from '../../services/pedidos.service';
 import { ContactoService } from '../../services/contacto.service';
 import { MercadoPagoService } from '../../services/mercado-pago.service';
+import { CarritoService } from '../../services/carrito.service';
 import { Pedido } from '../../model/pedido.model';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
@@ -50,15 +51,56 @@ export class CheckoutComponent implements OnInit {
     private mercadoPagoService: MercadoPagoService,
     public contactoService: ContactoService,
     private twofaService: TwofaService,
-    private validationService: ValidationService
+    private validationService: ValidationService,
+    private carritoService: CarritoService
   ) {}
 
   ngOnInit(): void {
+    console.log('=== CHECKOUT COMPONENT INIT ===');
     this.pedido = this.pedidoService.getPedido();
+    console.log('Pedido obtenido:', this.pedido);
+    console.log('Total del pedido:', this.pedido?.total);
+    
     this.emailUser = localStorage.getItem('emailUser') || '';
     this.nameUser = localStorage.getItem('nameUser') || '';
-    // Información del usuario y pedido cargada
-    this.verificar2FA();
+    console.log('Email usuario:', this.emailUser);
+    console.log('Nombre usuario:', this.nameUser);
+    
+    // Si el pedido está vacío, obtener datos del carrito
+    if (!this.pedido.total || this.pedido.total === 0) {
+      console.log('Pedido vacío, obteniendo datos del carrito...');
+      this.carritoService.obtenerCarrito().subscribe({
+        next: (carritoData: any) => {
+          console.log('Datos del carrito obtenidos:', carritoData);
+          if (carritoData && carritoData.length > 0) {
+            // Calcular total del carrito
+            const total = carritoData.reduce((sum: number, item: any) => {
+              return sum + (item.precio * item.cantidad);
+            }, 0);
+            
+            // Actualizar el pedido con los datos del carrito
+            this.pedido.total = total;
+            this.pedido.carrito = carritoData;
+            this.pedido.nombreCliente = this.nameUser;
+            this.pedido.email = this.emailUser;
+            
+            console.log('Pedido actualizado con carrito:', this.pedido);
+            console.log('Total calculado:', total);
+            
+            // Ahora verificar 2FA con el total correcto
+            this.verificar2FA();
+          }
+        },
+        error: (error: any) => {
+          console.error('Error al obtener carrito:', error);
+        }
+      });
+    } else {
+      // Información del usuario y pedido cargada
+      console.log('Llamando a verificar2FA...');
+      this.verificar2FA();
+    }
+    
     // Inicialización del SDK de Mercado Pago usando el modelo oficial y evitando error de TypeScript
     if ((window as any).MercadoPago) {
       const mp = new (window as any).MercadoPago(environment.mercadoPagoPublicKey, { locale: 'es-AR' });
