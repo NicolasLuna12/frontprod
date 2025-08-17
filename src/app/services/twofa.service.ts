@@ -11,6 +11,12 @@ export class TwofaService {
 
   constructor(private http: HttpClient, private securityService: SecurityService) {}
 
+  // Lee el valor de una cookie por nombre
+  private getCookie(name: string): string | null {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? decodeURIComponent(match[2]) : null;
+  }
+
   private getHeaders(): HttpHeaders {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -19,6 +25,11 @@ export class TwofaService {
     const token = this.securityService.getToken();
     if (token) {
       headers = headers.set('Authorization', `Token ${token}`);
+    }
+    // Agregar CSRF si existe la cookie
+    const csrfToken = this.getCookie('csrftoken');
+    if (csrfToken) {
+      headers = headers.set('X-CSRFToken', csrfToken);
     }
     return headers;
   }
