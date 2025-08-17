@@ -1,40 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Producto } from '../../../app/model/producto.model';
-import { ProductsService } from '../../services/products.service';
-import { FormsModule } from '@angular/forms';
-import { PedidosService } from '../../services/pedidos.service';
-import { DetallePedido } from '../../model/detallePedido.model';
-import { CarritoService } from '../../services/carrito.service';
-import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { NgxPaginationModule } from 'ngx-pagination';
 
-@Component({
-  selector: 'app-carta',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    NgxPaginationModule,
-  ],
-  templateUrl: './carta.component.html',
-  styleUrl: './carta.component.css',
-})
-export class CartaComponent implements OnInit {
-  // ...existing code...
-
-  // Maneja errores de carga de imágenes y muestra una imagen por defecto
-  onImageError(event: Event): void {
-    const target = event.target as HTMLImageElement | null;
-    if (target) {
-      target.src = 'assets/carta/hamburguesa.webp';
-    }
-  }
-import { Component, Input } from '@angular/core';
-import { OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Producto } from '../../../app/model/producto.model';
 import { ProductsService } from '../../services/products.service';
@@ -47,6 +12,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgxPaginationModule } from 'ngx-pagination';
 declare var bootstrap: any;
+
 
 @Component({
   selector: 'app-carta',
@@ -68,8 +34,6 @@ export class CartaComponent implements OnInit {
   idUser: number = 0;
   filtroCategoria: string = 'todas';
   mostrarCarrito: boolean = true;
-  
-  // Propiedades para el carrito - PÚBLICO
   public carritoAbierto: boolean = false;
   public cantidadTotalCarrito: number = 0;
 
@@ -90,12 +54,12 @@ export class CartaComponent implements OnInit {
       stock: 0,
       id_categoria: 0,
     };
-    // Si es admin, ocultar el carrito
     const email = localStorage.getItem('emailUser');
     if (email === 'admin@admin.com') {
       this.mostrarCarrito = false;
     }
   }
+
   ngOnInit(): void {
     this.productService.getProducts().subscribe({
       next: (productos: Producto[]) => {
@@ -105,18 +69,12 @@ export class CartaComponent implements OnInit {
         if (error.status === 0) this.router.navigate(['serverError']);
       },
     });
-
-    // Suscribirse al estado del carrito
     this.carritoService.carritoVisible$.subscribe(visible => {
       this.carritoAbierto = visible;
     });
-
-    // Suscribirse a las actualizaciones del carrito para obtener la cantidad
     this.carritoService.actualizarCarrito$.subscribe(() => {
       this.obtenerCantidadCarrito();
     });
-
-    // Cargar la cantidad inicial del carrito
     this.obtenerCantidadCarrito();
   }
 
@@ -134,6 +92,7 @@ export class CartaComponent implements OnInit {
   estaLogueado() {
     return localStorage.getItem('authToken') != null ? true : false;
   }
+
   calcularSubtotal() {
     this.subtotal = this.producto.precio * this.cantidadIngresada;
   }
@@ -141,13 +100,12 @@ export class CartaComponent implements OnInit {
   addProducto() {
     if (localStorage.getItem('userId') != null) {
       this.idUser = parseFloat(localStorage.getItem('userId')!);
-    }    // Usar la dirección del perfil si está disponible
+    }
     let direccionEntrega = '';
     const direccionPerfil = localStorage.getItem('direccion');
     if (direccionPerfil && direccionPerfil.trim() !== '') {
       direccionEntrega = direccionPerfil;
     }
-    
     const detallePedido = new DetallePedido(
       this.idUser,
       0,
@@ -155,7 +113,6 @@ export class CartaComponent implements OnInit {
       this.cantidadIngresada,
       direccionEntrega
     );
-
     this.pedidoService.agregarProducto(detallePedido).subscribe({
       next: (pedido) => {
         this.carritoService.tiggerActualizarCarrito();
@@ -165,7 +122,6 @@ export class CartaComponent implements OnInit {
       },
       error: (error) => {
         this.toastr.error('Ocurrió un error inesperado.');
-
         if (error.status === 0) this.router.navigate(['serverError']);
       },
     });
@@ -209,7 +165,6 @@ export class CartaComponent implements OnInit {
   }
 
   cerrarCarrito() {
-    // Método para cerrar el carrito si es necesario
     this.carritoService.toggleCarrito();
   }
 
@@ -234,31 +189,20 @@ export class CartaComponent implements OnInit {
     }
   }
 
-  /**
-   * Función de seguimiento para optimizar el rendimiento de ngFor
-   * @param index Índice del elemento
-   * @param product Producto actual
-   * @returns ID único del producto
-   */
   trackByProductId(index: number, product: Producto): number {
     return product.id_producto;
   }
 
   get productosFiltrados(): Producto[] {
     if (this.filtroCategoria === 'todas') return this.productos;
-    if (this.filtroCategoria === 'hamburguesas') return this.productos.filter(p => p.id_categoria === 1);
+    if (this.filtroCategoria === 'empanadas') return this.productos.filter(p => p.id_categoria === 1);
     if (this.filtroCategoria === 'lomos') return this.productos.filter(p => p.id_categoria === 2);
-    if (this.filtroCategoria === 'empanadas') return this.productos.filter(p => p.id_categoria === 3);
+    if (this.filtroCategoria === 'hamburguesas') return this.productos.filter(p => p.id_categoria === 3);
     return this.productos;
   }
 
-  /**
-   * Maneja errores de carga de imágenes y muestra una imagen por defecto
-   */
   onImageError(event: Event): void {
-    const target = event.target as HTMLImageElement | null;
-    if (target) {
-      target.src = 'assets/carta/hamburguesa.webp';
-    }
+    const target = event.target as HTMLImageElement;
+    target.src = 'assets/carta/hamburguesa.webp';
   }
 }
