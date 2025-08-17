@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 })
 export class MercadoPagoService {
   private apiUrl = environment.apiBaseUrl + 'appCART/';
-  private mercadoPagoUrl = environment.apiBaseUrl;
+  private mercadoPagoUrl = environment.mercadoPagoApiUrl;
 
   constructor(
     private http: HttpClient,
@@ -84,7 +84,7 @@ export class MercadoPagoService {
       .set('Authorization', `Bearer ${cleanToken}`);
     
     // Llamar al endpoint para crear preferencia de pago
-    return this.http.post<any>(`${this.mercadoPagoUrl}payment/create-preference/`, payload, { 
+  return this.http.post<any>(`${this.mercadoPagoUrl}payment/create-preference/`, payload, { 
       headers: headers
     }).pipe(
       map((response: any) => {

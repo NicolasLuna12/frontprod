@@ -8,9 +8,10 @@ export const environment = {
   production: false,
   
   // API Configuration - Valores por defecto para desarrollo
-  apiBaseUrl: 'https://backmp.onrender.com/',
+  apiBaseUrl: 'https://backmobile1.onrender.com/',
   
-  // MercadoPago Configuration - PLACEHOLDER (configurar en environment.local.ts)
+  // MercadoPago Configuration
+  mercadoPagoApiUrl: 'https://backmp.onrender.com/',
   mercadoPagoPublicKey: 'TEST-PLACEHOLDER-KEY',
   
   // Two Factor Authentication
