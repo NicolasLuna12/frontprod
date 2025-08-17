@@ -11,6 +11,41 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgxPaginationModule } from 'ngx-pagination';
+
+@Component({
+  selector: 'app-carta',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    NgxPaginationModule,
+  ],
+  templateUrl: './carta.component.html',
+  styleUrl: './carta.component.css',
+})
+export class CartaComponent implements OnInit {
+  // ...existing code...
+
+  // Maneja errores de carga de imágenes y muestra una imagen por defecto
+  onImageError(event: Event): void {
+    const target = event.target as HTMLImageElement | null;
+    if (target) {
+      target.src = 'assets/carta/hamburguesa.webp';
+    }
+  }
+import { Component, Input } from '@angular/core';
+import { OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Producto } from '../../../app/model/producto.model';
+import { ProductsService } from '../../services/products.service';
+import { FormsModule } from '@angular/forms';
+import { PedidosService } from '../../services/pedidos.service';
+import { DetallePedido } from '../../model/detallePedido.model';
+import { CarritoService } from '../../services/carrito.service';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { NgxPaginationModule } from 'ngx-pagination';
 declare var bootstrap: any;
 
 @Component({
@@ -219,10 +254,11 @@ export class CartaComponent implements OnInit {
 
   /**
    * Maneja errores de carga de imágenes y muestra una imagen por defecto
-   * @param event Evento de error de imagen
    */
   onImageError(event: Event): void {
-    const target = event.target as HTMLImageElement;
-    target.src = 'assets/carta/hamburguesa.webp';
+    const target = event.target as HTMLImageElement | null;
+    if (target) {
+      target.src = 'assets/carta/hamburguesa.webp';
+    }
   }
 }

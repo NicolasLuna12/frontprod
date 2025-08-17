@@ -126,7 +126,7 @@
               class="modal-imagen-modern"
               [src]="producto.imageURL || 'assets/carta/hamburguesa.webp'"
               [alt]="producto.nombre_producto"
-              (error)="$event.target.src = 'assets/carta/hamburguesa.webp'"
+              (error)="onImageError($event)"
             />
           </div>
           <div class="modal-precio-modern">
