@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, map } from 'rxjs';
 import { PedidosService } from './pedidos.service';
+import { SecurityService } from './security.service';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -13,7 +14,8 @@ export class MercadoPagoService {
 
   constructor(
     private http: HttpClient,
-    private pedidoService: PedidosService
+    private pedidoService: PedidosService,
+    private securityService: SecurityService
   ) { }
 
   /**
@@ -21,16 +23,13 @@ export class MercadoPagoService {
    * @returns Observable con la URL de pago (init_point)
    */
   crearPreferencia(): Observable<any> {
-    const token = localStorage.getItem('authToken');
-    
+    const token = this.securityService.getToken();
     if (!token) {
       return new Observable(observer => {
         observer.error({ message: 'No se encontró el token de autenticación' });
         observer.complete();
       });
     }
-    
-    // Eliminar comillas si las hay
     const cleanToken = token.replace(/"/g, '');
     
     // Obtener el pedido del servicio
