@@ -67,15 +67,25 @@ export class CheckoutComponent implements OnInit {
   }
 
   verificar2FA() {
+    console.log('=== VERIFICAR 2FA INICIADO ===');
+    console.log('Pedido:', this.pedido);
+    console.log('Email User:', this.emailUser);
+    console.log('Name User:', this.nameUser);
+    
     // Si ya está activo en sesión, no volver a pedir
     if (sessionStorage.getItem('2fa_active') === 'true') {
-      // 2FA ya verificado para esta sesión
+      console.log('2FA ya activo en sesión, saltando...');
       return;
     }
+    
     const monto = this.pedido.total;
+    console.log('Monto del pedido:', monto);
+    console.log('¿Monto > 50000?', monto > 50000);
+    
     // Verificando si monto requiere 2FA
     // Solo considerar el monto para 2FA
     if (monto > 50000) {
+      console.log('Monto requiere 2FA, iniciando proceso...');
       // Monto requiere verificación 2FA
       this.twofaService.authorizePurchase(this.emailUser, monto, this.nameUser).subscribe({
         next: (resp) => {
