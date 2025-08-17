@@ -36,7 +36,7 @@ export class TwofaService {
 
   setup2fa(email: string): Observable<any> {
     const headers = this.getHeaders();
-    return this.http.post(this.apiUrl + 'setup/', { email }, { headers }).pipe(
+  return this.http.post(this.apiUrl + 'setup/', { email }, { headers, withCredentials: true }).pipe(
       catchError(err => {
         console.error('Error en setup2fa:', err);
         throw err;
@@ -47,7 +47,7 @@ export class TwofaService {
   verify2fa(email: string, code: string): Observable<any> {
     // Enviando solicitud verify2fa
     const headers = this.getHeaders();
-    return this.http.post(this.apiUrl + 'verify/', { email, code }, { headers }).pipe(
+  return this.http.post(this.apiUrl + 'verify/', { email, code }, { headers, withCredentials: true }).pipe(
       catchError(err => {
         console.error('Error en verify2fa:', err);
         throw err;
@@ -62,7 +62,7 @@ export class TwofaService {
     if (code !== undefined && code !== null && code !== '') {
       body.code = code;
     }
-    return this.http.post(this.apiUrl + 'authorize/', body, { headers }).pipe(
+  return this.http.post(this.apiUrl + 'authorize/', body, { headers, withCredentials: true }).pipe(
       catchError(err => {
         console.error('Error en authorizePurchase:', err);
         throw err;
