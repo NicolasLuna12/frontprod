@@ -1,19 +1,26 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { SecurityService } from './security.service';
 
 @Injectable({ providedIn: 'root' })
 export class TwofaService {
   private apiUrl = environment.twoFAApiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private securityService: SecurityService) {}
 
   private getHeaders(): HttpHeaders {
-    return new HttpHeaders({
+    let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     });
+    const token = this.securityService.getToken();
+    if (token) {
+      headers = headers.set('Authorization', `Token ${token}`);
+    }
+    return headers;
   }
 
   setup2fa(email: string): Observable<any> {
