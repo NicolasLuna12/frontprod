@@ -44,10 +44,14 @@ export class TwofaService {
     );
   }
 
-  authorizePurchase(email: string, monto: number, titular: string): Observable<any> {
+  authorizePurchase(email: string, monto: number, titular: string, code?: string): Observable<any> {
     // Enviando solicitud authorizePurchase
     const headers = this.getHeaders();
-    return this.http.post(this.apiUrl + 'authorize/', { email, monto, titular }, { headers }).pipe(
+    const body: any = { email, monto, titular };
+    if (code !== undefined && code !== null && code !== '') {
+      body.code = code;
+    }
+    return this.http.post(this.apiUrl + 'authorize/', body, { headers }).pipe(
       catchError(err => {
         console.error('Error en authorizePurchase:', err);
         throw err;
