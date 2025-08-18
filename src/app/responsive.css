@@ -1,0 +1,132 @@
+/* =============================
+	 OPTIMIZACIÓN MOBILE FIRST
+	 ============================= */
+
+/* Viewport seguro y scroll horizontal */
+html, body {
+	max-width: 100vw;
+	overflow-x: hidden;
+}
+
+body {
+	-webkit-tap-highlight-color: transparent;
+	font-size: 16px;
+}
+
+/* Ajustes generales para móviles */
+@media (max-width: 600px) {
+	.premium-container, .premium-section {
+		padding-left: 8px !important;
+		padding-right: 8px !important;
+	}
+	.premium-section {
+		padding-top: 32px !important;
+		padding-bottom: 32px !important;
+	}
+	.premium-card-grid {
+		grid-template-columns: 1fr !important;
+		gap: 16px !important;
+	}
+	.display-premium {
+		font-size: 2rem !important;
+	}
+	.text-elegant, .text-premium {
+		font-size: 1rem !important;
+	}
+	/* Botón flotante de cambio de vista */
+	.btn-switch-vista {
+		top: 72px !important;
+		right: 12px !important;
+		padding: 8px 12px !important;
+		font-size: 0.85rem !important;
+		border-radius: 10px !important;
+	}
+	/* Footer y header */
+	app-footer, app-header, .footer, .header {
+		font-size: 0.95rem !important;
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+	}
+	/* Navbar y nav */
+	app-nav, .nav {
+		font-size: 1rem !important;
+		padding: 0 4px !important;
+	}
+	/* Chatbot flotante */
+	app-chat-bot {
+		right: 8px !important;
+		bottom: 8px !important;
+	}
+	/* Imágenes responsivas */
+	img, .img-fluid, .responsive-img {
+		max-width: 100% !important;
+		height: auto !important;
+		border-radius: 10px !important;
+	}
+	/* Tablas y scroll horizontal seguro */
+	table {
+		display: block !important;
+		width: 100% !important;
+		overflow-x: auto !important;
+		-webkit-overflow-scrolling: touch !important;
+	}
+	/* Ajustes para cards */
+	.card, .glass-card {
+		margin-left: 0 !important;
+		margin-right: 0 !important;
+		border-radius: 12px !important;
+	}
+	/* Ajustes para formularios */
+	input, select, textarea, button {
+		font-size: 1rem !important;
+		border-radius: 8px !important;
+	}
+	/* Espaciados */
+	.mt-5, .mb-5, .my-5 {
+		margin-top: 1.5rem !important;
+		margin-bottom: 1.5rem !important;
+	}
+	.pt-5, .pb-5, .py-5 {
+		padding-top: 1.5rem !important;
+		padding-bottom: 1.5rem !important;
+	}
+}
+
+/* Mejoras para tablets */
+@media (min-width: 601px) and (max-width: 900px) {
+	.premium-container, .premium-section {
+		padding-left: 24px !important;
+		padding-right: 24px !important;
+	}
+	.premium-section {
+		padding-top: 48px !important;
+		padding-bottom: 48px !important;
+	}
+	.premium-card-grid {
+		grid-template-columns: repeat(2, 1fr) !important;
+		gap: 20px !important;
+	}
+	.display-premium {
+		font-size: 2.5rem !important;
+	}
+}
+
+/* Utilidad para ocultar en mobile */
+.hide-mobile {
+	display: none !important;
+}
+@media (min-width: 601px) {
+	.hide-mobile {
+		display: initial !important;
+	}
+}
+
+/* Utilidad para mostrar solo en mobile */
+.show-mobile {
+	display: initial !important;
+}
+@media (min-width: 601px) {
+	.show-mobile {
+		display: none !important;
+	}
+}
