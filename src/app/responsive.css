@@ -10,58 +10,73 @@ html, body {
 
 body {
 	-webkit-tap-highlight-color: transparent;
-	font-size: 16px;
+	font-size: 15px;
+	background: var(--background);
 }
 
 /* Ajustes generales para móviles */
 @media (max-width: 600px) {
 	.premium-container, .premium-section {
-		padding-left: 8px !important;
-		padding-right: 8px !important;
+		padding-left: 2vw !important;
+		padding-right: 2vw !important;
 	}
 	.premium-section {
-		padding-top: 32px !important;
-		padding-bottom: 32px !important;
+		padding-top: 18px !important;
+		padding-bottom: 18px !important;
 	}
 	.premium-card-grid {
 		grid-template-columns: 1fr !important;
-		gap: 16px !important;
+		gap: 10px !important;
 	}
 	.display-premium {
-		font-size: 2rem !important;
+		font-size: 1.3rem !important;
+		line-height: 1.1 !important;
 	}
 	.text-elegant, .text-premium {
-		font-size: 1rem !important;
+		font-size: 0.98rem !important;
+	}
+	/* Header y logo */
+	app-header, .header {
+		min-height: 44px !important;
+		padding: 0 4px !important;
+	}
+	.header img, app-header img, .logo, .logo img {
+		max-height: 36px !important;
+		width: auto !important;
 	}
 	/* Botón flotante de cambio de vista */
 	.btn-switch-vista {
-		top: 72px !important;
-		right: 12px !important;
-		padding: 8px 12px !important;
-		font-size: 0.85rem !important;
-		border-radius: 10px !important;
+		top: 60px !important;
+		right: 6px !important;
+		padding: 5px 8px !important;
+		font-size: 0.8rem !important;
+		border-radius: 7px !important;
+		min-width: 0 !important;
+		min-height: 0 !important;
 	}
-	/* Footer y header */
-	app-footer, app-header, .footer, .header {
-		font-size: 0.95rem !important;
+	/* Footer */
+	app-footer, .footer {
+		font-size: 0.92rem !important;
 		padding-left: 0 !important;
 		padding-right: 0 !important;
+		min-height: 36px !important;
 	}
 	/* Navbar y nav */
 	app-nav, .nav {
-		font-size: 1rem !important;
-		padding: 0 4px !important;
+		font-size: 0.98rem !important;
+		padding: 0 2px !important;
+		min-height: 36px !important;
 	}
 	/* Chatbot flotante */
 	app-chat-bot {
-		right: 8px !important;
-		bottom: 8px !important;
+		right: 4px !important;
+		bottom: 4px !important;
 	}
 	/* Imágenes responsivas */
 	img, .img-fluid, .responsive-img {
 		max-width: 100% !important;
 		height: auto !important;
-		border-radius: 10px !important;
+		border-radius: 6px !important;
 	}
 	/* Tablas y scroll horizontal seguro */
 	table {
@@ -74,21 +89,56 @@ body {
 	.card, .glass-card {
 		margin-left: 0 !important;
 		margin-right: 0 !important;
-		border-radius: 12px !important;
+		border-radius: 8px !important;
+		box-shadow: none !important;
 	}
 	/* Ajustes para formularios */
-	input, select, textarea, button {
-		font-size: 1rem !important;
-		border-radius: 8px !important;
+	input, select, textarea {
+		font-size: 0.98rem !important;
+		border-radius: 6px !important;
+		padding: 8px 10px !important;
+		min-height: 36px !important;
+		box-shadow: none !important;
+	}
+	button {
+		font-size: 0.98rem !important;
+		border-radius: 6px !important;
+		padding: 8px 10px !important;
+		min-height: 36px !important;
+		box-shadow: none !important;
 	}
 	/* Espaciados */
 	.mt-5, .mb-5, .my-5 {
-		margin-top: 1.5rem !important;
-		margin-bottom: 1.5rem !important;
+		margin-top: 0.8rem !important;
+		margin-bottom: 0.8rem !important;
 	}
 	.pt-5, .pb-5, .py-5 {
-		padding-top: 1.5rem !important;
-		padding-bottom: 1.5rem !important;
+		padding-top: 0.8rem !important;
+		padding-bottom: 0.8rem !important;
+	}
+	/* Formularios compactos */
+	form, .form-group, .form-control {
+		margin-bottom: 10px !important;
+		padding: 0 !important;
+	}
+	/* Tarjetas de login compactas */
+	.card, .glass-card, .login-card, .auth-card {
+		padding: 12px 8px !important;
+		margin: 0 auto !important;
+		max-width: 98vw !important;
+	}
+	/* Botón principal más pequeño */
+	.btn, .btn-primary, .btn-warning, .btn-success {
+		font-size: 1rem !important;
+		padding: 10px 0 !important;
+		min-width: 0 !important;
+		width: 100% !important;
+		border-radius: 6px !important;
+		box-shadow: none !important;
+	}
+	/* Links y textos */
+	a, .link, .text-link {
+		font-size: 0.98rem !important;
 	}
 }
 
