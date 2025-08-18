@@ -35,93 +35,49 @@
 
       <!-- Navigation Menu -->
       <div class="nav-menu" 
-           [class.show]="mobileMenuOpen">
-    <div *ngIf="mobileMenuOpen" class="sidebar-overlay" (click)="closeMobileMenu()"></div>
-    <button *ngIf="mobileMenuOpen" class="sidebar-close-btn" (click)="closeMobileMenu()" aria-label="Cerrar menú">
-      <span aria-hidden="true">&times;</span>
-    </button>
+           [class.show]="mobileMenuOpen" 
+           (click)="closeMobileMenu()">
+        <div *ngIf="mobileMenuOpen" class="sidebar-overlay"></div>
         <ul class="nav-list">
           <li class="nav-item stagger-animation">
-            <a class="nav-link" routerLink="/" (click)="closeMobileMenu()">
+            <a class="nav-link" routerLink="/" (click)="$event.stopPropagation(); closeMobileMenu()">
               <i class="fas fa-home nav-icon"></i>
               <span>Inicio</span>
             </a>
-            <ng-container *ngIf="mobileMenuOpen">
-              <span style="display:none" (window:closeMobileMenu)="closeMobileMenu()"></span>
-            </ng-container>
-            <ng-container *ngIf="mobileMenuOpen">
-              <script>setTimeout(() => { window.dispatchEvent(new Event('closeMobileMenu')); }, 0);</script>
-            </ng-container>
           </li>
-          
           <li *ngIf="(!isAdmin() || vistaUsuario)" class="nav-item stagger-animation">
-            <a class="nav-link" routerLink="/quienes-somos" (click)="closeMobileMenu()">
+            <a class="nav-link" routerLink="/quienes-somos" (click)="$event.stopPropagation(); closeMobileMenu()">
               <i class="fas fa-users nav-icon"></i>
               <span>¿Quienes somos?</span>
             </a>
-            <ng-container *ngIf="mobileMenuOpen">
-              <span style="display:none" (window:closeMobileMenu)="closeMobileMenu()"></span>
-            </ng-container>
-            <ng-container *ngIf="mobileMenuOpen">
-              <script>setTimeout(() => { window.dispatchEvent(new Event('closeMobileMenu')); }, 0);</script>
-            </ng-container>
           </li>
-          
           <li *ngIf="(!isAdmin() || vistaUsuario)" class="nav-item stagger-animation">
-            <a class="nav-link" routerLink="/contacto" (click)="closeMobileMenu()">
+            <a class="nav-link" routerLink="/contacto" (click)="$event.stopPropagation(); closeMobileMenu()">
               <i class="fas fa-phone nav-icon"></i>
               <span>Contacto</span>
             </a>
-            <ng-container *ngIf="mobileMenuOpen">
-              <span style="display:none" (window:closeMobileMenu)="closeMobileMenu()"></span>
-            </ng-container>
-            <ng-container *ngIf="mobileMenuOpen">
-              <script>setTimeout(() => { window.dispatchEvent(new Event('closeMobileMenu')); }, 0);</script>
-            </ng-container>
           </li>
-          
           <li *ngIf="(!isAdmin() || vistaUsuario)" class="nav-item stagger-animation">
-            <a class="nav-link" routerLink="/carta" (click)="closeMobileMenu()">
+            <a class="nav-link" routerLink="/carta" (click)="$event.stopPropagation(); closeMobileMenu()">
               <i class="fas fa-utensils nav-icon"></i>
               <span>Carta</span>
             </a>
-            <ng-container *ngIf="mobileMenuOpen">
-              <span style="display:none" (window:closeMobileMenu)="closeMobileMenu()"></span>
-            </ng-container>
-            <ng-container *ngIf="mobileMenuOpen">
-              <script>setTimeout(() => { window.dispatchEvent(new Event('closeMobileMenu')); }, 0);</script>
-            </ng-container>
           </li>
-          
           <li *ngIf="estaAutenticado && (!isAdmin() || vistaUsuario)" class="nav-item stagger-animation">
-            <a class="nav-link" routerLink="/dashboard" (click)="closeMobileMenu()">
+            <a class="nav-link" routerLink="/dashboard" (click)="$event.stopPropagation(); closeMobileMenu()">
               <i class="fas fa-chart-bar nav-icon"></i>
               <span>Dashboard</span>
             </a>
-            <ng-container *ngIf="mobileMenuOpen">
-              <span style="display:none" (window:closeMobileMenu)="closeMobileMenu()"></span>
-            </ng-container>
-            <ng-container *ngIf="mobileMenuOpen">
-              <script>setTimeout(() => { window.dispatchEvent(new Event('closeMobileMenu')); }, 0);</script>
-            </ng-container>
           </li>
-          
           <li *ngIf="estaAutenticado && isAdmin() && !vistaUsuario" class="nav-item stagger-animation">
-            <a class="nav-link" routerLink="/admin-productos" (click)="closeMobileMenu()">
+            <a class="nav-link" routerLink="/admin-productos" (click)="$event.stopPropagation(); closeMobileMenu()">
               <i class="fas fa-cogs nav-icon"></i>
               <span>Gestión</span>
             </a>
-            <ng-container *ngIf="mobileMenuOpen">
-              <span style="display:none" (window:closeMobileMenu)="closeMobileMenu()"></span>
-            </ng-container>
-            <ng-container *ngIf="mobileMenuOpen">
-              <script>setTimeout(() => { window.dispatchEvent(new Event('closeMobileMenu')); }, 0);</script>
-            </ng-container>
           </li>
-          
           <!-- Profile Section -->
           <li *ngIf="estaAutenticado" class="nav-item profile-item stagger-animation">
-            <a class="nav-link profile-link" routerLink="/perfil" (click)="closeMobileMenu()">
+            <a class="nav-link profile-link" routerLink="/perfil" (click)="$event.stopPropagation(); closeMobileMenu()">
               <div class="profile-container">
                 <div class="profile-avatar">
                   <img *ngIf="imagenPerfil" [src]="imagenPerfil" 
@@ -133,71 +89,47 @@
                 <span class="profile-name">{{nombreUsuario}}</span>
               </div>
             </a>
-            <ng-container *ngIf="mobileMenuOpen">
-              <span style="display:none" (window:closeMobileMenu)="closeMobileMenu()"></span>
-            </ng-container>
-            <ng-container *ngIf="mobileMenuOpen">
-              <script>setTimeout(() => { window.dispatchEvent(new Event('closeMobileMenu')); }, 0);</script>
-            </ng-container>
           </li>
-          
           <!-- Auth Buttons -->
           <li *ngIf="!estaAutenticado" class="nav-item auth-item stagger-animation">
-            <a class="nav-link auth-btn login-btn" routerLink="/login" (click)="closeMobileMenu()">
+            <a class="nav-link auth-btn login-btn" routerLink="/login" (click)="$event.stopPropagation(); closeMobileMenu()">
               <i class="fas fa-sign-in-alt nav-icon"></i>
               <span>Iniciar Sesión</span>
             </a>
-            <ng-container *ngIf="mobileMenuOpen">
-              <span style="display:none" (window:closeMobileMenu)="closeMobileMenu()"></span>
-            </ng-container>
-            <ng-container *ngIf="mobileMenuOpen">
-              <script>setTimeout(() => { window.dispatchEvent(new Event('closeMobileMenu')); }, 0);</script>
-            </ng-container>
           </li>
-          
           <li *ngIf="!estaAutenticado" class="nav-item auth-item stagger-animation">
-            <a class="nav-link auth-btn register-btn" routerLink="/registro" (click)="closeMobileMenu()">
+            <a class="nav-link auth-btn register-btn" routerLink="/registro" (click)="$event.stopPropagation(); closeMobileMenu()">
               <i class="fas fa-user-plus nav-icon"></i>
               <span>Registro</span>
             </a>
-            <ng-container *ngIf="mobileMenuOpen">
-              <span style="display:none" (window:closeMobileMenu)="closeMobileMenu()"></span>
-            </ng-container>
-            <ng-container *ngIf="mobileMenuOpen">
-              <script>setTimeout(() => { window.dispatchEvent(new Event('closeMobileMenu')); }, 0);</script>
-            </ng-container>
           </li>
-          
           <!-- Tour Button -->
           <li *ngIf="estaAutenticado && esDemoUser" class="nav-item stagger-animation">
             <button class="tour-btn" 
-                    (click)="iniciarTour()"
+                    (click)="$event.stopPropagation(); iniciarTour()"
                     [class.tour-active]="tourActivo">
               <i class="fas fa-question-circle tour-icon" 
                  [class.spinning]="tourActivo"></i>
               <span>{{ tourActivo ? 'Tour ON' : 'Tour OFF' }}</span>
             </button>
           </li>
-          
           <!-- Logout Button -->
           <li *ngIf="estaAutenticado" class="nav-item stagger-animation">
-            <button class="logout-btn" (click)="logout()">
+            <button class="logout-btn" (click)="$event.stopPropagation(); logout()">
               <i class="fas fa-sign-out-alt"></i>
               <span>Salir</span>
             </button>
           </li>
-          
           <!-- Navigation Tools -->
           <li class="nav-item nav-tools stagger-animation">
             <!-- Backdrop para dropdowns -->
             <div class="dropdown-backdrop" 
                  [class.show]="showLanguageSelector || showThemeSelector"
                  (click)="showLanguageSelector = false; showThemeSelector = false"></div>
-            
             <!-- Language Selector -->
             <div class="nav-tool-item">
               <button class="nav-tool-btn language-toggle-btn" 
-                      (click)="toggleLanguageSelector()"
+                      (click)="$event.stopPropagation(); toggleLanguageSelector()"
                       [class.active]="showLanguageSelector"
                       title="Cambiar Idioma">
                 <i class="fas fa-globe language-globe-icon"></i>
@@ -205,58 +137,55 @@
                      [alt]="getCurrentLanguageName() + ' flag'"
                      class="language-flag-mini">
               </button>
-              
               <!-- Language Dropdown -->
               <div class="language-dropdown" [class.show]="showLanguageSelector">
                 <button *ngFor="let lang of translatorService.availableLanguages"
                         class="language-option" 
                         [class.active]="currentLanguage === lang.code"
-                        (click)="selectLanguage(lang.code)">
+                        (click)="$event.stopPropagation(); selectLanguage(lang.code)">
                   <img [src]="lang.flag" [alt]="lang.name + ' flag'" class="language-flag">
                   <span class="language-name">{{ lang.name }}</span>
                   <i *ngIf="currentLanguage === lang.code" class="fas fa-check"></i>
                 </button>
               </div>
             </div>
-            
             <!-- Theme Selector -->
             <div class="nav-tool-item">
               <button class="nav-tool-btn theme-toggle-btn" 
-                      (click)="toggleThemeSelector()"
+                      (click)="$event.stopPropagation(); toggleThemeSelector()"
                       [class.active]="showThemeSelector"
                       title="Cambiar Tema">
                 <i class="fas fa-palette"></i>
               </button>
-              
               <!-- Theme Dropdown -->
               <div class="theme-dropdown" [class.show]="showThemeSelector">
                 <button class="theme-option" 
                         [class.active]="currentTheme === 'light'"
-                        (click)="setTheme('light')">
+                        (click)="$event.stopPropagation(); setTheme('light')">
                   <i class="fas fa-sun"></i>
                   <span>Claro</span>
                 </button>
                 <button class="theme-option" 
                         [class.active]="currentTheme === 'dark'"
-                        (click)="setTheme('dark')">
+                        (click)="$event.stopPropagation(); setTheme('dark')">
                   <i class="fas fa-moon"></i>
                   <span>Oscuro</span>
                 </button>
                 <button class="theme-option" 
                         [class.active]="currentTheme === 'auto'"
-                        (click)="setTheme('auto')">
+                        (click)="$event.stopPropagation(); setTheme('auto')">
                   <i class="fas fa-clock"></i>
                   <span>Auto</span>
                 </button>
               </div>
             </div>
-            
             <!-- WhatsApp Button -->
             <div class="nav-tool-item">
               <a [href]="getWhatsAppUrl()" 
                  target="_blank" 
                  class="nav-tool-btn whatsapp-btn"
-                 title="Contactar por WhatsApp">
+                 title="Contactar por WhatsApp"
+                 (click)="$event.stopPropagation()">
                 <i class="fab fa-whatsapp"></i>
               </a>
             </div>
