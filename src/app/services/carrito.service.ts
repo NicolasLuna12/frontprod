@@ -55,6 +55,7 @@ export class CarritoService {
       next: (response) => {
         this.toastr.success('Producto agregado al carrito');
         this.tiggerActualizarCarrito();
+        this.mostrarCarrito(); // Mostrar el sidebar cuando se agrega un producto
       },
       error: (error) => {
         this.toastr.error('Error al agregar producto al carrito');

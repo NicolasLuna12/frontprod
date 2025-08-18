@@ -6,10 +6,11 @@ export const environment = {
   
   // API Configuration
   apiBaseUrl: 'https://backmp.onrender.com/',
-  
+
   // MercadoPago Configuration
   mercadoPagoPublicKey: 'TEST-KEY-123',
-  
+  mercadoPagoApiUrl: 'https://backmp.onrender.com/',
+
   // Two Factor Authentication
   twoFAApiUrl: 'https://backmp.onrender.com/2fa/',
 };

@@ -501,10 +501,15 @@
 
 /* Navigation Tools Section */
 .nav-tools {
-  display: flex;
-  align-items: center;
-  gap: 12px; /* Más espacio entre herramientas */
-  margin-left: 20px;
+  margin-left: auto;
+  padding: 0;
+  border: none;
+  background: rgba(30, 30, 40, 0.97);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  border-radius: 18px;
+  z-index: 2000;
+  transition: background 0.3s;
   flex-wrap: nowrap; /* Evitar que se envuelvan */
   flex-shrink: 0; /* No permitir que se encoja */
   position: relative; /* Para el contexto de posicionamiento */
@@ -574,6 +579,18 @@
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+  background: var(--surface-glass) !important;
+  color: var(--text-primary) !important;
+}
+
+.theme-light .theme-dropdown.show {
+  background: #fff !important;
+  color: #222 !important;
+}
+
+.theme-dark .theme-dropdown.show {
+  background: #23272f !important;
+  color: #fff !important;
 }
 
 .theme-option {
@@ -978,13 +995,40 @@
     right: 0;
     margin: 16px;
     border-radius: 16px;
-    backdrop-filter: blur(20px);
-    background: var(--surface-glass);
-    box-shadow: var(--shadow-premium);
+    background: var(--surface-glass) !important;
+    color: var(--text-primary) !important;
+    backdrop-filter: blur(12px) !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18) !important;
+    z-index: 2000;
+    padding: 16px 0 16px 0;
   }
-  
+
+  .theme-dark .nav-menu,
+  .theme-dark .nav-menu.show {
+    background: rgba(30, 30, 40, 0.97) !important;
+    color: #fff !important;
+  }
+
   .nav-menu.show {
     display: block;
+    background: var(--surface-glass) !important;
+    color: var(--text-primary) !important;
+    backdrop-filter: blur(12px) !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18) !important;
+    border-radius: 18px !important;
+    z-index: 2000;
+    padding: 16px 0 16px 0;
+  }
+
+  .theme-dark .nav-menu.show {
+    background: rgba(30, 30, 40, 0.97) !important;
+    color: #fff !important;
+  }
+
+  .theme-light .nav-menu,
+  .theme-light .nav-menu.show {
+    background: #fff !important;
+    color: #222 !important;
   }
   
   .nav-list {
