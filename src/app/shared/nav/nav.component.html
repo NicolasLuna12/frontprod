@@ -36,9 +36,13 @@
       <!-- Navigation Menu -->
       <div class="nav-menu" 
            [class.show]="mobileMenuOpen">
+    <div *ngIf="mobileMenuOpen" class="sidebar-overlay" (click)="closeMobileMenu()"></div>
+    <button *ngIf="mobileMenuOpen" class="sidebar-close-btn" (click)="closeMobileMenu()" aria-label="Cerrar menú">
+      <span aria-hidden="true">&times;</span>
+    </button>
         <ul class="nav-list">
           <li class="nav-item stagger-animation">
-            <a class="nav-link" routerLink="/">
+            <a class="nav-link" routerLink="/" (click)="closeMobileMenu()">
               <i class="fas fa-home nav-icon"></i>
               <span>Inicio</span>
             </a>
@@ -51,7 +55,7 @@
           </li>
           
           <li *ngIf="(!isAdmin() || vistaUsuario)" class="nav-item stagger-animation">
-            <a class="nav-link" routerLink="/quienes-somos">
+            <a class="nav-link" routerLink="/quienes-somos" (click)="closeMobileMenu()">
               <i class="fas fa-users nav-icon"></i>
               <span>¿Quienes somos?</span>
             </a>
@@ -64,7 +68,7 @@
           </li>
           
           <li *ngIf="(!isAdmin() || vistaUsuario)" class="nav-item stagger-animation">
-            <a class="nav-link" routerLink="/contacto">
+            <a class="nav-link" routerLink="/contacto" (click)="closeMobileMenu()">
               <i class="fas fa-phone nav-icon"></i>
               <span>Contacto</span>
             </a>
@@ -77,7 +81,7 @@
           </li>
           
           <li *ngIf="(!isAdmin() || vistaUsuario)" class="nav-item stagger-animation">
-            <a class="nav-link" routerLink="/carta">
+            <a class="nav-link" routerLink="/carta" (click)="closeMobileMenu()">
               <i class="fas fa-utensils nav-icon"></i>
               <span>Carta</span>
             </a>
@@ -90,7 +94,7 @@
           </li>
           
           <li *ngIf="estaAutenticado && (!isAdmin() || vistaUsuario)" class="nav-item stagger-animation">
-            <a class="nav-link" routerLink="/dashboard">
+            <a class="nav-link" routerLink="/dashboard" (click)="closeMobileMenu()">
               <i class="fas fa-chart-bar nav-icon"></i>
               <span>Dashboard</span>
             </a>
@@ -103,7 +107,7 @@
           </li>
           
           <li *ngIf="estaAutenticado && isAdmin() && !vistaUsuario" class="nav-item stagger-animation">
-            <a class="nav-link" routerLink="/admin-productos">
+            <a class="nav-link" routerLink="/admin-productos" (click)="closeMobileMenu()">
               <i class="fas fa-cogs nav-icon"></i>
               <span>Gestión</span>
             </a>
@@ -117,7 +121,7 @@
           
           <!-- Profile Section -->
           <li *ngIf="estaAutenticado" class="nav-item profile-item stagger-animation">
-            <a class="nav-link profile-link" routerLink="/perfil">
+            <a class="nav-link profile-link" routerLink="/perfil" (click)="closeMobileMenu()">
               <div class="profile-container">
                 <div class="profile-avatar">
                   <img *ngIf="imagenPerfil" [src]="imagenPerfil" 
@@ -139,7 +143,7 @@
           
           <!-- Auth Buttons -->
           <li *ngIf="!estaAutenticado" class="nav-item auth-item stagger-animation">
-            <a class="nav-link auth-btn login-btn" routerLink="/login">
+            <a class="nav-link auth-btn login-btn" routerLink="/login" (click)="closeMobileMenu()">
               <i class="fas fa-sign-in-alt nav-icon"></i>
               <span>Iniciar Sesión</span>
             </a>
@@ -152,7 +156,7 @@
           </li>
           
           <li *ngIf="!estaAutenticado" class="nav-item auth-item stagger-animation">
-            <a class="nav-link auth-btn register-btn" routerLink="/registro">
+            <a class="nav-link auth-btn register-btn" routerLink="/registro" (click)="closeMobileMenu()">
               <i class="fas fa-user-plus nav-icon"></i>
               <span>Registro</span>
             </a>
