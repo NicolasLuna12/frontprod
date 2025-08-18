@@ -33,11 +33,12 @@
         </div>
       </button>
 
+      <!-- Overlay para cerrar sidebar -->
+      <div *ngIf="mobileMenuOpen" class="sidebar-overlay" (click)="closeMobileMenu()"></div>
       <!-- Navigation Menu -->
       <div class="nav-menu" 
            [class.show]="mobileMenuOpen" 
            (click)="closeMobileMenu()">
-        <div *ngIf="mobileMenuOpen" class="sidebar-overlay"></div>
         <ul class="nav-list">
           <li class="nav-item stagger-animation">
             <a class="nav-link" routerLink="/" (click)="$event.stopPropagation(); closeMobileMenu()">
