@@ -38,7 +38,6 @@ export class AppComponent implements OnInit {
   esAdmin = false;
   isHome = false;
 
-
   constructor(
     public contactoService: ContactoService, 
     private router: Router,
@@ -52,18 +51,6 @@ export class AppComponent implements OnInit {
     // Detectar ruta actual
     this.router.events.subscribe(() => {
       this.isHome = this.router.url === '/home' || this.router.url === '/';
-    });
-
-    // Detección de móvil y redirección automática
-    if (this.isMobile() && !this.router.url.startsWith('/mobile')) {
-      this.router.navigate(['/mobile']);
-    }
-  }
-
-  isMobile(): boolean {
-    const toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i];
-    return toMatch.some((toMatchItem) => {
-      return navigator.userAgent.match(toMatchItem);
     });
   }
 
