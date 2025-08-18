@@ -5,7 +5,7 @@
   }
   /* Usa la imagen como fondo de la sección principal */
   .hero-premium {
-    background-image: url('../../../../assets/carta/hamburguesa.webp');
+    background-image: url('/assets/carta/hamburguesa.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
