@@ -60,6 +60,16 @@
   <link rel="icon" type="image/x-icon" href="./iconoPrincipal.ico">
   <link rel="icon" type="image/x-icon" href="./assets/iconoPrincipal.ico">
   <script src="./assets/js/direct-translator.js" defer></script>
+  <script>
+    // Redirección a /mobile para dispositivos móviles
+    (function() {
+      var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
+      var isAlreadyMobile = window.location.pathname.startsWith('/mobile');
+      if (isMobile && !isAlreadyMobile) {
+        window.location.href = '/mobile';
+      }
+    })();
+  </script>
 </head>
 <body>  <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
   <app-root></app-root>
