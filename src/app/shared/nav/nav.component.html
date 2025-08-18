@@ -42,6 +42,12 @@
               <i class="fas fa-home nav-icon"></i>
               <span>Inicio</span>
             </a>
+            <ng-container *ngIf="mobileMenuOpen">
+              <span style="display:none" (window:closeMobileMenu)="closeMobileMenu()"></span>
+            </ng-container>
+            <ng-container *ngIf="mobileMenuOpen">
+              <script>setTimeout(() => { window.dispatchEvent(new Event('closeMobileMenu')); }, 0);</script>
+            </ng-container>
           </li>
           
           <li *ngIf="(!isAdmin() || vistaUsuario)" class="nav-item stagger-animation">
@@ -49,6 +55,12 @@
               <i class="fas fa-users nav-icon"></i>
               <span>¿Quienes somos?</span>
             </a>
+            <ng-container *ngIf="mobileMenuOpen">
+              <span style="display:none" (window:closeMobileMenu)="closeMobileMenu()"></span>
+            </ng-container>
+            <ng-container *ngIf="mobileMenuOpen">
+              <script>setTimeout(() => { window.dispatchEvent(new Event('closeMobileMenu')); }, 0);</script>
+            </ng-container>
           </li>
           
           <li *ngIf="(!isAdmin() || vistaUsuario)" class="nav-item stagger-animation">
@@ -56,6 +68,12 @@
               <i class="fas fa-phone nav-icon"></i>
               <span>Contacto</span>
             </a>
+            <ng-container *ngIf="mobileMenuOpen">
+              <span style="display:none" (window:closeMobileMenu)="closeMobileMenu()"></span>
+            </ng-container>
+            <ng-container *ngIf="mobileMenuOpen">
+              <script>setTimeout(() => { window.dispatchEvent(new Event('closeMobileMenu')); }, 0);</script>
+            </ng-container>
           </li>
           
           <li *ngIf="(!isAdmin() || vistaUsuario)" class="nav-item stagger-animation">
@@ -63,6 +81,12 @@
               <i class="fas fa-utensils nav-icon"></i>
               <span>Carta</span>
             </a>
+            <ng-container *ngIf="mobileMenuOpen">
+              <span style="display:none" (window:closeMobileMenu)="closeMobileMenu()"></span>
+            </ng-container>
+            <ng-container *ngIf="mobileMenuOpen">
+              <script>setTimeout(() => { window.dispatchEvent(new Event('closeMobileMenu')); }, 0);</script>
+            </ng-container>
           </li>
           
           <li *ngIf="estaAutenticado && (!isAdmin() || vistaUsuario)" class="nav-item stagger-animation">
@@ -70,6 +94,12 @@
               <i class="fas fa-chart-bar nav-icon"></i>
               <span>Dashboard</span>
             </a>
+            <ng-container *ngIf="mobileMenuOpen">
+              <span style="display:none" (window:closeMobileMenu)="closeMobileMenu()"></span>
+            </ng-container>
+            <ng-container *ngIf="mobileMenuOpen">
+              <script>setTimeout(() => { window.dispatchEvent(new Event('closeMobileMenu')); }, 0);</script>
+            </ng-container>
           </li>
           
           <li *ngIf="estaAutenticado && isAdmin() && !vistaUsuario" class="nav-item stagger-animation">
@@ -77,6 +107,12 @@
               <i class="fas fa-cogs nav-icon"></i>
               <span>Gestión</span>
             </a>
+            <ng-container *ngIf="mobileMenuOpen">
+              <span style="display:none" (window:closeMobileMenu)="closeMobileMenu()"></span>
+            </ng-container>
+            <ng-container *ngIf="mobileMenuOpen">
+              <script>setTimeout(() => { window.dispatchEvent(new Event('closeMobileMenu')); }, 0);</script>
+            </ng-container>
           </li>
           
           <!-- Profile Section -->
@@ -93,6 +129,12 @@
                 <span class="profile-name">{{nombreUsuario}}</span>
               </div>
             </a>
+            <ng-container *ngIf="mobileMenuOpen">
+              <span style="display:none" (window:closeMobileMenu)="closeMobileMenu()"></span>
+            </ng-container>
+            <ng-container *ngIf="mobileMenuOpen">
+              <script>setTimeout(() => { window.dispatchEvent(new Event('closeMobileMenu')); }, 0);</script>
+            </ng-container>
           </li>
           
           <!-- Auth Buttons -->
@@ -101,6 +143,12 @@
               <i class="fas fa-sign-in-alt nav-icon"></i>
               <span>Iniciar Sesión</span>
             </a>
+            <ng-container *ngIf="mobileMenuOpen">
+              <span style="display:none" (window:closeMobileMenu)="closeMobileMenu()"></span>
+            </ng-container>
+            <ng-container *ngIf="mobileMenuOpen">
+              <script>setTimeout(() => { window.dispatchEvent(new Event('closeMobileMenu')); }, 0);</script>
+            </ng-container>
           </li>
           
           <li *ngIf="!estaAutenticado" class="nav-item auth-item stagger-animation">
@@ -108,6 +156,12 @@
               <i class="fas fa-user-plus nav-icon"></i>
               <span>Registro</span>
             </a>
+            <ng-container *ngIf="mobileMenuOpen">
+              <span style="display:none" (window:closeMobileMenu)="closeMobileMenu()"></span>
+            </ng-container>
+            <ng-container *ngIf="mobileMenuOpen">
+              <script>setTimeout(() => { window.dispatchEvent(new Event('closeMobileMenu')); }, 0);</script>
+            </ng-container>
           </li>
           
           <!-- Tour Button -->
