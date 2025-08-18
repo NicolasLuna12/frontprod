@@ -1,9 +1,18 @@
 @media (max-width: 480px) {
-  .hambur-portada img {
-    max-height: min(18vh, 110px) !important;
+  .hambur-portada > img {
+    max-height: 90px !important;
     width: 100% !important;
     object-fit: cover !important;
     border-radius: 16px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+  .hambur-portada {
+    padding: 0 !important;
+    margin: 12px 0 !important;
+    min-height: unset !important;
+    height: auto !important;
   }
 }
 
