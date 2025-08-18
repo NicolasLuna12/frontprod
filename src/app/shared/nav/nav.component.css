@@ -542,19 +542,31 @@
     justify-content: center;
   }
   .nav-tool-btn {
-    width: 90vw;
-    max-width: 320px;
+    width: 100%;
+    max-width: 340px;
+    min-width: 180px;
     height: 48px;
-    justify-content: flex-start;
+    display: flex;
+    flex-direction: row;
     align-items: center;
+    justify-content: flex-start;
     gap: 16px;
     font-size: 1.2rem;
     outline: none;
     box-shadow: none;
     border: none;
-    transition: background 0.3s, color 0.3s;
+    border-radius: 14px;
+    background: var(--surface-elevated, #23232b);
+    color: var(--text-primary, #fff);
     margin: 0 auto 0 auto;
-    padding-left: 18px;
+    padding: 0 18px;
+    transition: background 0.3s, color 0.3s;
+  }
+  .nav-tool-item {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 8px;
   }
   .nav-tool-btn:focus {
     outline: none !important;
