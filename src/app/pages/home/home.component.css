@@ -1,4 +1,14 @@
 @media (max-width: 480px) {
+  .about-content > div {
+    width: 100% !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+    padding: 16px 8px !important;
+    margin: 0 auto 18px auto !important;
+    min-width: 0 !important;
+  }
+}
+@media (max-width: 480px) {
   .scroll-indicator {
     position: static !important;
     margin: 28px auto 0 auto !important;
