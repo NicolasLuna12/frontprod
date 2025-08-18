@@ -1056,8 +1056,18 @@
   
   /* Mobile styles for nav tools */
   .nav-tools {
-    flex-direction: row;
+    flex-direction: row !important;
     gap: 12px;
+    align-items: center;
+  }
+
+  @media (max-width: 900px) {
+    .nav-tools {
+      flex-direction: column !important;
+      gap: 12px;
+      align-items: flex-start;
+    }
+  }
     width: 100%;
     margin-left: 0;
     margin-top: 12px;
