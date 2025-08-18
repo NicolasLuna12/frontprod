@@ -669,7 +669,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    gap: 16px;
+    gap: 14px;
     font-size: 1.2rem;
     outline: none;
     box-shadow: none;
@@ -681,6 +681,22 @@
     padding: 0 18px;
     transition: background 0.3s, color 0.3s;
     text-align: left;
+  }
+  .nav-tool-btn i,
+  .nav-tool-btn img,
+  .nav-tool-btn span {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    line-height: 1;
+  }
+  .nav-tool-btn .language-globe-icon,
+  .nav-tool-btn .fa-palette,
+  .nav-tool-btn .fa-whatsapp {
+    margin-right: 12px;
+    min-width: 22px;
+    text-align: center;
+    font-size: 1.3em;
   }
   .nav-tool-item {
     width: 100%;
