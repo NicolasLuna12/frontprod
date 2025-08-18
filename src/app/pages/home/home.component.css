@@ -1,4 +1,28 @@
 @media (max-width: 480px) {
+  .scroll-indicator {
+    position: static !important;
+    margin: 28px auto 0 auto !important;
+    left: unset !important;
+    bottom: unset !important;
+    transform: none !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 320px;
+    color: var(--text-muted, #fff);
+    font-size: 1rem;
+    z-index: 2;
+  }
+  .scroll-indicator span {
+    text-align: center;
+    width: 100%;
+    font-size: 1rem;
+    white-space: normal;
+  }
+}
+@media (max-width: 480px) {
   /* Oculta la imagen de hamburguesa en mobile */
   .hero-image {
     display: none !important;
@@ -18,15 +42,27 @@
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(30,30,40,0.55);
+    background: rgba(30,30,40,0.28);
     z-index: 1;
     border-radius: inherit;
+  }
+  .hero-premium {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 340px;
+    padding: 32px 12px 32px 12px !important;
+    box-sizing: border-box;
   }
   .hero-premium > * {
     position: relative;
     z-index: 2;
     color: #fff !important;
     text-shadow: 0 2px 8px #222;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
   }
   .hero-image-container, .card-3d-inner, .crystal-effect {
     background: none !important;
