@@ -254,6 +254,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  aspect-ratio: 1/1;
+  display: block;
+  border-radius: 50%;
 }
 
 .profile-placeholder {
@@ -500,6 +503,7 @@
 }
 
 /* Navigation Tools Section */
+/* NAV TOOLS - UNIFICADO Y RESPONSIVE */
 .nav-tools {
   margin-left: auto;
   padding: 0;
@@ -510,9 +514,35 @@
   border-radius: 18px;
   z-index: 2000;
   transition: background 0.3s;
-  flex-wrap: nowrap; /* Evitar que se envuelvan */
-  flex-shrink: 0; /* No permitir que se encoja */
-  position: relative; /* Para el contexto de posicionamiento */
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .nav-tools {
+    flex-direction: column !important;
+    gap: 12px;
+    align-items: flex-start;
+    width: 100%;
+    margin-left: 0;
+    margin-top: 12px;
+    margin-bottom: 0;
+  }
+  .nav-tool-item {
+    width: 100%;
+  }
+  .nav-tool-btn {
+    width: 100%;
+    height: 48px;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.9rem;
+  }
 }
 
 .nav-tool-item {
@@ -1055,48 +1085,7 @@
   }
   
   /* Mobile styles for nav tools */
-  .nav-tools {
-    flex-direction: row !important;
-    gap: 12px;
-    align-items: center;
-  }
-
-  @media (max-width: 900px) {
-    .nav-tools {
-      flex-direction: column !important;
-      gap: 12px;
-      align-items: flex-start;
-    }
-  }
-    width: 100%;
-    margin-left: 0;
-    margin-top: 12px;
-  margin-bottom: 0;
-  }
-  
-  .nav-tool-item {
-    width: 100%;
-  }
-  
-  .nav-tool-btn {
-    width: 100%;
-    height: 48px;
-    justify-content: center;
-    gap: 8px;
-    font-size: 0.9rem;
-  }
-  
-  /* Ajustes para el ícono de idioma en móvil */
-  .language-globe-icon {
-    font-size: 1rem;
-  }
-  
-  .language-flag-mini {
-    width: 10px;
-    height: 7px;
-    bottom: -1px;
-    right: -1px;
-  }
+  /* (Regla eliminada: 'right: -1px;' estaba fuera de contexto y sin selector válido) */
   
   .theme-dropdown,
   .language-dropdown {
