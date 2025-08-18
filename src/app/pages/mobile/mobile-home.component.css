@@ -1,0 +1,7 @@
+.mobile-container {
+  padding: 1.5rem;
+  font-size: 1.1rem;
+  background: #fff;
+  min-height: 100vh;
+  /* Aquí puedes agregar estilos específicos para móvil */
+}

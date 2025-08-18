@@ -1,0 +1,17 @@
+.mobile-exito-container {
+  padding: 1rem;
+  color: #1a8917;
+  text-align: center;
+}
+.btn-volver {
+  display: inline-block;
+  margin-top: 1.2rem;
+  background: #1a8917;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+}

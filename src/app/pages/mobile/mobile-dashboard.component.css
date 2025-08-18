@@ -1,0 +1,17 @@
+.mobile-dashboard-container {
+  padding: 1rem;
+}
+.pedido-item {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  margin-bottom: 1.2rem;
+  padding: 0.7rem;
+}
+.pedido-item ul {
+  margin: 0.3rem 0 0 1rem;
+  padding: 0;
+}
+.pedido-item li {
+  font-size: 0.98rem;
+}

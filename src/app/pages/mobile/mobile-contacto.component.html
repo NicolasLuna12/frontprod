@@ -1,0 +1,20 @@
+<div class="mobile-contacto-container">
+  <h2>Contacto (Versión Móvil)</h2>
+  <form (ngSubmit)="enviar()" #contactoForm="ngForm" *ngIf="!enviado">
+    <div class="form-group">
+      <label for="nombre">Nombre</label>
+      <input id="nombre" name="nombre" type="text" [(ngModel)]="nombre" required class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" [(ngModel)]="email" required class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="mensaje">Mensaje</label>
+      <textarea id="mensaje" name="mensaje" [(ngModel)]="mensaje" required class="form-control"></textarea>
+    </div>
+    <button type="submit" [disabled]="!contactoForm.form.valid" class="btn-enviar">Enviar por WhatsApp</button>
+  </form>
+  <div *ngIf="enviado" class="success-msg">¡Mensaje enviado por WhatsApp!</div>
+</div>
+<app-mobile-nav></app-mobile-nav>

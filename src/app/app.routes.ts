@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { MobileHomeComponent } from './pages/mobile/mobile-home.component';
 import { HomeComponent } from './pages/home/home.component';
 import { CarritoComponent } from './pages/carrito/carrito.component';
 import { CartaComponent } from './pages/carta/carta.component';
@@ -17,6 +18,7 @@ import { PerfilComponent } from './pages/perfil/perfil.component';
 import { AdminProductosComponent } from './pages/admin-productos/admin-productos.component';
 
 export const routes: Routes = [
+    {path: 'mobile', component: MobileHomeComponent},
     {path:"home", component:HomeComponent},
     {path:"", redirectTo:"/home", pathMatch:"full"},
     {path:"carta", component:CartaComponent},

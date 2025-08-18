@@ -1,0 +1,13 @@
+<div class="mobile-carta-container">
+  <h2>Carta (Versión Móvil)</h2>
+  <div *ngIf="productos.length === 0">Cargando productos...</div>
+  <div *ngFor="let producto of productos" class="producto-item">
+    <img [src]="producto.imageURL" alt="{{producto.nombre_producto}}" class="producto-img" />
+    <div class="producto-info">
+      <h3>{{producto.nombre_producto}}</h3>
+      <p>{{producto.descripcion}}</p>
+      <span class="precio">${{producto.precio}}</span>
+    </div>
+  </div>
+</div>
+<app-mobile-nav></app-mobile-nav>

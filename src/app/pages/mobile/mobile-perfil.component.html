@@ -1,0 +1,30 @@
+<div class="mobile-perfil-container">
+  <h2>Perfil (Versión Móvil)</h2>
+  <form (ngSubmit)="guardarPerfil()" #perfilForm="ngForm" *ngIf="!loading">
+    <div class="form-group">
+      <label for="nombre">Nombre</label>
+      <input id="nombre" name="nombre" type="text" [(ngModel)]="usuario.nombre" required class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="apellido">Apellido</label>
+      <input id="apellido" name="apellido" type="text" [(ngModel)]="usuario.apellido" required class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" [(ngModel)]="usuario.email" required class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="telefono">Teléfono</label>
+      <input id="telefono" name="telefono" type="text" [(ngModel)]="usuario.telefono" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="direccion">Dirección</label>
+      <input id="direccion" name="direccion" type="text" [(ngModel)]="usuario.direccion" class="form-control" />
+    </div>
+    <button type="submit" [disabled]="loading || !perfilForm.form.valid" class="btn-guardar">Guardar</button>
+    <div *ngIf="error" class="error-msg">{{error}}</div>
+    <div *ngIf="success" class="success-msg">{{success}}</div>
+  </form>
+  <div *ngIf="loading">Cargando perfil...</div>
+</div>
+<app-mobile-nav></app-mobile-nav>

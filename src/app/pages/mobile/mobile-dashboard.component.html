@@ -1,0 +1,47 @@
+<div class="mobile-dashboard-container">
+  <h2>Dashboard (Versión Móvil)</h2>
+  <div *ngIf="loading">Cargando dashboard...</div>
+  <div *ngIf="error" class="error-msg">{{error}}</div>
+  <div *ngIf="!loading && resumen">
+    <h3>Pedidos Pendientes</h3>
+    <div *ngFor="let pedido of resumen.pendientes" class="pedido-item">
+      <div>Pedido #{{pedido.id_pedidos}} - {{pedido.fecha_pedido}}</div>
+      <div>Estado: {{pedido.estado}}</div>
+      <div>Dirección: {{pedido.direccion_entrega}}</div>
+      <div>Productos:
+        <ul>
+          <li *ngFor="let det of pedido.detalles">
+            {{det.cantidad_productos}} x {{det.producto.nombre_producto}} (${{det.precio_producto}})
+          </li>
+        </ul>
+      </div>
+    </div>
+    <h3>Pedidos Aprobados</h3>
+    <div *ngFor="let pedido of resumen.aprobados" class="pedido-item">
+      <div>Pedido #{{pedido.id_pedidos}} - {{pedido.fecha_pedido}}</div>
+      <div>Estado: {{pedido.estado}}</div>
+      <div>Dirección: {{pedido.direccion_entrega}}</div>
+      <div>Productos:
+        <ul>
+          <li *ngFor="let det of pedido.detalles">
+            {{det.cantidad_productos}} x {{det.producto.nombre_producto}} (${{det.precio_producto}})
+          </li>
+        </ul>
+      </div>
+    </div>
+    <h3>Pedidos Entregados</h3>
+    <div *ngFor="let pedido of resumen.entregados" class="pedido-item">
+      <div>Pedido #{{pedido.id_pedidos}} - {{pedido.fecha_pedido}}</div>
+      <div>Estado: {{pedido.estado}}</div>
+      <div>Dirección: {{pedido.direccion_entrega}}</div>
+      <div>Productos:
+        <ul>
+          <li *ngFor="let det of pedido.detalles">
+            {{det.cantidad_productos}} x {{det.producto.nombre_producto}} (${{det.precio_producto}})
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<app-mobile-nav></app-mobile-nav>
