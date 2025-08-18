@@ -508,7 +508,7 @@
   margin-left: auto;
   padding: 0;
   border: none;
-  background: rgba(30, 30, 40, 0.97);
+  background: var(--surface-glass, #fff);
   backdrop-filter: blur(12px);
   box-shadow: 0 8px 32px rgba(0,0,0,0.18);
   border-radius: 18px;
@@ -526,22 +526,36 @@
 @media (max-width: 900px) {
   .nav-tools {
     flex-direction: column !important;
-    gap: 12px;
-    align-items: flex-start;
-    width: 100%;
-    margin-left: 0;
+    gap: 16px;
+    align-items: center;
+    width: 92vw;
+    max-width: 340px;
+    margin: 0 auto 18px auto;
     margin-top: 12px;
-    margin-bottom: 0;
+    padding: 18px 0 18px 0;
+    border-radius: 22px;
+    box-sizing: border-box;
   }
   .nav-tool-item {
     width: 100%;
+    display: flex;
+    justify-content: center;
   }
   .nav-tool-btn {
-    width: 100%;
+    width: 48px;
     height: 48px;
     justify-content: center;
+    align-items: center;
     gap: 8px;
-    font-size: 0.9rem;
+    font-size: 1.2rem;
+    outline: none;
+    box-shadow: none;
+    border: none;
+    transition: background 0.3s, color 0.3s;
+  }
+  .nav-tool-btn:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 2px var(--accent-gold, #fbbf24);
   }
 }
 
@@ -564,8 +578,9 @@
   height: 40px;
   border: none;
   border-radius: 10px;
-  background: var(--surface-elevated);
-  color: var(--text-primary);
+  background: var(--surface-elevated, #fff);
+  color: var(--text-primary, #222);
+  transition: background 0.3s, color 0.3s;
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
@@ -573,9 +588,10 @@
 }
 
 .nav-tool-btn:hover {
-  background: var(--surface-hover);
+  background: var(--surface-hover, #f3f4f6);
+  color: var(--accent-gold, #bfa100);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-soft, 0 2px 8px rgba(0,0,0,0.08));
 }
 
 .nav-tool-btn.active {
