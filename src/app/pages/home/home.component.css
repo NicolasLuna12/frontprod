@@ -1,4 +1,43 @@
 @media (max-width: 480px) {
+  /* Oculta la imagen de hamburguesa en mobile */
+  .hero-image {
+    display: none !important;
+  }
+  /* Fondo solo en la sección principal */
+  .hero-premium {
+    background-image: url('/assets/carta/hamburguesa.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    min-height: 320px;
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+  .hero-premium::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(30,30,40,0.55);
+    z-index: 1;
+    border-radius: inherit;
+  }
+  .hero-premium > * {
+    position: relative;
+    z-index: 2;
+    color: #fff !important;
+    text-shadow: 0 2px 8px #222;
+  }
+  .hero-image-container, .card-3d-inner, .crystal-effect {
+    background: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: unset !important;
+    height: auto !important;
+  }
+}
+@media (max-width: 480px) {
   /* Oculta la imagen de portada en mobile */
   .hambur-portada > img {
     display: none !important;
