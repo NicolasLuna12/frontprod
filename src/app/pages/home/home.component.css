@@ -1,22 +1,4 @@
 @media (max-width: 480px) {
-  html, body {
-    width: 100vw !important;
-    max-width: 100vw !important;
-    overflow-x: visible !important;
-  }
-  .about-grid, .about-content, .about-content > div, .animated-border {
-    width: 100vw !important;
-    max-width: 100vw !important;
-    min-width: 0 !important;
-    box-sizing: border-box !important;
-    overflow: visible !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-}
-@media (max-width: 480px) {
   .animated-border {
     width: 100% !important;
     max-width: 100vw !important;
