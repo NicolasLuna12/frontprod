@@ -17,66 +17,79 @@ body {
 /* Ajustes generales para móviles */
 @media (max-width: 600px) {
 	.premium-container, .premium-section {
-		padding-left: 2vw !important;
-		padding-right: 2vw !important;
+		padding-left: 4vw !important;
+		padding-right: 4vw !important;
+		background: none !important;
+		border: none !important;
+		box-shadow: none !important;
 	}
 	.premium-section {
-		padding-top: 18px !important;
-		padding-bottom: 18px !important;
+		padding-top: 24px !important;
+		padding-bottom: 24px !important;
 	}
 	.premium-card-grid {
 		grid-template-columns: 1fr !important;
-		gap: 10px !important;
+		gap: 14px !important;
 	}
 	.display-premium {
-		font-size: 1.3rem !important;
-		line-height: 1.1 !important;
+		font-size: 1.1rem !important;
+		line-height: 1.2 !important;
 	}
 	.text-elegant, .text-premium {
-		font-size: 0.98rem !important;
+		font-size: 1rem !important;
 	}
 	/* Header y logo */
 	app-header, .header {
-		min-height: 44px !important;
-		padding: 0 4px !important;
+		min-height: 40px !important;
+		padding: 0 2px !important;
+		background: none !important;
+		border: none !important;
+		box-shadow: none !important;
 	}
 	.header img, app-header img, .logo, .logo img {
-		max-height: 36px !important;
+		max-height: 30px !important;
 		width: auto !important;
 	}
 	/* Botón flotante de cambio de vista */
 	.btn-switch-vista {
-		top: 60px !important;
-		right: 6px !important;
-		padding: 5px 8px !important;
+		top: 56px !important;
+		right: 4px !important;
+		padding: 4px 6px !important;
 		font-size: 0.8rem !important;
-		border-radius: 7px !important;
+		border-radius: 6px !important;
 		min-width: 0 !important;
 		min-height: 0 !important;
+		box-shadow: none !important;
 	}
 	/* Footer */
 	app-footer, .footer {
 		font-size: 0.92rem !important;
 		padding-left: 0 !important;
 		padding-right: 0 !important;
-		min-height: 36px !important;
+		min-height: 30px !important;
+		background: none !important;
+		border: none !important;
+		box-shadow: none !important;
 	}
 	/* Navbar y nav */
 	app-nav, .nav {
 		font-size: 0.98rem !important;
 		padding: 0 2px !important;
-		min-height: 36px !important;
+		min-height: 30px !important;
+		background: none !important;
+		border: none !important;
+		box-shadow: none !important;
 	}
 	/* Chatbot flotante */
 	app-chat-bot {
-		right: 4px !important;
-		bottom: 4px !important;
+		right: 2px !important;
+		bottom: 2px !important;
 	}
 	/* Imágenes responsivas */
 	img, .img-fluid, .responsive-img {
 		max-width: 100% !important;
 		height: auto !important;
-		border-radius: 6px !important;
+		border-radius: 4px !important;
 	}
 	/* Tablas y scroll horizontal seguro */
 	table {
@@ -86,55 +99,65 @@ body {
 		-webkit-overflow-scrolling: touch !important;
 	}
 	/* Ajustes para cards */
-	.card, .glass-card {
+	.card, .glass-card, .login-card, .auth-card {
 		margin-left: 0 !important;
 		margin-right: 0 !important;
-		border-radius: 8px !important;
+		border-radius: 6px !important;
 		box-shadow: none !important;
+		border: none !important;
+		background: #fff !important;
 	}
 	/* Ajustes para formularios */
 	input, select, textarea {
 		font-size: 0.98rem !important;
-		border-radius: 6px !important;
-		padding: 8px 10px !important;
-		min-height: 36px !important;
+		border-radius: 4px !important;
+		padding: 8px 8px !important;
+		min-height: 32px !important;
 		box-shadow: none !important;
+		border: 1px solid #e5e7eb !important;
+		background: #fff !important;
 	}
 	button {
 		font-size: 0.98rem !important;
-		border-radius: 6px !important;
-		padding: 8px 10px !important;
-		min-height: 36px !important;
+		border-radius: 4px !important;
+		padding: 8px 8px !important;
+		min-height: 32px !important;
 		box-shadow: none !important;
+		border: none !important;
+		background: var(--accent-gradient) !important;
+		color: #fff !important;
 	}
 	/* Espaciados */
 	.mt-5, .mb-5, .my-5 {
-		margin-top: 0.8rem !important;
-		margin-bottom: 0.8rem !important;
+		margin-top: 0.6rem !important;
+		margin-bottom: 0.6rem !important;
 	}
 	.pt-5, .pb-5, .py-5 {
-		padding-top: 0.8rem !important;
-		padding-bottom: 0.8rem !important;
+		padding-top: 0.6rem !important;
+		padding-bottom: 0.6rem !important;
 	}
 	/* Formularios compactos */
 	form, .form-group, .form-control {
-		margin-bottom: 10px !important;
+		margin-bottom: 8px !important;
 		padding: 0 !important;
 	}
 	/* Tarjetas de login compactas */
 	.card, .glass-card, .login-card, .auth-card {
-		padding: 12px 8px !important;
+		padding: 10px 4px !important;
 		margin: 0 auto !important;
-		max-width: 98vw !important;
+		max-width: 99vw !important;
 	}
 	/* Botón principal más pequeño */
 	.btn, .btn-primary, .btn-warning, .btn-success {
-		font-size: 1rem !important;
-		padding: 10px 0 !important;
+		font-size: 0.98rem !important;
+		padding: 8px 0 !important;
 		min-width: 0 !important;
 		width: 100% !important;
-		border-radius: 6px !important;
+		border-radius: 4px !important;
 		box-shadow: none !important;
+		border: none !important;
+		background: var(--accent-gradient) !important;
+		color: #fff !important;
 	}
 	/* Links y textos */
 	a, .link, .text-link {
