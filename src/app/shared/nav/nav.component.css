@@ -536,8 +536,14 @@
     width: 100vw;
     height: 100vh;
     background: rgba(0,0,0,0.45);
-    z-index: 3000;
+    z-index: 2000;
     transition: background 0.3s;
+  }
+  .nav-menu.show {
+    z-index: 2100;
+  }
+  .sidebar-close-btn {
+    z-index: 2200;
   }
   .sidebar-close-btn {
     position: absolute;
