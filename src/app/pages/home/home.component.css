@@ -1,4 +1,37 @@
 @media (max-width: 480px) {
+  /* Oculta la imagen de portada en mobile */
+  .hambur-portada > img {
+    display: none !important;
+  }
+  /* Usa la imagen como fondo de la sección principal */
+  .hero-premium {
+    background-image: url('../../../../assets/carta/hamburguesa.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    min-height: 320px;
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+  /* Overlay oscuro para mejorar legibilidad */
+  .hero-premium::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(30,30,40,0.55);
+    z-index: 1;
+    border-radius: inherit;
+  }
+  /* El contenido del hero debe ir encima del overlay */
+  .hero-premium > * {
+    position: relative;
+    z-index: 2;
+    color: #fff !important;
+    text-shadow: 0 2px 8px #222;
+  }
+}
+@media (max-width: 480px) {
   .hambur-portada > img {
     max-height: 90px !important;
     width: 100% !important;
