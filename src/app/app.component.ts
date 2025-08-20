@@ -38,6 +38,8 @@ export class AppComponent implements OnInit {
   esAdmin = false;
   isHome = false;
 
+  esMovil = false;
+
   constructor(
     public contactoService: ContactoService, 
     private router: Router,
@@ -52,6 +54,9 @@ export class AppComponent implements OnInit {
     this.router.events.subscribe(() => {
       this.isHome = this.router.url === '/home' || this.router.url === '/';
     });
+
+  // Detectar si es móvil
+  this.esMovil = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   }
 
   ngOnInit() {
