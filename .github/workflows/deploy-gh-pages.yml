@@ -43,7 +43,7 @@ jobs:
         run: |
           cp "${{ steps.paths.outputs.build_dir }}/index.html" "${{ steps.paths.outputs.build_dir }}/404.html"
           touch "${{ steps.paths.outputs.build_dir }}/.nojekyll"
-          echo "foodispc.dev.ar" > "${{ steps.paths.outputs.build_dir }}/CNAME"
+          echo "ispcfood.dev.ar" > "${{ steps.paths.outputs.build_dir }}/CNAME"
 
       - name: Deploy to user root repository
         env:
