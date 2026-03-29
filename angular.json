@@ -21,6 +21,7 @@
               "src/favicon.ico",
               "src/iconoPrincipal.ico",
               "src/assets",
+              "src/CNAME",
               "src/_redirects",
               "src/assets/css/google-translate-fix.css"
             ],
