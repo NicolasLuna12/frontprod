@@ -34,15 +34,26 @@ jobs:
       - name: Build Angular app for Pages
         run: npm run build -- --configuration production --base-href /frontprod/
 
+      - name: Detect build output directory
+        id: paths
+        run: |
+          BUILD_DIR="$(find dist -type f -name index.html | head -n 1 | xargs dirname)"
+          if [ -z "$BUILD_DIR" ]; then
+            echo "No se encontro index.html dentro de dist"
+            exit 1
+          fi
+          echo "build_dir=$BUILD_DIR" >> "$GITHUB_OUTPUT"
+          echo "Build directory: $BUILD_DIR"
+
       - name: Add SPA fallback and nojekyll
         run: |
-          cp dist/app/browser/browser/index.html dist/app/browser/browser/404.html
-          touch dist/app/browser/browser/.nojekyll
+          cp "${{ steps.paths.outputs.build_dir }}/index.html" "${{ steps.paths.outputs.build_dir }}/404.html"
+          touch "${{ steps.paths.outputs.build_dir }}/.nojekyll"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/app/browser/browser
+          path: ${{ steps.paths.outputs.build_dir }}
 
   deploy:
     environment:
