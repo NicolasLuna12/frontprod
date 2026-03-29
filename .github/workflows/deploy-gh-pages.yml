@@ -45,11 +45,24 @@ jobs:
           touch "${{ steps.paths.outputs.build_dir }}/.nojekyll"
 
       - name: Deploy to user root repository
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          token: ${{ secrets.USER_PAGES_TOKEN }}
-          repository-name: NicolasLuna12/NicolasLuna12.github.io
-          branch: main
-          folder: ${{ steps.paths.outputs.build_dir }}
-          clean: true
-          single-commit: true
+        env:
+          DEPLOY_TOKEN: ${{ secrets.USER_PAGES_TOKEN }}
+        run: |
+          set -e
+          TARGET_REPO="https://x-access-token:${DEPLOY_TOKEN}@github.com/NicolasLuna12/NicolasLuna12.github.io.git"
+          TMP_DIR="$(mktemp -d)"
+
+          git clone "$TARGET_REPO" "$TMP_DIR"
+          rm -rf "$TMP_DIR"/* "$TMP_DIR"/.[!.]* "$TMP_DIR"/..?* || true
+          cp -R "${{ steps.paths.outputs.build_dir }}/." "$TMP_DIR/"
+
+          cd "$TMP_DIR"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          if git diff --cached --quiet; then
+            echo "No hay cambios para desplegar"
+            exit 0
+          fi
+          git commit -m "Deploy from frontprod"
+          git push origin main
